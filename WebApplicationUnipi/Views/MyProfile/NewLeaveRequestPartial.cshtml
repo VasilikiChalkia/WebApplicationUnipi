@@ -1,0 +1,253 @@
+﻿@model WebApplicationUnipi.Models.MyApplicationUnipi.AnnualLeaves
+@{
+    ViewBag.Title = "New Leave Request";
+    var leaveTypes = EnumHelper.GetSelectList(typeof(WebApplicationUnipi.Models.Enums.LeaveTypes));
+}
+
+<script>
+
+    $(document).ready(function () {
+        const [startInput, endInput, leaveTypesSel] = [
+            document.getElementById('datePicker1'),
+            document.getElementById('datePicker2'),
+            document.getElementById('typeOfLeave')
+        ];
+
+        $("#datePicker1, #datePicker2").flatpickr({
+            dateFormat: "d-m-Y"
+        });
+
+        startInput.addEventListener('change', (e) => fixEndDateAccordingToStart(e.currentTarget, endInput));
+        endInput.addEventListener('change', (e) => fixEndDateAccordingToStart(startInput, e.currentTarget));
+
+        //on Submit if type of leave is 6, Inputs: To Date, numOfDays, are sent as empty strings (""),
+        //if type of leave is NOT 6, Inputs: From Time, To Time, are sent as empty strings ("")
+        document.querySelector(".btnPrimary[type=submit]").addEventListener("click", (e) => {
+            const type = document.getElementById("typeOfLeave");
+            const dateStart = document.getElementById("datePicker1");
+            const dateEnd = document.getElementById("datePicker2");
+            const datesSum = document.getElementById("daysPicker");
+            const hourFrom = document.getElementById('timeFrom');
+            const hourTo = document.getElementById('timeTo');
+
+            if (document.getElementById('typeOfLeave').value != 9) {
+
+                if (type.value === "" || dateStart.value === "" || dateEnd.value === "" || datesSum.value === "") {
+                    e.preventDefault();
+                    [type, dateStart, dateEnd, datesSum].forEach(el => {
+                        let label = el.parentNode.querySelector("label") ?? el.parentNode.parentNode.querySelector("label");
+                        el.value === "" ? label.classList.add("emptyInputLabel") : label.classList.remove("emptyInputLabel");
+                    });
+                    return;
+                }
+
+            } else {
+
+                if (dateStart.value === "" || hourFrom.value === "" || hourTo.value === "") {
+                    e.preventDefault();
+                    [dateStart, hourFrom, hourTo].forEach(el => {
+                        let label = el.parentNode.querySelector("label") ?? el.parentNode.parentNode.querySelector("label");
+                        el.value === "" ? label.classList.add("emptyInputLabel") : label.classList.remove("emptyInputLabel");
+                    });
+                    return;
+                } else if (hourFrom.value === hourTo.value || hourFrom.value.split(':')[1] !== hourTo.value.split(':')[1]) {
+                    e.preventDefault();
+                    console.log("hourFrom found the same with hourTo", hourFrom.value === hourTo.value);
+                    [hourFrom, hourTo].forEach(el => {
+                        let label = el.parentNode.querySelector("label") ?? el.parentNode.parentNode.querySelector("label");
+                        label.classList.add("emptyInputLabel")
+                    });
+                }
+            }
+
+        })
+
+        const dateTo = document.getElementById('datePicker2');
+        const timeCnt = document.getElementById('timeInputs');
+        const hourFrom = document.getElementById('timeFrom');
+        const hourTo = document.getElementById('timeTo');
+        const reqDays = document.getElementById('daysPicker');
+
+        const enableTimeInputs = (enabled) => {
+            const dToAndReqDays = [dateTo, reqDays];
+            const timeFields = [hourFrom, hourTo];
+            if (enabled) {
+                timeCnt.classList.remove('disabledInp');
+                dToAndReqDays.forEach(inp => (inp.value = '', inp.parentNode.parentNode.classList.add('disabledInp')));
+            } else {
+                timeCnt.classList.add('disabledInp');
+                timeFields.forEach(inp => inp.value = '');
+                dToAndReqDays.forEach(inp => inp.parentNode.parentNode.classList.remove('disabledInp'));
+            }
+        }
+
+        const assignFlatPicker = (id) => {
+            document.getElementById(id).flatpickr({
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "H:i",
+                time_24hr: true,
+                minuteIncrement: 15
+            });
+        }
+
+        [hourFrom, hourTo].forEach(tm => {
+            assignFlatPicker(tm.id);
+        });
+
+        const hourFromInstance = document.getElementById('timeFrom')._flatpickr; 
+        hourFromInstance.set('onChange', function () {
+            $('#hourSel')[0].selectize.clear();
+        });
+
+        $('.numInput.flatpickr-minute').on('input , keydown', (e) => {
+            e.preventDefault();
+            return;
+        });
+        $('.numInput.flatpickr-hour').eq(1).on('input , keydown', (e) => {
+            e.preventDefault();
+            return;
+        });
+        //-------------------------Selectized Input -------------------------
+        const $hourSel = $('#hourSel')
+        $hourSel.selectize({
+            sortField: 'value',
+            labelField: 'text',
+            onChange: function() {
+                if (!hourFrom.value) return;
+                const hourToInstance = document.getElementById('timeTo')._flatpickr;
+
+                if (!this.getValue()) {
+                    hourToInstance.clear();
+                    return;
+                }
+
+                const newHours = new Date();
+                newHours.setHours( parseInt(hourFrom.value.split(":")[0]) + parseInt(this.getValue()) );
+                newHours.setMinutes( parseInt(hourFrom.value.split(":")[1]) )
+
+                hourToInstance.setDate(newHours);               
+            }
+        });
+
+        for (let h = 1; h < 9; h++) {
+            $hourSel[0].selectize.addOption({ value: h, text: h });
+        }
+
+        let myList = [];
+
+        @foreach (var i in leaveTypes)
+        {
+            <text>
+                myList.push({ value: "@i.Value", text: "@i.Text" });
+            </text>
+        }
+
+
+        $leaveTypesSel = $('#typeOfLeave');
+        //to make select input into a selectized input must be a jQuery node object
+        $leaveTypesSel.selectize({ sortField: 'value' });
+
+        //also to read events must use it as jQuery node object
+        $leaveTypesSel.on('change', (e) => {
+            const currValue = e.currentTarget.selectize.getValue();
+
+            if (currValue == 9) {
+                enableTimeInputs(true);
+            } else {
+                enableTimeInputs(false);
+            }
+        })
+
+        //fill selectize with options (must target it as vanilla js node element)
+        myList.forEach((i) => {
+            leaveTypesSel.selectize.addOption({ value: i.value, text: i.text });
+            leaveTypesSel.selectize.addItem(i.Text);
+        })
+        //-------------------------Selectized Input -------------------------
+    });
+
+
+</script>
+
+
+
+<div class="checkdata">
+    <h3>@ViewBag.Title</h3>
+
+    <div class="alertMsg">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        Please complete all fields with an asterisk(*).
+    </div>
+
+    @using (Html.BeginForm("NewLeaveRequestPartial", "MyProfile", FormMethod.Post, new { @id = "NewLeaveRequest" }))
+    {
+        <div>
+            @*@Html.Label("typeOfLeave", "Type of Leave: *")
+                @Html.DropDownList("typeOfLeave", EnumHelper.GetSelectList(typeof(WebApplicationUnipi.Models.Enums.LeaveTypes)), "Select a type", new { @class = "userReport" })*@
+            <label for="typeOfLeave">Type of Leave: *</label>
+            <select class="userReport" placeholder="Type of Leave: *" id="typeOfLeave" required="required" name="typeOfLeave"></select>
+        </div>
+
+        <div>
+            @Html.Label("dateFrom", "From Date: *")
+            <div class="dates">
+                <input class="dates-input" id="datePicker1" type="text" name="dateFrom" value="" placeholder="Select a date" />
+                <i class="fa-regular fa-calendar"></i>
+            </div>
+        </div>
+
+        <div class="optional">
+            @Html.Label("dateTo", "To Date: *")
+            <div class="dates">
+                <input class="dates-input" id="datePicker2" type="text" name="dateTo" value="" placeholder="Select a date" />
+                <i class="fa-regular fa-calendar"></i>
+            </div>
+        </div>
+        <div class="timeInputs optional disabledInp" id="timeInputs">
+            <div>
+                @Html.Label("hourFrom", "From Time: *")
+                <div class="dates">
+                    <input class="dates-input" id="timeFrom" type="text" name="hourFrom" value="" placeholder="Select time" />
+                    <i class="fa-light fa-clock"></i>
+                </div>
+            </div>
+            <div style="max-width: 90px;">
+                @Html.Label("hourSel", "Hours")
+                <div class="dates">
+                    <select class="userReport hourSel" id="hourSel" type="text" name="hourSel" value="" placeholder="hours..."></select>
+                </div>
+            </div>
+            <div>
+                @Html.Label("hourTo", "To Time: *")
+                <div class="dates" data-not-allowed>
+                    <input class="dates-input" data-disabled id="timeTo" type="text" name="hourTo" value="" placeholder="To Time" />
+                    <i class="fa-light fa-clock"></i>
+                </div>
+            </div>
+        </div>
+        <div class="optional">
+            <div>
+                @Html.Label("numOfDays", "Requested days: *")
+                <input class="dates-input" id="daysPicker" min="1" type="number" name="numOfDays" value="" placeholder="Number of days" />
+            </div>
+        </div>
+
+        <div>
+            @Html.Label("comments", "Comments:")
+            <div>
+                <textarea class="textarea userReport" type="text" name="comments"></textarea>
+            </div>
+        </div>
+
+        <button type="submit" class="btnPrimary sessionUpdate">Request</button>
+
+    }
+
+    @*@Html.Partial("../ReturnedMessage/_ReturnedMessage", "New request succesfully added!")*@
+
+</div>
+<script>
+
+
+</script>

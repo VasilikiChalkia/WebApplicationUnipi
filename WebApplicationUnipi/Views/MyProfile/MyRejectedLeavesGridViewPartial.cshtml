@@ -1,0 +1,134 @@
+﻿@using WebApplicationUnipi.Services.Factories;
+@{
+    var grid = Html.DevExpress().GridView(settings =>
+    {
+        settings.Name = "MyRejectedReqsGrid";
+        settings.CallbackRouteValues = new { Controller = "MyProfile", Action = "MyRejectedLeavesGridViewPartial" };
+        // REMOVE DELETE/cancel BUTTON TEMPORARILY
+        settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "MyProfile", Action = "MyRejectedLeavesGridViewPartialCancel" };
+        settings.CommandColumn.Visible = false;
+        settings.CommandColumn.ShowNewButton = false;
+        // REMOVE DELETE/cancel BUTTON TEMPORARILY
+        settings.CommandColumn.ShowDeleteButton = false;
+        settings.CommandColumn.ShowEditButton = false;
+        settings.KeyFieldName = "Id";
+
+        settings.SettingsPager.Visible = true;
+        settings.Settings.ShowGroupPanel = true;
+        settings.Settings.ShowFilterRow = true;
+        settings.SettingsBehavior.AllowSelectByRowClick = true;
+        //settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.Off;
+        //settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+        //settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+        //settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = false;
+        //settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 0;
+        settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.HideDataCells;
+        settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+        settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+        settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = true;
+        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+        //settings.SettingsBehavior.AllowEllipsisInText = true;
+        settings.SettingsCustomizationDialog.Enabled = true;
+
+        settings.Styles.Cell.Wrap = DefaultBoolean.True;
+
+        settings.Columns.Add(col =>
+        {
+            col.FieldName = "DateCreated";
+            col.Caption = "Date Created";
+            col.PropertiesEdit.DisplayFormatString = "dd/MM/yyyy HH:mm:ss";
+
+            col.Settings.AllowAutoFilter = DefaultBoolean.False;
+        });
+        settings.Columns.Add(col =>
+        {
+            col.FieldName = "TypeOfLeave";
+            col.Caption = "Type";
+            Dictionary<int, string> dict = new Dictionary<int, string>();
+            foreach (WebApplicationUnipi.Models.Enums.LeaveTypes option in Enum.GetValues(typeof(WebApplicationUnipi.Models.Enums.LeaveTypes)))
+            {
+                dict.Add((int)option, option.GetDisplayAttributeFrom());
+            }
+            col.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = col.PropertiesEdit as ComboBoxProperties;
+            comboBoxProperties.TextField = "TypeOfLeave";
+            comboBoxProperties.DataSource = dict;
+            comboBoxProperties.TextField = "Value";
+            comboBoxProperties.ValueField = "Key";
+            comboBoxProperties.ValueType = typeof(WebApplicationUnipi.Models.Enums.LeaveTypes);
+        });
+        settings.Columns.Add(col =>
+        {
+            col.FieldName = "DateFrom";
+            col.PropertiesEdit.DisplayFormatString = "dd/MM/yyyy HH:mm";
+            col.Settings.AllowAutoFilter = DefaultBoolean.False;
+        });
+        settings.Columns.Add(col =>
+        {
+            col.FieldName = "DateTo";
+            col.PropertiesEdit.DisplayFormatString = "dd/MM/yyyy HH:mm";
+            col.Settings.AllowAutoFilter = DefaultBoolean.False;
+        });
+        settings.Columns.Add(col =>
+        {
+            col.FieldName = "AmountRequested";
+            col.Caption = "Amount Requested";
+        });
+        settings.Columns.Add("Comments");
+        settings.Columns.Add(col =>
+        {
+            col.FieldName = "Status";
+            Dictionary<int, string> dict = new Dictionary<int, string>();
+            foreach (var option in Enum.GetValues(typeof(WebApplicationUnipi.Models.Enums.LeavesRequestStatus)))
+            {
+                dict.Add((int)option, option.ToString());
+            }
+            col.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = col.PropertiesEdit as ComboBoxProperties;
+            comboBoxProperties.TextField = "Status";
+            comboBoxProperties.DataSource = dict;
+            comboBoxProperties.TextField = "Value";
+            comboBoxProperties.ValueField = "Key";
+            comboBoxProperties.ValueType = typeof(WebApplicationUnipi.Models.Enums.LeavesRequestStatus);
+
+            col.Settings.AllowAutoFilter = DefaultBoolean.False;
+        });
+
+        settings.FormatConditions.AddHighlight(c =>
+        {
+            c.FieldName = "Status";
+            c.Value1 = (byte)WebApplicationUnipi.Models.Enums.LeavesRequestStatus.Rejected;
+            c.Rule = GridConditionRule.Equal;
+            c.Format = GridConditionHighlightFormat.RedText;
+        });
+
+
+
+
+
+        settings.CommandButtonInitialize = (s, e) =>
+        {
+            if (e.ButtonType == ColumnCommandButtonType.Delete)
+            {
+                MVCxGridView g = s as MVCxGridView;
+                e.Visible = true;
+                e.Text = "Cancel";
+            }
+        };
+
+
+        settings.Toolbars.Add(t =>
+        {
+            t.EnableAdaptivity = true;
+            t.Items.Add(GridViewToolbarCommand.ShowCustomizationDialog).Text = "Organize Menu";
+        });
+
+
+
+    });
+    if (ViewData["EditError"] != null)
+    {
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+@grid.Bind(Model).GetHtml()

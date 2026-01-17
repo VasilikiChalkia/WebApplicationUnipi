@@ -1,0 +1,110 @@
+﻿@{
+    ViewBag.Title = "Admin Annual Leaves";
+
+}
+
+<script>
+
+    $(document).ready(function () {
+
+        $('.employeeSelection select').selectize({
+            sortField: 'text'
+        });
+        $('.employeeSelection select').on('change', (e) => {
+            $(e.currentTarget).val() ?
+                $('.btnPrimary').removeClass('btnDisabled') :
+                $('.btnPrimary').addClass('btnDisabled');
+        });
+        let userId;
+        let year = @DateTime.Now.Year;
+
+
+        let startYear = 2020;
+
+        $('#yearpicker').selectize({
+            sortField: 'text'
+        });
+
+        for (i = year + 1; i > startYear; i--) {
+            if (i === year) {
+                document.getElementById('yearpicker').selectize.addOption({ value: i, text: i })
+                document.getElementById('yearpicker').selectize.setValue(i);
+                continue
+            }
+            document.getElementById('yearpicker').selectize.addOption({ value: i, text: i })
+         }
+
+        $(document).on('click', '.btnPrimary', function (e) {
+            e.preventDefault();
+            userId = $('#ddl1 :selected').attr("value") || null;
+            if (!userId) return;
+
+            $(".loader").addClass("shown");
+            Year = $('#yearpicker :selected').attr("value");
+
+            $.get('@Url.Action("ApprovedLeavesPerEmployeeGridViewPartial", "AdminAnnualLeaves")', { userId: userId, year: Year })
+                .done(function (data) {
+                    $(".loader").removeClass("shown");
+                    $('.targetB').html(data)
+                })
+                .fail(() => {
+                    $(".loader").removeClass("shown");
+                    alert("Something went wrong!");
+                });
+        })
+
+    });
+</script>
+<style>
+    .approvedLeavesContainer {
+        display:flex;
+        flex-wrap:wrap;
+        max-width:840px;
+        min-width:320px;
+    }
+    .approvedLeavesContainer > div {
+        max-width:480px;
+        width:100%;
+    }
+    .approvedLeavesContainer > div:nth-of-type(2) {
+        max-width:180px;
+    }
+    .approvedLeavesContainer > :last-of-type{
+        width:100%;
+    }
+    .selectize-control.DDList-green {
+        width:unset;
+        margin-right:20px;
+    }
+    .approvedLeavesContainer .selectize-control.single .selectize-input {
+        width:100%;
+    }
+</style>
+<div class="checkdata" @*gridBg lfAlg*@>
+    <div class="approvedLeavesContainer">
+        @*<div class="dates">*@
+
+        <div style="display: inline" class="employeeSelection">
+            @Html.DropDownList(
+            "userID",
+            new SelectList(ViewData["empList"] as IEnumerable<SelectListItem>, "Value", "Text"), "", new { id = "ddl1", @class = "DDList-green", @placeholder = "Choose an Employee" })
+        </div>
+
+        <div>
+            <select name="yearpicker" id="yearpicker" class="DDList-green employeeSelectionYear"></select>
+        </div>
+        <div>
+            <button type="submit" class="btnPrimary sessionUpdate btnDisabled" id="dateBtn">Go</button>
+        </div>
+        @*</div>*@
+
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        <div class="targetB">
+
+        </div>
+    }
+
+</div>

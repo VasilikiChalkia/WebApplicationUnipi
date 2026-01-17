@@ -1,0 +1,323 @@
+﻿.dates {
+    position: relative;
+    color: $color-header;
+    display: inline-block;
+
+    &[data-not-allowed] {
+        cursor: not-allowed !important;
+    }
+
+    &-input {
+        background-color: $input-grey;
+        width: 280px;
+        height: 40px;
+        padding: 5px 5px 5px 5px;
+        /*margin-right: 10px;*/
+
+        &:not([data-disabled]) {
+            border: 2px solid $color-header;
+            cursor: pointer;
+        }
+
+        &[data-disabled] {
+            border: 2px solid $input-grey;
+            user-select: none;
+            pointer-events: none;
+        }
+    }
+
+    i {
+        font-family: 'Font Awesome 6 Free';
+        position: absolute;
+        top: 11px;
+        right: 20px;
+        color: $color-header;
+        pointer-events: none;
+    }
+
+    &-missCO {
+        color: $green;
+        font-weight: bold;
+    }
+}
+
+.userReport {
+    @extend .dates-input;
+    cursor: pointer;
+
+    option {
+        &:hover {
+            background-color: $date-green;
+            box-shadow: 0 0 10px 100px #216366 inset;
+        }
+    }
+}
+.alertMsg {
+
+    i {
+        font-size: 30px;
+        margin-right: 10px;
+    }
+
+    display: flex;
+    align-items: center;
+    color: $warn-red;
+    background: $white;
+    width:100%;
+    max-width: 570px;
+    border-radius: 20px;
+    padding: 15px;
+}
+.checkdata {
+
+    label {
+        display: block;
+    }
+
+
+
+    .panel {
+        margin-top: 30px;
+    }
+
+    .textarea {
+        width: 100%;
+        height: 100px;
+        border: 2px solid $color-header;
+        outline: none;
+        background-color: $input-grey;
+        resize: none;
+        margin: 20px 0;
+        &.userReport{
+            height:unset;
+        }
+    }
+
+    &-remote {
+        margin: 15px 0;
+
+        label, i {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        &-options {
+
+            input[type="radio"] {
+                position: absolute;
+                top: 20px;
+                left: 0;
+                opacity: 0;
+                width: inherit;
+                height: inherit;
+                cursor: pointer;
+            }
+
+            input[type="radio"] + i {
+                border: 2px solid transparent;
+                border-radius: 15px;
+                padding: 5px;
+            }
+
+            label, i {
+                font-size: 45px;
+            }
+
+            i {
+                width: 60px;
+                height: 60px;
+            }
+
+            div {
+                position: relative;
+                display: inline-block;
+                width: 70px;
+                height: 70px;
+                text-align: center;
+                margin: 0 20px;
+            }
+
+            input[id="Yes"]:hover:not(input[id="Yes"]:checked) + i {
+                border: 2px solid green;
+            }
+
+            input[id="Yes"]:checked + i,
+            input[id="Yes"]:focus + i {
+                color: green;
+            }
+
+            input[id="No"]:hover:not(input[id="No"]:checked) + i {
+                border: 2px solid red;
+            }
+
+            input[id="No"]:checked + i,
+            input[id="No"]:focus + i {
+                color: red;
+            }
+        }
+    }
+
+    &-btn-cell {
+        height: 60px;
+        min-width: 155px;
+        padding: 5px !important;
+        text-align: center;
+    }
+}
+
+.dxgvControl_MaterialCompact a {
+    color: inherit;
+}
+
+/*flatpickr edit*/
+.flatpickr-monthSelect-month.selected {
+    background-color: $date-green !important;
+}
+
+/*clockpicker edit*/
+.clockpicker-popover {
+    .text-primary {
+        color: $date-green !important;
+    }
+
+    .clockpicker-canvas line {
+        stroke: $date-green !important;
+    }
+
+    .clockpicker-canvas-bearing,
+    .clockpicker-canvas-fg {
+        fill: $date-green !important;
+    }
+
+    .clockpicker-canvas-bg {
+        fill: $clock-lightgreen !important;
+    }
+
+    .clockpicker-tick.active,
+    .clockpicker-tick:hover {
+        background-color: $clock-lightgreen !important;
+    }
+}
+.dxcvCard_MaterialCompact .dxflViewFormLayoutSys .dxflGroupCell_MaterialCompact .dxflCommandItemSys,
+.dxcvFlowCard_MaterialCompact .dxflViewFormLayoutSys .dxflGroupCell_MaterialCompact .dxflCommandItemSys,
+.dxcvEditForm_MaterialCompact .dxflFormLayout_MaterialCompact .dxflCommandItemSys, 
+.dxcvPopupEditForm_MaterialCompact .dxflFormLayout_MaterialCompact .dxflCommandItemSys {
+    text-align: right;
+}
+
+
+
+
+#NewLeaveRequest {
+    max-width: 410px;
+    padding-inline-end: 30px;
+    overflow: unset;
+
+    .dates,
+    .dates-input,
+    .userReport {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .optional.disabledInp {
+        display: none;
+        user-select: none;
+        pointer-events: none;
+    }
+
+    .optional:not(.disabledInp) {
+        display: block;
+        user-select: unset;
+        pointer-events: all;
+
+        &.timeInputs {
+            display: flex;
+            align-items: flex-end;
+        }
+    }
+
+    .timeInputs {
+        //max-width: 280px;
+        justify-content: space-between;
+        gap: 10px;
+
+        > div {
+            flex: 1;
+        }
+
+        input {
+            width: 100%;
+        }
+    }
+
+    .userReport {
+        height: unset;
+        min-height: 40px;
+        /*padding: 0;*/
+        display: flex;
+        align-items: center;
+
+        > * {
+            border-color: transparent !important;
+            outline-color: transparent;
+            text-shadow: unset;
+            box-shadow: unset;
+
+            &:not(.selectize-dropdown) {
+                background-color: transparent !important;
+            }
+        }
+
+        &.hourSel{
+            .selectize-input:after {
+                right: 5px;
+            }
+        }
+
+        .selectize-input {
+            padding: 0;
+            min-height: unset;
+
+            &:after {
+                right: 15px;
+            }
+
+
+
+            &.input-active {
+                > .item {
+                    max-width: 90%;
+                }
+
+                &.focus {
+                    border-color: transparent !important;
+                    box-shadow: none !important;
+                }
+            }
+        }
+
+        .selectize-dropdown-content,
+        &.userReport {
+            &::-webkit-scrollbar {
+                width: 8px;
+
+                &-thumb {
+                    background-color: $color-header;
+                    border-radius: 100rem;
+                    border: 1px solid darken($input-grey,15%);
+
+                    &:hover {
+                        background-color: lighten($color-header,15%)
+                    }
+                }
+
+                &-track {
+                    border-radius: 100rem;
+                    background-color: darken($input-grey,15%);
+                    margin-block: 4px;
+                }
+            }
+        }
+    }
+}

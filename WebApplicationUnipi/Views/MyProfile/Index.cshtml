@@ -1,0 +1,508 @@
+﻿@model Tuple<WebApplicationUnipi.Models.MyApplicationUnipi.HR_Employee, string, string>
+@{
+    ViewBag.Title = "My Profile";
+    var PrimeList = (List<int>)Session["UserRights"] ?? new List<int> { 1 };
+
+    // Trabame to onoma ths etaireias apo to Session, dimiourgeite panta kata to login tou xristh.
+    string company = (string)Session["CompanyName"];
+    
+    /////// ------------ ///////
+    // To modelo Model pou erxetai einai ena paketaki me 3 stoixeia tis morfis <object A, string B, string C>
+    // To object A einai to antikeimeno me ta proswpika stoixeia kai mporeis na to kaleis etsi: @Model.Item1.Personal_Email px
+    // To string B einai to etairiko email toy xristh kai to kaleis me to: @Model.Item2
+    // To string C einai oi supervisors tou xristh (ta onomata tous), kaleis me: @Model.Item3
+    // 
+    // An grapseis @Model kai teleia "." to Intelisense tha bgazei protinomenes times opote boithaei.
+    /////// ------------ ///////
+}
+
+<div class="myProfile">
+    <section class="myProfile__main">
+        <h1>@ViewBag.Title</h1>
+
+        <div class="myProfile__main__user">
+            <div class="myProfile__main__user_img">
+                @*<img src="#" alt="user picture" />*@
+                <svg xmlns="http://www.w3.org/2000/svg" width="116" height="116" viewBox="0 0 116 116">
+                    <g id="profile_pic" data-name="profile pic" transform="translate(-335.006 -127.006)">
+                        <rect id="Rectangle_8" data-name="Rectangle 8" width="116" height="116" rx="58" transform="translate(335.006 127.006)" fill="#3e3e3e" />
+                        <path id="Icon_awesome-user-circle" data-name="Icon awesome-user-circle" d="M51.543.563a51.543,51.543,0,1,0,51.543,51.543A51.534,51.534,0,0,0,51.543.563Zm0,19.952A18.289,18.289,0,1,1,33.253,38.8,18.29,18.29,0,0,1,51.543,20.515Zm0,71.495A39.827,39.827,0,0,1,21.1,77.835,23.172,23.172,0,0,1,41.567,65.407a5.085,5.085,0,0,1,1.476.229,27.517,27.517,0,0,0,8.5,1.434,27.413,27.413,0,0,0,8.5-1.434,5.085,5.085,0,0,1,1.476-.229A23.172,23.172,0,0,1,81.99,77.835,39.827,39.827,0,0,1,51.543,92.009Z" transform="translate(341.464 132.901)" fill="#656565" />
+                    </g>
+                </svg>
+            </div>
+            <h2>@Model.Item1.Employee_Fname @Model.Item1.Employee_Lname</h2>
+            <p>@Model.Item2</p>
+        </div>
+
+        <div class="subMenu-items">
+          
+            @Html.ActionLink("My Annual Leaves", "MyAnnualLeave", null, new {@*@class = "btnBeta"*@})           
+        </div>
+    </section>
+
+    <section class="myProfile__details">
+        <nav>
+            <div class="nav-item actv" data-for="personal-details">
+                <h3>Personal Details</h3>
+            </div>
+                   
+            <span class="after"></span>
+        </nav>
+        <div class="myProfile__details_content">
+            <section id="personal-details" class="myProfile__details_personal section_active">
+                <h3>Personal Details</h3>
+                <form action="/MyProfile/TestMethod" method="post">
+                    <label for="Personal_Email">Personal email</label>
+                    <input class="details-input" id="Personal_Email" type="text" name="E-mail" value="" readonly tabindex="-1"/>
+
+                    <label for="Home_Address">Home address</label>
+                    <input class="details-input" id="Home_Address" type="text" name="Physical address" value="" readonly tabindex="-1"/>
+
+                    <label for="Personal_Mobile_Number">Mobile number</label>
+                    <input class="details-input" id="Personal_Mobile_Number" type="text" name="Mobile number" value="" readonly tabindex="-1"/>
+
+                    <label for="Birth_Date">Birth Date</label>
+                    <input class="details-input" id="Birth_Date" type="text" name="Birthday" value="" readonly tabindex="-1"/>
+
+                    <label for="Transportation">Transportation</label>
+                    <input class="details-input" id="Transportation" type="text" name="Transportation" value="" readonly tabindex="-1"/>
+
+                    <div class="form-controls">
+                        <button type="button" class="btn btn-default form-discard">Discard</button>
+                        <button type="submit" class="btn btn-default form-save">Save Changes</button>
+                        <button type="button" class="btn btn-default form-edit">Edit</button>
+                    </div>
+
+                </form>
+            </section>
+            @* --------------------------------------------------------------------------------------- *@
+          
+
+            <div class="form-controls" id="form-controls-gen">
+                <button id="form-discard-gen" type="button" class="btn btn-default form-discard">Discard</button>
+                <button id="form-save-gen" type="button" class="btn btn-default form-save">Save Changes</button>
+                <button id="form-edit-gen" type="button" class="btn btn-default form-edit">Edit</button>
+            </div>
+
+
+        </div>
+
+    </section>
+    <div class="popUp-bg">
+        <div class="popUp-content" id="pop-cnt">
+            <button type="button" id="popUp-close" class="popClose">
+                <svg xmlns="http://www.w3.org/2000/svg" width="19.666" height="19.666" viewBox="0 0 19.666 19.666">
+                    <g id="Icon_ionic-md-close" data-name="Icon ionic-md-close" transform="translate(1.414 1.414)">
+                        <path id="Icon_ionic-md-close-2" data-name="Icon ionic-md-close" d="M24.361,9.207,22.678,7.523l-6.735,6.735L9.207,7.523,7.523,9.207l6.735,6.735L7.523,22.678l1.684,1.684,6.735-6.735,6.735,6.735,1.684-1.684-6.735-6.735Z" transform="translate(-7.523 -7.523)" fill="#717171" stroke="#717171" stroke-width="2" />
+                    </g>
+                </svg>
+            </button>
+            <p>You have unsaved changes!</p>
+            <div class="popUp-controls form-controls" id="popUp-controls">
+                <button id="pop-form-discard" type="button" class="btn btn-default form-discard pop-form-discard">Discard</button>
+                <button id="pop-form-save" type="button" class="btn btn-default form-save pop-form-save">Save Changes</button>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        let changesFound = false;
+
+        const eighteenYo = new Date().setFullYear(new Date().getFullYear() - 18);
+        //let kk = '@Model.Item1.Birth_Date'.split('/').join('-');
+        let y_m_dDate = '@Model.Item1.Birth_Date'.split('-').reverse().join('/');
+        console.log('')
+        $("#Personal_Email")
+            .on('change', (e) => {
+                !validate_Mail(e.currentTarget.value) &&
+                    (
+                        e.currentTarget.value = userDB.getPersonal().Personal_Email,
+                        e.currentTarget.classList.remove('invalidInpVal')
+                    )
+            })
+            .on('input', (e) => {
+                !validate_Mail(e.currentTarget.value) ?
+                    e.currentTarget.classList.add('invalidInpVal') :
+                    e.currentTarget.classList.remove('invalidInpVal');
+            });
+
+        $("#Birth_Date").flatpickr({
+            dateFormat: "d-m-Y",
+            maxDate: eighteenYo,
+            defaultDate: y_m_dDate
+        });
+
+        $("#Personal_Mobile_Number").on('keypress keyup', (e) => {
+
+            if ((e.which < 48 || e.which > 57)) {
+                e.preventDefault();
+            }
+            e.currentTarget.value.length > 10 ?
+                e.currentTarget.classList.add('invalidInpVal') :
+                e.currentTarget.classList.remove('invalidInpVal');
+        }).on('change', (e) => {
+            if (/[^\d]+/.test(e.currentTarget.value) || e.currentTarget.value.length > 10) {
+                e.currentTarget.value = userDB.getPersonal().Personal_Mobile_Number;
+                e.currentTarget.classList.remove('invalidInpVal');
+            }
+        });
+
+        const navItems = document.querySelectorAll('.nav-item');
+        const editBtnList = document.querySelectorAll('.form-edit');
+
+        const moveActive = (active) => {
+            const { left: actLeft, top: actTop } = $(active).find('h3').position();
+            const actWidth = $(active).innerWidth();
+            const underline = document.querySelector('nav .after');
+
+            underline.style.transform = `translateX(${actLeft}px)`;
+            underline.style.width = `${actWidth}px`;
+        }
+        moveActive(document.querySelector('.nav-item:first-of-type'));
+
+        let biggySmalls = window.matchMedia('screen and  (max-width: 767px)').matches;
+
+        window.addEventListener('resize', () => {
+            const active = document.querySelector('.actv');
+            const underline = document.querySelector('nav .after');
+            underline.style.transition = 'unset';
+            moveActive(active);
+            underline.style.transition = null;
+
+            let isSmall = window.matchMedia('screen and  (max-width: 767px)').matches;
+            if (biggySmalls !== isSmall) {
+                biggySmalls = !biggySmalls;
+                document.querySelectorAll('form').forEach(frm => lockForm(frm));
+            }
+
+        });
+
+        const makeActive = (navItem) => {
+
+            const thisID = navItem.getAttribute('data-for');
+            const relativeSection = document.getElementById(`${thisID}`);
+            if (relativeSection.classList.contains('section_active')) return;
+
+            //vazw se metavlhtes to prohgoumeno active section & thn forma tou.
+            const prvActvSec = document.querySelector('.section_active');
+            const prvActvForm = prvActvSec.querySelector('form');
+
+            document.querySelector('.actv').classList.remove('actv');
+            navItem.classList.add('actv');
+            setTimeout(() => {//timeout to correctly read active item's dimensions
+                moveActive(navItem);
+            }, 10);
+
+
+            prvActvSec.classList.remove('section_active');
+            prvActvForm.classList.remove('editable');
+            lockForm(prvActvForm);
+
+            relativeSection.classList.add('section_active');
+            thisID !== 'personal-details' ?
+                document.getElementById('form-edit-gen').style.display = 'none' :
+                document.getElementById('form-edit-gen').style.setProperty('display', '');
+        }
+
+        navItems.forEach(itm => {
+            itm.addEventListener('click', (e) => {
+
+                if (changesFound) {
+                    document.querySelector('.popUp-bg').classList.add('popPopped');
+                    document.body.classList.add('popPopped');
+
+                    const myProfileInfoObj = {
+                        activeNavItem: e.currentTarget.getAttribute('data-for')
+                    }
+                    //---------------------------
+                    sessionStorage.setItem('myProfileInfo', JSON.stringify(myProfileInfoObj));
+                    //---------------------------
+                    return;
+                }
+                makeActive(e.currentTarget);
+            });
+        });
+
+        const toggleEdit = (e) => {
+            const form = e.currentTarget.parentNode.parentNode.classList.contains('myProfile__details_content') ?
+                e.currentTarget.parentNode.parentNode.querySelector('.section_active form') :
+                e.currentTarget.parentNode.parentNode;
+
+            const inputList = form.querySelectorAll('.details-input');
+            const formControls = e.currentTarget.parentNode;
+
+            inputList.forEach(inp => {
+                if (inp.getAttribute('readonly') !== null) {
+                    inp.removeAttribute('readonly');
+                    inp.removeAttribute('tabindex')
+                    form.classList.add('editable');
+                    formControls.setAttribute('data-editing', 'true');
+                } else {
+                    inp.setAttribute('readonly', '');
+                    inp.setAttribute('tabindex', '-1');
+                    form.classList.remove('editable');
+                    formControls.removeAttribute('data-editing');
+                }
+            });
+
+        }
+
+        editBtnList.forEach(btn => btn.addEventListener('click', toggleEdit));
+
+        const discardBtns = document.querySelectorAll('.form-discard');
+        const saveBtns = document.querySelectorAll('.form-save');
+
+
+        // Disables interaction with form. NOT clearing any changes.
+        const lockForm = (form) => {
+            const inputList = form.querySelectorAll('.details-input');
+            const formControls = form.querySelector('.form-controls');
+            const generalControls = document.getElementById('form-controls-gen');
+
+            form.classList.remove('editable');
+            inputList.forEach( inp => (
+                inp.setAttribute('readonly', ''),
+                inp.setAttribute('tabindex', '-1')
+            ) );
+            formControls.removeAttribute('data-editing');
+            generalControls.removeAttribute('data-editing');
+        }
+
+
+        const discardAction = (e) => {
+            const form = (e.currentTarget.parentNode.parentNode.classList.contains('myProfile__details_content') /*case1: #form-controls-gen > .form-discard*/ ||
+                          e.currentTarget.parentNode.parentNode.classList.contains('popUp-content')) /*case2: #popUp-controls > .form-discard */ ?
+                            document.querySelector('.myProfile__details').querySelector('.section_active form') :
+                            e.currentTarget.parentNode.parentNode;
+
+            console.log("changesFound: ", changesFound);
+
+
+
+            if (sessionStorage.getItem('myProfileInfo')) {
+
+                const myProfileInfoObj_dscrt = JSON.parse(sessionStorage.getItem('myProfileInfo'));
+                //---------------------------
+                sessionStorage.removeItem('myProfileInfo');
+                //---------------------------
+                if (myProfileInfoObj_dscrt.activeNavItem) {
+                    const aboutToOpen_dscrt = document.querySelector(`[data-for="${myProfileInfoObj_dscrt.activeNavItem}"]`);
+                    makeActive(aboutToOpen_dscrt);
+                }
+                if (myProfileInfoObj_dscrt.redirectLink) {
+
+                    window.location.href = myProfileInfoObj_dscrt.redirectLink;
+                    return;
+                }
+
+            } else {
+                console.log('myProfileInfo not found in session storage');
+            }
+
+            lockForm(form);
+            fillForm(form, true);
+            changesFound = false;
+            //if .popPopped not NULL, both <body> & Pop-Up get this class when pop-up is active
+            //.popPopped in body prevents scrolling in the main page behind the pop-up.
+            document.querySelector('.popPopped') &&
+                document.querySelectorAll('.popPopped').forEach(pp => pp.classList.remove('popPopped'));
+
+        }
+        const saveAction = (e) => {
+            const form = ( e.currentTarget.parentNode.parentNode.classList.contains('myProfile__details_content') ||
+                e.currentTarget.parentNode.parentNode.classList.contains('popUp-content') ) ?
+                    document.querySelector('.myProfile__details').querySelector('.section_active form') :
+                    e.currentTarget.parentNode.parentNode;
+            console.log(userEdited.getPersonal())
+           // /*
+            $.ajax({
+                url: '/MyProfile/SaveEmployeePersonalData',
+                type: 'post',
+                data: {
+                    empl: userEdited.getPersonal()
+                },
+                success: function (data) {
+                    if ( sessionStorage.getItem('myProfileInfo') ) {
+                        const myProfileInfoObj = JSON.parse( sessionStorage.getItem('myProfileInfo') );
+
+                        if (myProfileInfoObj.redirectLink) {
+                            //---------------------------
+                            sessionStorage.removeItem('myProfileInfo');
+                            //---------------------------
+                            window.location.href = myProfileInfoObj.redirectLink;
+                        } else {
+                            window.location.reload();
+                        }
+                    } else {
+                        window.location.reload();
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus + "\n" + errorThrown + "\n" + jqXHR);
+
+                }
+            });
+            //*/
+        }
+        discardBtns.forEach( btn => btn.addEventListener('click', discardAction) );
+        saveBtns.forEach( btn => btn.addEventListener('click', saveAction) );
+
+        const fillForm = (form, fromDB = false) => {
+            const formType = form.parentNode.getAttribute('id');
+            const fromObj = fromDB ? userDB : userEdited;
+
+            switch (formType) {
+
+                case 'personal-details':
+                    console.log('personal-details')
+                    const personalData = fromObj.getPersonal();
+                    for (const property in personalData) {
+                        if ( property === 'Birth_Date') {                            
+                            document.getElementById(property).value = personalData[property];
+                        } else {
+                            $(`[id='${property}']`).val(personalData[`${property}`] || $(`[id='${property}']`).attr('value'));
+                        }
+                    }
+                    break;
+
+              
+
+                default:
+                    console.log('otherData')
+                    const otherData = fromObj.getOther();
+                    for (const property in otherData) {
+                        $(`[id='${property}']`).val(otherData[`${property}`] || $(`[id='${property}']`).attr('value'));
+                    }
+            }
+
+        }
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('change', (e) => {
+                const formType = e.target.parentNode.parentNode.getAttribute('id');
+                console.log("changesFound: ", changesFound);
+                changesFound = true;
+                console.log("changesFound: ", changesFound);
+                switch (formType) {
+
+                    case 'personal-details':
+                        let newInfoP = {};
+
+                        if (e.target.getAttribute('id') === 'Birth_Date') {
+                            console.log(e.target.value);
+                            //e.target.value = e.target.value.split('-').join('/');
+                            console.log(e.target.value);
+                        }
+                        newInfoP[`${e.target.getAttribute('id')}`] = e.target.value;
+                        userEdited.setPersonal(newInfoP);
+                        break;
+
+                  
+                    default:
+                        let newInfoO = {};
+                        newInfoO[`${e.target.getAttribute('id')}`] = e.target.value;
+                        userEdited.setOther(newInfoO);
+                }
+            })
+
+        })
+        const UserData = class {
+            #privateData;
+
+            constructor(
+                { Personal_Email, Home_Address, Personal_Mobile_Number, Birth_Date, Transportation } = {},
+             
+           
+            ) {
+                this.#privateData = new WeakMap();
+
+                const personalInfo = { Personal_Email, Home_Address, Personal_Mobile_Number, Birth_Date, Transportation } || {};
+               
+            
+
+                this.#privateData.set(this, {
+                    personalInfo,
+                   
+                });
+
+                this.setPersonal = function (obj) {
+                    const privateData = this.#privateData.get(this);
+                    privateData.personalInfo = { ...privateData.personalInfo, ...obj };
+                }
+                this.getPersonal = function () {
+                    const privateData = this.#privateData.get(this);
+                    return privateData.personalInfo;
+                }
+
+              
+                this.getAll = function () {
+                    const privateData = this.#privateData.get(this);
+                    return privateData
+                }
+            }
+        }
+
+
+        let personal = {
+            Personal_Email: '@Model.Item1.Personal_Email',
+            Home_Address:'@Model.Item1.Home_Address',
+            Personal_Mobile_Number:'@Model.Item1.Personal_Mobile_Number',
+            Birth_Date:'@Model.Item1.Birth_Date',
+            Transportation:'@Model.Item1.Transportation'
+        };
+     
+        //ayto gemizei apo thn vash.
+        const userDB = new UserData(personal);
+
+        //ayto apothikeyei tis allages pou ekane mesw edit o xrhsths, arxika exei oti erxetai apo thn vash
+        let userEdited = new UserData(personal);
+
+        if (sessionStorage.getItem('myProfileInfo')) {
+            const myProfileInfoObj = JSON.parse(sessionStorage.getItem('myProfileInfo'));
+            //---------------------------
+            sessionStorage.removeItem('myProfileInfo');
+            //---------------------------
+            if (myProfileInfoObj.activeNavItem) {
+                const aboutToOpen = document.querySelector(`[data-for="${myProfileInfoObj.activeNavItem}"]`);
+                makeActive(aboutToOpen);
+            }
+
+        } else {
+            console.log('myProfileInfo not found in session storage');
+        }
+
+        document.querySelectorAll('form').forEach(form => fillForm(form, true));
+
+        console.log("changesFound: ",changesFound);
+
+        document.getElementById('popUp-close').addEventListener('click', () => {
+            document.querySelector('.popUp-bg').classList.remove('popPopped');
+            document.body.removeAttribute('class');
+        })
+
+        document.addEventListener('click', (e) => {
+            let el = e.target;
+            let isInsideLink = false;
+            while (el) {
+                if (el.tagName === 'A') {
+                    isInsideLink = true;
+                    break;
+                }
+                el = el.parentElement;
+            }
+            if (isInsideLink && changesFound) {
+                console.log(el.getAttribute('href'))
+                e.preventDefault();
+                const myProfileInfo = {
+                    redirectLink: el.getAttribute('href')
+                };
+                //---------------------------
+                sessionStorage.setItem('myProfileInfo', JSON.stringify(myProfileInfo));
+                //---------------------------
+                document.querySelector('.popUp-bg').classList.add('popPopped');
+                document.body.classList.add('popPopped');
+            }
+
+        })
+    </script>
+
+</div>

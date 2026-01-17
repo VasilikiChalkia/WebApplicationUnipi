@@ -1,0 +1,90 @@
+﻿@{
+    ViewBag.Title = "Admin Annual Leaves";
+
+}
+
+<script>
+    $(document).ready(function () {
+        let year = @DateTime.Now.Year;
+        let startYear = 2020;
+
+        $('#yearpicker').selectize({
+            sortField: 'text'
+        });
+
+        for (i = year + 1; i > startYear; i--) {
+            if (i === year) {
+                document.getElementById('yearpicker').selectize.addOption({ value: i, text: i })
+                document.getElementById('yearpicker').selectize.setValue(i);
+                continue
+            }
+            document.getElementById('yearpicker').selectize.addOption({ value: i, text: i })
+        }
+
+        $(document).on('click', '.btnPrimary', function (e) {
+            e.preventDefault();
+            const selYear = document.getElementById('yearpicker').selectize.getValue();
+
+            if (!selYear || selYear === '') {
+                document.getElementById('yearpicker').selectize.focus();
+                $('.targetB').html("");
+                return;
+            };
+
+            $(".loader").addClass("shown");
+
+            $.get('@Url.Action("CancelledLeavesGridPartial", "AdminAnnualLeaves")', { year: selYear })
+                .done(function (data) {
+                    $(".loader").removeClass("shown");
+                    $('.targetB').html(data)
+                })
+                .fail(() => {
+                    $(".loader").removeClass("shown");
+                    alert("Something went wrong!");
+                });
+        })
+    });
+</script>
+
+<style>
+    .cancelledLeavesContainer {
+        display: flex;
+        flex-wrap: wrap;
+        max-width: 840px;
+        min-width: 320px;
+    }
+    .cancelledLeavesContainer > div {
+         max-width: 180px;
+         width: 100%;
+    }
+    .cancelledLeavesContainer .btnPrimary {
+        height:100%;
+    }
+    .selectize-control.DDList-green {
+        width: unset;
+        margin-right: 20px;
+    }
+    .cancelledLeavesContainer .selectize-control.single .selectize-input {
+        width: 100%;
+        display:block;
+    }
+</style>
+
+<div class="checkdata" @*gridBg lfAlg*@>
+    <div class="cancelledLeavesContainer">
+        <div>
+            <select name="yearpicker" id="yearpicker" class="DDList-green employeeSelectionYear"></select>
+        </div>
+        <div>
+            <button type="submit" class="btnPrimary sessionUpdate" id="dateBtn">Go</button>
+        </div>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        <div class="targetB">
+
+        </div>
+    }
+
+</div>

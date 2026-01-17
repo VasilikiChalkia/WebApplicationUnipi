@@ -1,0 +1,18 @@
+﻿footer {
+    flex-shrink: 0;
+    padding: 15px 0;
+    background: $bg-color;
+    /*background: rgb(62,62,62);
+    background: -moz-linear-gradient(90deg, rgba(62,62,62,1) 0%, rgba(31,31,31,1) 100%);
+    background: -webkit-linear-gradient(90deg, rgba(62,62,62,1) 0%, rgba(31,31,31,1) 100%);
+    background: linear-gradient(90deg, rgba(62,62,62,1) 0%, rgba(31,31,31,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#3e3e3e",endColorstr="#1f1f1f",GradientType=1);*/
+    .version {
+        font-size: 12px;
+        text-align: center;
+    }
+
+    i {
+        color: #47D3B9;
+    }
+}

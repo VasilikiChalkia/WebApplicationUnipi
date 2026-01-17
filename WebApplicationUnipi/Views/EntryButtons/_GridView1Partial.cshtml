@@ -1,0 +1,60 @@
+@{
+    var grid = Html.DevExpress().GridView(settings => {
+        settings.Name = "GridView1";
+
+        settings.CallbackRouteValues = new { Controller = "EntryButtons", Action = "GridView1Partial" };
+
+        settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "EntryButtons", Action = "GridView1PartialAddNew" };
+        settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "EntryButtons", Action = "GridView1PartialUpdate" };
+        settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "EntryButtons", Action = "GridView1PartialDelete" };
+        settings.SettingsEditing.Mode = GridViewEditingMode.EditFormAndDisplayRow;
+        settings.SettingsBehavior.ConfirmDelete = true;
+        settings.SettingsCustomizationDialog.Enabled = true;
+        settings.CommandColumn.Visible = true;
+        settings.CommandColumn.ShowNewButtonInHeader = true;
+        settings.CommandColumn.ShowDeleteButton = true;
+        settings.CommandColumn.ShowEditButton = true;
+
+        settings.EditFormLayoutProperties.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.SingleColumnWindowLimit;
+        settings.EditFormLayoutProperties.SettingsAdaptivity.SwitchToSingleColumnAtWindowInnerWidth = 992;
+
+        settings.KeyFieldName = "Id";
+
+        settings.SettingsPager.Visible = true;
+        settings.Settings.ShowGroupPanel = true;
+        settings.Settings.ShowFilterRow = true;
+        settings.SettingsBehavior.AllowSelectByRowClick = true;
+
+        //settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.Off;
+        //settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+        //settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+        //settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = false;
+        //settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 0;
+
+        settings.CommandColumn.Width = 100;
+        settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.HideDataCells;
+        settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+        settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+        settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = true;
+        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+        //settings.SettingsBehavior.AllowEllipsisInText = true;
+        settings.Styles.Cell.Wrap = DefaultBoolean.True;
+        settings.ControlStyle.CssClass = "smallGrid";
+
+        settings.Toolbars.Add(t =>
+        {
+            t.EnableAdaptivity = true;
+
+            t.Items.Add(GridViewToolbarCommand.ShowCustomizationDialog).Text = "Organize Menu";
+        });
+
+
+        settings.Columns.Add("Department_Name").Caption="Department";
+        //settings.Columns.Add("Status");
+
+    });
+    if (ViewData["EditError"] != null){
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+@grid.Bind(Model).GetHtml()

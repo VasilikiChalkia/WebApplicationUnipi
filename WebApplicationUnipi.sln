@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.35425.106
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplicationUnipi", "WebApplicationUnipi\WebApplicationUnipi.csproj", "{1B49839C-E574-43C1-B66E-856486A88912}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1B49839C-E574-43C1-B66E-856486A88912}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B49839C-E574-43C1-B66E-856486A88912}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B49839C-E574-43C1-B66E-856486A88912}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B49839C-E574-43C1-B66E-856486A88912}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E4262375-8674-473D-8F62-A8B85FD9BEA4}
+	EndGlobalSection
+EndGlobal

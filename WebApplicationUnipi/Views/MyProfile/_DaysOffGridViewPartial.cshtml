@@ -1,0 +1,73 @@
+﻿@{
+    var grid = Html.DevExpress().GridView(settings =>
+    {
+        settings.Name = "DaysOffGridViewPartial";
+        settings.CallbackRouteValues = new { Controller = "MyProfile", Action = "DaysOffGridViewPartial" };
+
+        settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "MyProfile", Action = "DaysOffGridViewPartialAddNew" };
+        settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "MyProfile", Action = "DaysOffGridViewPartialUpdate" };
+        settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "MyProfile", Action = "DaysOffGridViewPartialDelete" };
+        settings.SettingsEditing.Mode = GridViewEditingMode.EditFormAndDisplayRow;
+        settings.SettingsBehavior.ConfirmDelete = false;
+
+        settings.CommandColumn.Visible = false;
+        settings.CommandColumn.ShowNewButtonInHeader = false;
+        settings.CommandColumn.ShowDeleteButton = false;
+        settings.CommandColumn.ShowEditButton = false;
+
+        settings.KeyFieldName = "Id";
+
+        settings.SettingsPager.Visible = true;
+        settings.Settings.ShowGroupPanel = true;
+        settings.Settings.ShowFilterRow = true;
+        settings.SettingsBehavior.AllowSelectByRowClick = true;
+
+        //settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.Off;
+        //settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+        //settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+        //settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = false;
+        //settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 0;
+        settings.CommandColumn.Width = 50;
+        settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.HideDataCells;
+        settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+        settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+        settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = true;
+        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+        //settings.SettingsBehavior.AllowEllipsisInText = true;
+        settings.SettingsCustomizationDialog.Enabled = true;
+        settings.ControlStyle.CssClass = "smallGrid";
+        settings.Styles.Cell.Wrap = DefaultBoolean.True;
+
+
+        settings.Columns.Add(column =>
+        {
+            column.Caption = "Date";
+            column.EditFormSettings.Visible = DefaultBoolean.True;
+            column.FieldName = "Date";
+            column.ColumnType = MVCxGridViewColumnType.DateEdit;
+            var dateEditProperties = column.PropertiesEdit as DateEditProperties;
+            dateEditProperties.DisplayFormatString = "d/M/yyyy";
+            dateEditProperties.EditFormatString = "d/M/yyyy";
+            column.CellStyle.Wrap = DefaultBoolean.False;
+        });
+
+        settings.Columns.Add("Desc");
+
+        settings.Toolbars.Add(t =>
+        {
+            t.EnableAdaptivity = true;
+            t.Items.Add(GridViewToolbarCommand.ShowCustomizationDialog).Text = "Organize Menu";
+        });
+
+
+
+
+    });
+    if (ViewData["EditError"] != null)
+    {
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+
+@grid.Bind(Model).GetHtml()
+

@@ -1,0 +1,202 @@
+﻿@using WebApplicationUnipi.Services.Factories;
+@{
+
+    var grid = Html.DevExpress().GridView(settings =>
+    {
+        settings.Name = "GridViewLeavesReqs1";
+        settings.CallbackRouteValues = new { Controller = "AdminAnnualLeaves", Action = "LeavesRequestsGridViewPartial", userID = (int?)ViewBag.userID };
+
+        settings.SettingsEditing.Mode = GridViewEditingMode.EditFormAndDisplayRow;
+        settings.SettingsBehavior.ConfirmDelete = true;
+
+        settings.CommandColumn.Visible = true; // enable column for custom buttons
+        settings.CommandColumn.ShowNewButton = false;
+        settings.CommandColumn.ShowDeleteButton = false;
+        settings.CommandColumn.ShowEditButton = false;
+        settings.CommandColumn.Caption = "Approve / Reject";
+
+        settings.Settings.ShowFilterRow = true;
+        settings.Settings.ShowFilterRowMenu = true;
+        settings.CommandColumn.ShowClearFilterButton = true;
+        settings.CommandColumn.Width = 80;
+        settings.KeyFieldName = "Id";
+
+
+        settings.SettingsPager.Visible = true;
+        settings.Settings.ShowGroupPanel = true;
+        settings.SettingsBehavior.AllowSelectByRowClick = true;
+        settings.SettingsExport.EnableClientSideExportAPI = true;
+        settings.SettingsExport.ExcelExportMode = DevExpress.Export.ExportType.WYSIWYG;
+        settings.SettingsExport.FileName = nameof(WebApplicationUnipi.Models.MyApplicationUnipi.AnnualLeaves);
+
+        settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.HideDataCells;
+        settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+        settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+        settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = true;
+        //settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+        settings.SettingsCustomizationDialog.Enabled = true;
+        settings.Styles.Cell.Wrap = DefaultBoolean.True;
+
+        // === Columns ===
+        settings.Columns.Add(col =>
+        {
+            col.FieldName = "Employee_Lname";
+            col.Caption = "Surname";
+        });
+        settings.Columns.Add(col =>
+        {
+            col.FieldName = "Employee_Fname";
+            col.Caption = "Name";
+        });
+        settings.Columns.Add(col =>
+        {
+            col.FieldName = "DateCreated";
+            col.Caption = "Date Created";
+            col.PropertiesEdit.DisplayFormatString = "dd/MM/yyyy HH:mm:ss";
+            col.Settings.AllowAutoFilter = DefaultBoolean.False;
+        });
+        settings.Columns.Add(col =>
+        {
+            col.FieldName = "TypeOfLeave";
+            col.Caption = "Type";
+
+            Dictionary<int, string> dict = new Dictionary<int, string>();
+            foreach (WebApplicationUnipi.Models.Enums.LeaveTypes option in Enum.GetValues(typeof(WebApplicationUnipi.Models.Enums.LeaveTypes)))
+            {
+                dict.Add((int)option, option.GetDisplayAttributeFrom());
+            }
+            col.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = col.PropertiesEdit as ComboBoxProperties;
+            comboBoxProperties.DataSource = dict;
+            comboBoxProperties.TextField = "Value";
+            comboBoxProperties.ValueField = "Key";
+            comboBoxProperties.ValueType = typeof(WebApplicationUnipi.Models.Enums.LeaveTypes);
+        });
+        settings.Columns.Add(col =>
+        {
+            col.FieldName = "DateFrom";
+            col.PropertiesEdit.DisplayFormatString = "dd/MM/yyyy HH:mm";
+            col.Settings.AllowAutoFilter = DefaultBoolean.False;
+        });
+        settings.Columns.Add(col =>
+        {
+            col.FieldName = "DateTo";
+            col.PropertiesEdit.DisplayFormatString = "dd/MM/yyyy HH:mm";
+            col.Settings.AllowAutoFilter = DefaultBoolean.False;
+        });
+        settings.Columns.Add(col =>
+        {
+            col.FieldName = "AmountRequested";
+            col.Caption = "Amount Requested";
+
+        });
+        settings.Columns.Add(col =>
+        {
+            col.FieldName = "Available";
+            col.Caption = "Available Amount";
+        });
+        settings.Columns.Add("Comments");
+
+
+       
+            settings.Columns.Add(column =>
+            {
+                column.FieldName = "Files";
+                column.EditFormSettings.Visible = DefaultBoolean.False;
+                column.Settings.AllowAutoFilter = DefaultBoolean.False;
+                column.SetDataItemTemplateContent(container =>
+                {
+                    var keyValue = container.KeyValue;
+                    var Id = (int)DataBinder.Eval(container.DataItem, "Id");
+                    string fileNames = (string)DataBinder.Eval(container.DataItem, "Files");
+                    var fileList = fileNames.Split(',').ToList();
+
+                    foreach (var i in fileList)
+                    {
+                        Html.DevExpress().HyperLink(hyperlink =>
+                        {
+                            hyperlink.Name = "hf" + keyValue.ToString() + fileList.IndexOf(i).ToString();
+                            hyperlink.Properties.Text = i + ((fileList.IndexOf(i) + 1 != fileList.Count()) ? ", " : "");
+                            hyperlink.NavigateUrl = Url.Action("DownloadLeavesFile", "AdminAnnualLeaves", new { requestId = Id, fileName = i });
+                            hyperlink.Properties.ClientSideEvents.Click = "escapeBeforeUnload";
+
+                        }).Render();
+                    }
+                });
+            });
+        
+
+
+        // === Custom Approve/Reject Buttons ===
+        settings.CommandColumn.CustomButtons.Add(new GridViewCommandColumnCustomButton()
+        {
+            ID = "Approve",
+            Text = "✔️"
+        });
+        settings.CommandColumn.CustomButtons.Add(new GridViewCommandColumnCustomButton()
+        {
+            ID = "Reject",
+            Text = "❌"
+        });
+
+        settings.ClientSideEvents.CustomButtonClick = @"
+    function(s, e) {
+        var id = s.GetRowKey(e.visibleIndex);
+        if(e.buttonID === 'Approve') {
+            $.post('/AdminAnnualLeaves/ApproveLeaveRequest', { Id: id }, function(response) {
+                if(response.success) {
+                    alert(response.message);
+                    s.Refresh();
+                } else {
+                    alert('Failed: ' + response.message);
+                }
+            });
+        } else if(e.buttonID === 'Reject') {
+            $.post('/AdminAnnualLeaves/RejectLeaveRequest', { Id: id }, function(response) {
+                if(response.success) {
+                    alert(response.message);
+                    s.Refresh();
+                } else {
+                    alert('Failed: ' + response.message);
+                }
+            });
+        }
+    }";
+
+
+        // === Detail Row ===
+        settings.SettingsDetail.AllowOnlyOneMasterRowExpanded = false;
+        settings.SettingsDetail.ShowDetailRow = true;
+        settings.SetDetailRowTemplateContent(c =>
+        {
+            Html.RenderAction("LeavesRequestsMoreDetails", new { Id = DataBinder.Eval(c.DataItem, "Id") });
+        });
+
+        // === Toolbar ===
+        settings.Toolbars.Add(t =>
+        {
+            t.EnableAdaptivity = true;
+            t.Items.Add(GridViewToolbarCommand.ExportToXls);
+            t.Items.Add(i =>
+            {
+                i.Name = "CustomFullExpand";
+                i.Text = "Expand All";
+                i.Command = GridViewToolbarCommand.Custom;
+            });
+            t.Items.Add(i =>
+            {
+                i.Name = "CustomFullCollapse";
+                i.Text = "Collapse All";
+                i.Command = GridViewToolbarCommand.Custom;
+            });
+            t.Items.Add(GridViewToolbarCommand.ShowCustomizationDialog).Text = "Organize Menu";
+        });
+        settings.ClientSideEvents.ToolbarItemClick = "function(s, e) { OnExpandCollapseExecute(s, e); escapeBeforeUnload(s, e) }";
+    });
+
+    if (ViewData["EditError"] != null)
+    {
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+@grid.Bind(Model).GetHtml()

@@ -1,0 +1,103 @@
+﻿@{
+    ViewBag.Title = "Home";
+    var PrimeList = (List<int>)Session["UserRights"] ?? new List<int> { 1 };
+    bool ext_bool = PrimeList.Contains((int)WebApplicationUnipi.Models.Enums.Privileges.HR_Admin);
+
+
+}
+
+<script>
+    $(document).ready(function () {
+
+
+        let external_bool = @ext_bool.ToString().ToLower();;
+        let compList;
+        let userRights = [];
+        userRights = "@string.Join(",", PrimeList)".split(",");
+        //console.log(userRights);
+        function buildComponents() {
+            let myArray = [...compList.home].sort((a, b) => a.text.localeCompare(b.text));
+
+            for (let i = 0; i < myArray.length; i++) {
+                let comp, group = $(`.compList .${myArray[i].style !== undefined ? myArray[i].style : 'other'}`) ?? null;
+
+                if ((myArray[i].rights === undefined || myArray[i].rights.length == 0)  && !external_bool) {
+
+                    comp = `<a href=@Url.Content("~")${myArray[i].controller}/${myArray[i].view} ${myArray[i].target != null ? myArray[i].target : ""}>
+                                <div class="compList-item" data-category="${myArray[i].text}">${myArray[i].icon}
+                                <div>${myArray[i].text}</div>
+                                </div>
+                            </a>`;
+                }
+                else {
+                    for (let j = 0; j < myArray[i].rights.length; j++) {
+                        for (let x = 0; x < userRights.length; x++) {
+                            if (userRights[x] == myArray[i].rights[j]) {
+
+                                comp = `<a href=@Url.Content("~")${myArray[i].controller}/${myArray[i].view} ${myArray[i].target != null ? myArray[i].target : ""}>
+                                            <div class="compList-item" data-category="${myArray[i].text}">${myArray[i].icon}
+                                                <div>${myArray[i].text}</div>
+                                            </div>
+                                        </a>`;
+                            }
+                        }
+                    }
+                }
+
+                if (group.length && comp !== undefined) {
+                    $(group).append(comp);
+                } else {
+                    if (comp !== undefined) {
+                        const newG = $(`<div class='${myArray[i].style !== undefined ? myArray[i].style : 'other'}'></div>`);
+                        newG.append(comp);
+                        $(".compList").append(newG);
+                    }
+                }
+
+            }
+            setTimeout(function () {
+               $(".compList a").length > 5 ? $(".compList").addClass("maxSize") : $(".compList").removeClass("maxSize");
+            }, 40);
+
+            $('.admin') && $('.admin').append(`
+                <div class="svg-holder">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="115.14" height="114.43" viewBox="0 0 115.14 114.43" style="transform:scale(.85)">
+                  <g id="Web_1920_2" data-name="Web 1920 – 2" clip-path="url(#clip-Web_1920_2)">
+                    <rect width="115.14" height="114.43" fill="none"/>
+                    <g id="Admin_icon" transform="translate(0 0.004)">
+                      <path id="Path_9" d="M15.34,17.27c.74-1.18,14.06,1,24.64-2.82C52.17,10.1,61.98-.25,65.77,0c3.61.26,12.24,11.11,23.49,14.45,10.6,3.12,23.9-1.28,24.84,0,1.92,2.61,2.38,28.46-9.53,50.48s-38.11,37.65-38.11,37.65S37.83,86.26,25.04,64.93,13.75,19.78,15.34,17.27Z" fill="#ba9090"/>
+                      <g id="Group_161">
+                        <circle id="Ellipse_1" cx="19.39" cy="19.39" r="19.39" transform="translate(18.23 47.09)" fill="#bd9c9c"/>
+                        <path id="Path_53" d="M37.5,83.54c20.72,0,37.5,10.27,37.5,22.92s-16.8,6.43-37.5,6.43S0,119.14,0,106.46,16.8,83.54,37.5,83.54Z" fill="#bd9c9c"/>
+                      </g>
+                    </g>
+                  </g>
+                </svg></div>`);
+            $('.misc') && $('.misc').append(`
+                <div class="svg-holder">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="115.14" height="114.43" viewBox="0 0 115.14 114.43">
+                        <g id="Web_1920_3" data-name="Web 1920 – 3" clip-path="url(#clip-Web_1920_3)">
+                            <rect width="115.14" height="114.43" fill="none"/>
+                            <path id="code-solid" d="M63.19,6.22,43.69,74.47a4.883,4.883,0,0,1-9.39-2.68L53.81,3.54a4.878,4.878,0,1,1,9.38,2.68h0ZM79,18.5,96.06,35.56a4.865,4.865,0,0,1,0,6.88h0L79,59.5a4.872,4.872,0,0,1-6.89-6.89h0l13.6-13.62L72.11,25.37A4.872,4.872,0,0,1,79,18.48ZM25.38,25.39,11.77,39.01,25.38,52.63a4.872,4.872,0,0,1-6.89,6.89h0L1.43,42.45a4.865,4.865,0,0,1,0-6.88h0L18.5,18.51a4.872,4.872,0,0,1,6.89,6.89h0Z" transform="translate(8.825 18.233)" fill="#77807e"/>
+                        </g>
+                    </svg></div>`);
+            $('.public') && $('.public').append(`
+               <div class="svg-holder">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="115.14" height="114.43" viewBox="0 0 115.14 114.43">
+                    <g id="Web_1920_4" data-name="Web 1920 – 4" clip-path="url(#clip-Web_1920_4)">
+                        <rect width="115.14" height="114.43" fill="none"/>
+                        <path id="file-pen-solid" d="M0,9.28A9.287,9.287,0,0,1,9.28,0H32.5V18.57a4.635,4.635,0,0,0,4.63,4.64H55.71V43.46L41.97,57.2a9.33,9.33,0,0,0-2.44,4.32l-2.19,8.72a7,7,0,0,0,.2,4.03H9.28A9.28,9.28,0,0,1,0,64.99Zm37.14,9.28V0L55.71,18.57H37.14Zm44.7,17.71a5.794,5.794,0,0,1,.03,8.19l-.03.03-4.26,4.26L67.29,38.45l4.26-4.26a5.818,5.818,0,0,1,8.21,0l2.07,2.09ZM45.25,60.35,63.99,41.74l10.3,10.28L55.55,70.76a4.665,4.665,0,0,1-2.16,1.22l-8.72,2.19a2.377,2.377,0,0,1-2.21-.61,2.455,2.455,0,0,1-.61-2.34l2.18-8.6a5.866,5.866,0,0,1,1.22-2.28h0Z" transform="translate(15.795 20.08)" fill="#a2b5b3"/>
+                    </g>
+                </svg></div>`);
+
+        }
+
+        $.getJSON('/Content/js/homeList.json', function (data) {
+            compList = data;
+        }).done(function () {
+            buildComponents();
+        });
+    });
+</script>
+
+<div class="compList gridRes"></div>

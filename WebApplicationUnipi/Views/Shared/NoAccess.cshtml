@@ -1,0 +1,14 @@
+﻿@{
+    Layout = "~/Views/Shared/_ErrorLayout.cshtml";
+
+
+}
+<div class="no-access error-page">
+
+    <div class="line">
+        <div class="line-big">No authorization found.</div>
+        <div class="line-sm">This page is not publicly available.</div>
+        <div class="line-sm">To access it please login first.</div>
+    </div>
+    @Html.ActionLink("Back to home page", "Index", "Home", null, new { @class = "goHome" })
+</div>

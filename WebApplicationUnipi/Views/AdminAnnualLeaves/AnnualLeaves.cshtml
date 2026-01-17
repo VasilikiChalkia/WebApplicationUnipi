@@ -1,0 +1,86 @@
+﻿@model List<WebApplicationUnipi.Models.MyApplicationUnipi.HR_Employee>
+
+@{
+    ViewBag.Title = "Admin Annual Leaves";
+
+    // Get variables from session and ViewData
+    var PrimeList = (List<int>)Session["UserRights"];
+    bool hasFullPrivs = PrimeList.Contains((int)WebApplicationUnipi.Models.Enums.Privileges.HR_Admin);
+
+    var usrID = (int)Session["UserId"];
+
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="gridBg lfAlg rgAlg annual">
+    <h3>Annual Leaves</h3>
+
+    <div class="tab">
+        <button id="1" class="xtab sessionUpdate active">Requests</button>
+        <button id="2" class="xtab sessionUpdate">Approved Leaves per month</button>
+        <button id="3" class="xtab sessionUpdate">Approved Leaves per employee</button>
+        <button id="4" class="xtab sessionUpdate">Rejected Leaves per month</button>
+        <button id="5" class="xtab sessionUpdate">Cancelled Leaves</button>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        <div class="target panel panel-1">
+            @Html.Action("LeavesRequestsGridViewPartial")
+        </div>
+        <div class="target panel panel-2" style="transform: translate(100vw,0)"></div>
+        <div class="target panel panel-3" style="transform: translate(100vw,0)"></div>
+        <div class="target panel panel-4" style="transform: translate(100vw,0)"></div>
+        <div class="target panel panel-5" style="transform: translate(100vw,0)"></div>
+    }
+
+    @Html.Partial("../ReturnedMessage/_ReturnedMessage", TempData["msgToRtrn"]?.ToString())
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('form').submit(function () {
+            $(this).find('input[type="submit"]').attr('disabled', 'disabled');
+        });
+
+        $('.xtab').on("click", function (evt) {
+            if (evt.target.classList.contains("active")) return;
+
+            $(".loader").addClass("shown");
+            let tab = evt.target.id;
+            let prev = $(".xtab.active").attr("id");
+
+            let dir = prev > tab ? -1 : 1;
+
+            let xurl;
+            if (tab == "1")
+                xurl = "../AdminAnnualLeaves/LeavesRequestsGridViewPartial";
+            else if (tab == "2")
+                xurl = "../AdminAnnualLeaves/LeavesPerMonth";
+            else if (tab == "3")
+                xurl = "../AdminAnnualLeaves/LeavesPerEmployee";
+            else if (tab == "4")
+                xurl = "../AdminAnnualLeaves/RejectedLeavesPerMonth";
+            else
+                xurl = "../AdminAnnualLeaves/CancelledLeaves";
+
+
+            $.get(xurl)
+                .done(function (data) {
+                    underlineMove(tab);
+                    $(".loader").removeClass("shown");
+                    $(`.target.panel-${tab}`).css("transform", `translate(calc(${dir}*100vw),0)`);
+                    $(`.target.panel-${tab}`).css("display", "block");
+                    setTimeout(() => {
+                        $(`.target.panel-${tab}`).html(data).css("transform", "unset");
+                        $(`.target.panel-${tab}`).find(".dx.dxm-image-l").on("click", escapeBeforeUnload);
+                    }, 10);
+                    $(`.target.panel-${prev}`).html("").css({ "display": "none" });
+
+                    $('.xtab').removeClass("active");
+                    $(`#${tab}`).addClass("active");
+                });
+        });
+    });
+</script>

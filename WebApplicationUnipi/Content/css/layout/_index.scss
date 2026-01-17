@@ -1,0 +1,105 @@
+﻿@import 'header',
+        'breadcrumbs',
+        'popUp',
+        'submenu',
+        'forms',
+        'tabs',
+        'error',
+        'footer',
+        'iframe';
+
+
+.loader {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background-color: rgba(0 0 0 /0.75);
+    backdrop-filter: blur(1.2px);
+    user-select: none;
+    pointer-events: none;
+    display: flex;
+    opacity: 0;
+    align-items: center;
+    justify-content: center;
+    padding-inline: 1em;
+    transition: opacity 200ms ease;
+
+    &.shown {
+        pointer-events: initial;
+        opacity: 1;
+    }
+
+    &__svgContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        outline: min(0.5vw,2px) solid #93c47d;
+        border-radius: min(3vw,10px);
+        background-color: rgb(15 15 15);
+        padding-block: 1em;
+        width: clamp(150px,33vw,350px);
+        overflow: hidden;
+        aspect-ratio: 1.2/1;
+
+        svg {
+            circle {
+                --measure: 14px;
+            }
+
+            @for $i from 1 through 4 {
+                .c#{$i} {
+                    animation: wave 1200ms linear calc(-#{$i}*250ms) infinite;
+                }
+            }
+        }
+
+        span {
+            position: relative;
+            font-size: clamp(16px,4vw,34px);
+            color: rgba(255 255 255 /0.9);
+
+
+            &:after {
+                content: "";
+                position: absolute;
+                width: 1ch;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                background-color: rgb(15 15 15);
+                animation: dotsPopInOut 1500ms steps(4) infinite;
+            }
+        }
+    }
+}
+
+
+@keyframes wave {//for svg circles in loader
+    0% {
+        translate: 0 0;
+    }
+
+    25% {
+        translate: 0 var(--measure);
+    }
+
+    50% {
+        translate: 0 0;
+    }
+
+    75% {
+        translate: 0 calc((-1) * var(--measure));
+    }
+
+    100% {
+        translate: 0 0;
+    }
+}
+@keyframes dotsPopInOut {//for "Loading..." dots in loader
+    from {
+        translate: 0 0;
+    }
+    to{
+        translate:133% 0;
+    }
+}

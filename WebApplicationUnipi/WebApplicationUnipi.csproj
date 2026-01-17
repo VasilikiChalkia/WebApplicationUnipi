@@ -1,0 +1,681 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" />
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1B49839C-E574-43C1-B66E-856486A88912}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WebApplicationUnipi</RootNamespace>
+    <AssemblyName>WebApplicationUnipi</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Charts.v17.2.Core, Version=17.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\DevExpress.Charts.v17.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Data.v17.2, Version=17.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\DevExpress.Data.v17.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Docs.v17.2, Version=17.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\DevExpress.Docs.v17.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Office.v17.2.Core, Version=17.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\DevExpress.Office.v17.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Pdf.v17.2.Core, Version=17.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\DevExpress.Pdf.v17.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.PivotGrid.v17.2.Core, Version=17.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\DevExpress.PivotGrid.v17.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Printing.v17.2.Core, Version=17.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\DevExpress.Printing.v17.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.RichEdit.v17.2.Core, Version=17.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\DevExpress.RichEdit.v17.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.RichEdit.v17.2.Export, Version=17.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\DevExpress.RichEdit.v17.2.Export.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Sparkline.v17.2.Core, Version=17.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\DevExpress.Sparkline.v17.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Spreadsheet.v17.2.Core, Version=17.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\DevExpress.Spreadsheet.v17.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Utils.v17.2, Version=17.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\DevExpress.Utils.v17.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Web.ASPxThemes.v17.2, Version=17.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\DevExpress.Web.ASPxThemes.v17.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Web.Mvc5.v17.2, Version=17.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\DevExpress.Web.Mvc5.v17.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Web.v17.2, Version=17.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\DevExpress.Web.v17.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraCharts.v17.2, Version=17.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\DevExpress.XtraCharts.v17.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraGauges.v17.2.Core, Version=17.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\DevExpress.XtraGauges.v17.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports.v17.2, Version=17.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\DevExpress.XtraReports.v17.2.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Cryptography.Internal, Version=6.0.30.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Cryptography.Internal.6.0.30\lib\net461\Microsoft.AspNetCore.Cryptography.Internal.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation, Version=6.0.30.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Cryptography.KeyDerivation.6.0.30\lib\net461\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MvcSiteMapProvider, Version=4.6.26.0, Culture=neutral, PublicKeyToken=1923abe4657913cc, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvcSiteMapProvider.MVC5.Core.4.6.26\lib\net45\MvcSiteMapProvider.dll</HintPath>
+    </Reference>
+    <Reference Include="MvcSiteMapProvider.WebActivator, Version=4.6.26.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvcSiteMapProvider.MVC5.4.6.26\lib\net45\MvcSiteMapProvider.WebActivator.dll</HintPath>
+    </Reference>
+    <Reference Include="Nager.Date, Version=1.32.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nager.Date.1.32.0\lib\netstandard2.0\Nager.Date.dll</HintPath>
+    </Reference>
+    <Reference Include="Nager.LicenseSystem, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nager.LicenseSystem.1.1.0\lib\netstandard2.0\Nager.LicenseSystem.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json.Bson, Version=1.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.Bson.1.0.2\lib\net45\Newtonsoft.Json.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.5.3.4\lib\net46\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.6.0.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.3.0\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.3.0\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.4\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebActivatorEx.2.0.1\lib\net40\WebActivatorEx.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdminAnnualLeavesController.cs" />
+    <Compile Include="Controllers\AllEmployeesViewController.cs" />
+    <Compile Include="Controllers\EntryButtonsController.cs" />
+    <Compile Include="Controllers\ForgotPassController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\MyProfileController.cs" />
+    <Compile Include="Controllers\PrivacyController.cs" />
+    <Compile Include="Controllers\RegistrationController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\All_Employees_Custom.cs" />
+    <Compile Include="Models\AnnualLeaves\CustomLeaves.cs" />
+    <Compile Include="Models\Enums\Contracts.cs" />
+    <Compile Include="Models\Enums\ContractsStatus.cs" />
+    <Compile Include="Models\Enums\Days.cs" />
+    <Compile Include="Models\Enums\LeavesRequestStatus.cs" />
+    <Compile Include="Models\Enums\LeaveTypes.cs" />
+    <Compile Include="Models\Enums\Privileges.cs" />
+    <Compile Include="Models\Enums\Status.cs" />
+    <Compile Include="Models\MyApplicationUnipi\All_Employees_View.cs">
+      <DependentUpon>MyApplicationUnipi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MyApplicationUnipi\AnnualLeaves.cs">
+      <DependentUpon>MyApplicationUnipi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MyApplicationUnipi\AnnualLeavesContractsView.cs">
+      <DependentUpon>MyApplicationUnipi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MyApplicationUnipi\Attributes.cs">
+      <DependentUpon>MyApplicationUnipi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MyApplicationUnipi\Attributes_Values.cs">
+      <DependentUpon>MyApplicationUnipi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MyApplicationUnipi\Contract_Details.cs">
+      <DependentUpon>MyApplicationUnipi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MyApplicationUnipi\Contract_Templates.cs">
+      <DependentUpon>MyApplicationUnipi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MyApplicationUnipi\Contract_Template_Details.cs">
+      <DependentUpon>MyApplicationUnipi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MyApplicationUnipi\Daysoff.cs">
+      <DependentUpon>MyApplicationUnipi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MyApplicationUnipi\Employee_Contracts.cs">
+      <DependentUpon>MyApplicationUnipi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MyApplicationUnipi\Employee_Details.cs">
+      <DependentUpon>MyApplicationUnipi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MyApplicationUnipi\HR_Department.cs">
+      <DependentUpon>MyApplicationUnipi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MyApplicationUnipi\HR_Employee.cs">
+      <DependentUpon>MyApplicationUnipi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MyApplicationUnipi\HR_Employee_Contract.cs">
+      <DependentUpon>MyApplicationUnipi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MyApplicationUnipi\HR_Position.cs">
+      <DependentUpon>MyApplicationUnipi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MyApplicationUnipi\LeaveRequestsFiles.cs">
+      <DependentUpon>MyApplicationUnipi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MyApplicationUnipi\LeavesDayChanges.cs">
+      <DependentUpon>MyApplicationUnipi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MyApplicationUnipi\LeavesRequests.cs">
+      <DependentUpon>MyApplicationUnipi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MyApplicationUnipi\LeavesRequestsResponse.cs">
+      <DependentUpon>MyApplicationUnipi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MyApplicationUnipi\MyApplicationUnipi.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MyApplicationUnipi.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MyApplicationUnipi\MyApplicationUnipi.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MyApplicationUnipi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MyApplicationUnipi\MyApplicationUnipi.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MyApplicationUnipi.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MyApplicationUnipi\sysdiagrams.cs">
+      <DependentUpon>MyApplicationUnipi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MyApplicationUnipi\User.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Factories\DirGet.cs" />
+    <Compile Include="Services\Factories\EnumExtensions.cs" />
+    <Compile Include="Services\Factories\LeaveSystemService.cs" />
+    <Compile Include="Services\Factories\MyLogger.cs" />
+    <Compile Include="Services\Factories\UserAuth.cs" />
+    <Compile Include="Services\Interfaces\ILogger.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Antlr3.Runtime.dll" />
+    <Content Include="bin\DevExpress.Charts.v17.2.Core.dll" />
+    <Content Include="bin\DevExpress.Data.v17.2.dll" />
+    <Content Include="bin\DevExpress.Docs.v17.2.dll" />
+    <Content Include="bin\DevExpress.Office.v17.2.Core.dll" />
+    <Content Include="bin\DevExpress.Pdf.v17.2.Core.dll" />
+    <Content Include="bin\DevExpress.PivotGrid.v17.2.Core.dll" />
+    <Content Include="bin\DevExpress.Printing.v17.2.Core.dll" />
+    <Content Include="bin\DevExpress.RichEdit.v17.2.Core.dll" />
+    <Content Include="bin\DevExpress.RichEdit.v17.2.Export.dll" />
+    <Content Include="bin\DevExpress.Sparkline.v17.2.Core.dll" />
+    <Content Include="bin\DevExpress.Spreadsheet.v17.2.Core.dll" />
+    <Content Include="bin\DevExpress.Utils.v17.2.dll" />
+    <Content Include="bin\DevExpress.Web.ASPxThemes.v17.2.dll" />
+    <Content Include="bin\DevExpress.Web.Mvc5.v17.2.dll" />
+    <Content Include="bin\DevExpress.Web.v17.2.dll" />
+    <Content Include="bin\DevExpress.XtraCharts.v17.2.dll" />
+    <Content Include="bin\DevExpress.XtraGauges.v17.2.Core.dll" />
+    <Content Include="bin\DevExpress.XtraReports.v17.2.dll" />
+    <Content Include="bin\EntityFramework.dll" />
+    <Content Include="bin\EntityFramework.SqlServer.dll" />
+    <Content Include="bin\Microsoft.AspNetCore.Cryptography.Internal.dll" />
+    <Content Include="bin\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll" />
+    <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" />
+    <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml" />
+    <Content Include="bin\Microsoft.Web.Infrastructure.dll" />
+    <Content Include="bin\MvcSiteMapProvider.dll" />
+    <Content Include="bin\MvcSiteMapProvider.WebActivator.dll" />
+    <Content Include="bin\Nager.Date.dll" />
+    <Content Include="bin\Nager.LicenseSystem.dll" />
+    <Content Include="bin\Newtonsoft.Json.Bson.dll" />
+    <Content Include="bin\Newtonsoft.Json.dll" />
+    <Content Include="bin\NLog.dll" />
+    <Content Include="bin\System.Buffers.dll" />
+    <Content Include="bin\System.Memory.dll" />
+    <Content Include="bin\System.Net.Http.Formatting.dll" />
+    <Content Include="bin\System.Numerics.Vectors.dll" />
+    <Content Include="bin\System.Runtime.CompilerServices.Unsafe.dll" />
+    <Content Include="bin\System.Threading.Tasks.Extensions.dll" />
+    <Content Include="bin\System.Web.Helpers.dll" />
+    <Content Include="bin\System.Web.Http.dll" />
+    <Content Include="bin\System.Web.Http.WebHost.dll" />
+    <Content Include="bin\System.Web.Mvc.dll" />
+    <Content Include="bin\System.Web.Optimization.dll" />
+    <Content Include="bin\System.Web.Razor.dll" />
+    <Content Include="bin\System.Web.WebPages.Deployment.dll" />
+    <Content Include="bin\System.Web.WebPages.dll" />
+    <Content Include="bin\System.Web.WebPages.Razor.dll" />
+    <Content Include="bin\WebActivatorEx.dll" />
+    <Content Include="bin\WebApplicationUnipi.dll" />
+    <Content Include="bin\WebApplicationUnipi.pdb" />
+    <Content Include="bin\WebGrease.dll" />
+    <Content Include="Content\css\bootstrap-clockpicker.min.css" />
+    <Content Include="Content\css\bootstrap-theme.css" />
+    <Content Include="Content\css\bootstrap-theme.min.css" />
+    <Content Include="Content\css\bootstrap.css" />
+    <Content Include="Content\css\bootstrap.min.css" />
+    <Content Include="Content\css\categories\_annualLeave.css" />
+    <Content Include="Content\css\categories\_annualLeave.min.css" />
+    <Content Include="Content\css\categories\_homeMenu.css" />
+    <Content Include="Content\css\categories\_homeMenu.min.css" />
+    <Content Include="Content\css\general\_variables.css" />
+    <Content Include="Content\css\general\_variables.min.css" />
+    <Content Include="Content\css\hubStyle.css" />
+    <Content Include="Content\css\hubStyle.min.css" />
+    <Content Include="Content\css\Site.css" />
+    <Content Include="Content\images\addIcon.svg" />
+    <Content Include="Content\images\awesomeCheck.svg" />
+    <Content Include="Content\images\beta_tag.svg" />
+    <Content Include="Content\images\bluegreen.svg" />
+    <Content Include="Content\images\caret-down.svg" />
+    <Content Include="Content\images\caret-up.svg" />
+    <Content Include="Content\images\checkbox-tick.svg" />
+    <Content Include="Content\images\cog-solid.svg" />
+    <Content Include="Content\images\DeleteIcon.svg" />
+    <Content Include="Content\images\door-closed-solid.svg" />
+    <Content Include="Content\images\door-open-solid.svg" />
+    <Content Include="Content\images\error401.png" />
+    <Content Include="Content\images\error404.png" />
+    <Content Include="Content\images\exclamation.svg" />
+    <Content Include="Content\images\file-export-solid.svg" />
+    <Content Include="Content\images\grey.svg" />
+    <Content Include="Content\images\hoverUploadIcon.svg" />
+    <Content Include="Content\images\link-icon.svg" />
+    <Content Include="Content\images\loading.png" />
+    <Content Include="Content\images\logout.svg" />
+    <Content Include="Content\images\maintenance.png" />
+    <Content Include="Content\images\pink.svg" />
+    <Content Include="Content\images\plus-solid.svg" />
+    <Content Include="Content\images\profile.svg" />
+    <Content Include="Content\images\required.svg" />
+    <Content Include="Content\images\trash-solid.svg" />
+    <Content Include="Content\js\bootstrap-clockpicker.min.js" />
+    <Content Include="Content\js\bootstrap.js" />
+    <Content Include="Content\js\bootstrap.min.js" />
+    <Content Include="Content\js\hubScripts.js" />
+    <None Include="Content\js\jquery-3.3.1.intellisense.js" />
+    <Content Include="Content\js\jquery-3.3.1.js" />
+    <Content Include="Content\js\jquery-3.3.1.min.js" />
+    <Content Include="Content\js\jquery-3.3.1.slim.js" />
+    <Content Include="Content\js\jquery-3.3.1.slim.min.js" />
+    <None Include="Content\js\jquery.validate-vsdoc.js" />
+    <Content Include="Content\js\jquery.validate.js" />
+    <Content Include="Content\js\jquery.validate.min.js" />
+    <Content Include="Content\js\jquery.validate.unobtrusive.js" />
+    <Content Include="Content\js\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Content\js\modernizr-2.8.3.js" />
+    <Content Include="Content\js\myWorker.js" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\poppins-semibold-webfont.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Models\MyApplicationUnipi\InsertSvgImages.sql" />
+    <Content Include="Models\MyApplicationUnipi\MyApplicationUnipi.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>MyApplicationUnipi.edmx</DependentUpon>
+      <LastGenOutput>MyApplicationUnipi.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\MyApplicationUnipi\MyApplicationUnipi.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>MyApplicationUnipi.edmx</DependentUpon>
+      <LastGenOutput>MyApplicationUnipi.cs</LastGenOutput>
+    </Content>
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <EntityDeploy Include="Models\MyApplicationUnipi\MyApplicationUnipi.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>MyApplicationUnipi.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\MyApplicationUnipi\MyApplicationUnipi.edmx.diagram">
+      <DependentUpon>MyApplicationUnipi.edmx</DependentUpon>
+    </Content>
+    <Content Include="Content\css\bootstrap-theme.css.map" />
+    <Content Include="Content\css\bootstrap-theme.min.css.map" />
+    <Content Include="Content\css\bootstrap.css.map" />
+    <Content Include="Content\css\bootstrap.min.css.map" />
+    <Content Include="Content\css\categories\_annualLeave.scss" />
+    <Content Include="Content\css\categories\_employee.scss" />
+    <Content Include="Content\css\categories\_homeMenu.scss" />
+    <Content Include="Content\css\categories\_index.scss" />
+    <Content Include="Content\css\categories\_login.scss" />
+    <Content Include="Content\css\categories\_profile.scss" />
+    <Content Include="Content\css\categories\_sidemenu.scss" />
+    <Content Include="Content\css\categories\_updates.scss" />
+    <Content Include="Content\css\general\_buttons.scss" />
+    <Content Include="Content\css\general\_date.scss" />
+    <Content Include="Content\css\general\_grid.scss" />
+    <Content Include="Content\css\general\_index.scss" />
+    <Content Include="Content\css\general\_messages.scss" />
+    <Content Include="Content\css\general\_variables.scss" />
+    <Content Include="Content\css\hubStyle.scss" />
+    <Content Include="Content\css\layout\_breadcrumbs.scss" />
+    <Content Include="Content\css\layout\_error.scss" />
+    <Content Include="Content\css\layout\_footer.scss" />
+    <Content Include="Content\css\layout\_forms.scss" />
+    <Content Include="Content\css\layout\_header.scss" />
+    <Content Include="Content\css\layout\_iframe.scss" />
+    <Content Include="Content\css\layout\_index.scss" />
+    <Content Include="Content\css\layout\_maintenance.scss" />
+    <Content Include="Content\css\layout\_popUp.scss" />
+    <Content Include="Content\css\layout\_submenu.scss" />
+    <Content Include="Content\css\layout\_tabs.scss" />
+    <Content Include="Content\js\homeList.json" />
+    <Content Include="Content\js\jquery-3.3.1.min.map" />
+    <Content Include="Content\js\jquery-3.3.1.slim.min.map" />
+    <Content Include="fonts\poppins-semibold-webfont.eot" />
+    <Content Include="fonts\poppins-semibold-webfont.ttf" />
+    <Content Include="fonts\poppins-semibold-webfont.woff" />
+    <Content Include="fonts\poppins-semibold-webfont.woff2" />
+    <Content Include="Mvc.sitemap" />
+    <None Include="MvcSiteMapSchema.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.4.1.js" />
+    <Content Include="Scripts\jquery-3.4.1.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\AdminAnnualLeaves\AdminLeaves.cshtml" />
+    <Content Include="Views\AdminAnnualLeaves\AnnualLeaves.cshtml" />
+    <Content Include="Views\AdminAnnualLeaves\ApprovedLeavesRequestsGridViewPartial.cshtml" />
+    <Content Include="Views\AdminAnnualLeaves\CancelledLeavesGridViewPartial.cshtml" />
+    <Content Include="Views\AdminAnnualLeaves\_ApprovedLeavesPerEmployeeGridViewPartial.cshtml" />
+    <Content Include="Views\AdminAnnualLeaves\_CancelledLeaves.cshtml" />
+    <Content Include="Views\AdminAnnualLeaves\_LeavesPerEmployee.cshtml" />
+    <Content Include="Views\AdminAnnualLeaves\_LeavesPerMonth.cshtml" />
+    <Content Include="Views\AdminAnnualLeaves\_LeavesRequestsGridViewPartial.cshtml" />
+    <Content Include="Views\AdminAnnualLeaves\_LeavesRequestsMoreDetails.cshtml" />
+    <Content Include="Views\AdminAnnualLeaves\_RejectedLeavesPerMonth.cshtml" />
+    <Content Include="Views\AdminAnnualLeaves\_RejectedLeavesRequestsGridViewPartial.cshtml" />
+    <Content Include="Views\AllEmployeesView\CompanyEmployees.cshtml" />
+    <Content Include="Views\AllEmployeesView\Index.cshtml" />
+    <Content Include="Views\AllEmployeesView\MoreDetailsEmployee.cshtml" />
+    <Content Include="Views\AllEmployeesView\_AnnualLeavesPerEmployee.cshtml" />
+    <Content Include="Views\AllEmployeesView\_ApprovedAnnualLeavesMoreDetails.cshtml" />
+    <Content Include="Views\AllEmployeesView\_ApprovedLeavesGridViewPartial.cshtml" />
+    <Content Include="Views\AllEmployeesView\_ApprovedLeavesperYear.cshtml" />
+    <Content Include="Views\AllEmployeesView\_CardViewPartialMoreDetails.cshtml" />
+    <Content Include="Views\AllEmployeesView\_FetchPersonalInfo.cshtml" />
+    <Content Include="Views\AllEmployeesView\_GridViewIndexPartial.cshtml" />
+    <Content Include="Views\AllEmployeesView\_GridViewPartialAnnualLeaves.cshtml" />
+    <Content Include="Views\AllEmployeesView\_GridViewPartialContracts.cshtml" />
+    <Content Include="Views\EntryButtons\Index.cshtml" />
+    <Content Include="Views\EntryButtons\_DaysOffGridViewPartial.cshtml" />
+    <Content Include="Views\EntryButtons\_GridView1Partial.cshtml" />
+    <Content Include="Views\EntryButtons\_GridViewPartial.cshtml" />
+    <Content Include="Views\EntryButtons\_RolesGridViewPartial.cshtml" />
+    <Content Include="Views\EntryButtons\_SpecialtiesGridViewPartial.cshtml" />
+    <Content Include="Views\ForgotPass\ErrorPage.cshtml" />
+    <Content Include="Views\ForgotPass\ForgotPassword.cshtml" />
+    <Content Include="Views\ForgotPass\ResetPassword.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\MyProfile\DaysOffGridViewPartial.cshtml" />
+    <Content Include="Views\MyProfile\Index.cshtml" />
+    <Content Include="Views\MyProfile\MyAnnualLeave.cshtml" />
+    <Content Include="Views\MyProfile\MyApprovedLeavesGridViewPartial.cshtml" />
+    <Content Include="Views\MyProfile\MyCancelledLeaveRequestGridViewPartial.cshtml" />
+    <Content Include="Views\MyProfile\MyLeaveRequestsGridViewPartial.cshtml" />
+    <Content Include="Views\MyProfile\MyRejectedLeavesGridViewPartial.cshtml" />
+    <Content Include="Views\MyProfile\NewLeaveRequestPartial.cshtml" />
+    <Content Include="Views\MyProfile\RemainingDaysPartial.cshtml" />
+    <Content Include="Views\MyProfile\UploadLeaveRequestFile.cshtml" />
+    <Content Include="Views\MyProfile\_DaysOffGridViewPartial.cshtml" />
+    <Content Include="Views\Privacy\Index.cshtml" />
+    <Content Include="Views\Registration\ActivatePassword.cshtml" />
+    <Content Include="Views\Registration\UserRegister.cshtml" />
+    <Content Include="Views\ReturnedMessage\_ReturnedMessage.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\CanonicalHelperModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\MenuHelperModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\MetaRobotsHelperModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\SiteMapHelperModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\SiteMapNodeModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\SiteMapNodeModelList.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\SiteMapPathHelperModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\SiteMapTitleHelperModel.cshtml" />
+    <Content Include="Views\Shared\Maintenance.cshtml" />
+    <Content Include="Views\Shared\NoAccess.cshtml" />
+    <Content Include="Views\Shared\_ErrorLayout.cshtml" />
+    <Content Include="Views\AdminAnnualLeaves\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <None Include="packages.config" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>49778</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:49778/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\BuildWebCompiler2022.1.14.10\build\BuildWebCompiler2022.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\BuildWebCompiler2022.1.14.10\build\BuildWebCompiler2022.targets'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\BuildWebCompiler2022.1.14.10\build\BuildWebCompiler2022.targets" Condition="Exists('..\packages\BuildWebCompiler2022.1.14.10\build\BuildWebCompiler2022.targets')" />
+  <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

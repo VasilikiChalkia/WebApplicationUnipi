@@ -1,0 +1,16 @@
+﻿@{
+    Layout = "~/Views/Shared/_ErrorLayout.cshtml";
+
+
+}
+<div class="error-page error-404">
+    <div>
+        <div class="line">
+            <div class="line-big">Oops!</div>
+            <div class="line-big">Something went wrong...</div>
+            <div class="line-sm">Here's what you can do</div>
+        </div>
+    </div>
+    @Html.ActionLink("Back to home page", "Index", "Home", null, new { @class = "goHome" })
+</div>
+

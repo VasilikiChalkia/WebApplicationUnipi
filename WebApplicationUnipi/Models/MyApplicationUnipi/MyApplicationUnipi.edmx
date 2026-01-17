@@ -1,0 +1,1398 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MyApplicationUnipi.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AnnualLeaves">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ContractId" Type="int" />
+          <Property Name="Year" Type="smallint" />
+          <Property Name="AnnualSum" Type="tinyint" />
+          <Property Name="Available" Type="tinyint" />
+          <Property Name="Status" Type="tinyint" />
+          <Property Name="LeaveType" Type="int" />
+        </EntityType>
+        <EntityType Name="Attributes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Attributes_Values">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="User_Id" Type="int" Nullable="false" />
+          <Property Name="Attribute_Id" Type="int" Nullable="false" />
+          <Property Name="Status" Type="int" />
+        </EntityType>
+        <EntityType Name="Contract_Details">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="HREmployeeContract_Id" Type="int" />
+          <Property Name="Day" Type="nvarchar" MaxLength="50" />
+          <Property Name="Hours" Type="decimal" Precision="4" Scale="2" />
+          <Property Name="Status" Type="tinyint" />
+          <Property Name="Contract_Templ_Id" Type="int" />
+        </EntityType>
+        <EntityType Name="Contract_Template_Details">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Template_Id" Type="int" />
+          <Property Name="Day" Type="nvarchar" MaxLength="50" />
+          <Property Name="Hours" Type="decimal" Precision="4" Scale="2" />
+          <Property Name="Status" Type="tinyint" />
+        </EntityType>
+        <EntityType Name="Contract_Templates">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Status" Type="tinyint" />
+        </EntityType>
+        <EntityType Name="Daysoff">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="datetime" />
+          <Property Name="Desc" Type="nvarchar" MaxLength="200" />
+          <Property Name="Status" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HR_Department">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Department_Name" Type="nvarchar" MaxLength="200" />
+          <Property Name="Status" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HR_Employee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Department_Id" Type="int" />
+          <Property Name="Position_Id" Type="int" />
+          <Property Name="Employee_Fname" Type="nvarchar" MaxLength="200" />
+          <Property Name="Employee_Lname" Type="nvarchar" MaxLength="200" />
+          <Property Name="Password" Type="nvarchar" MaxLength="150" />
+          <Property Name="Privileges_Num" Type="nvarchar" MaxLength="50" />
+          <Property Name="Status" Type="int" />
+          <Property Name="Personal_Email" Type="nvarchar" MaxLength="200" />
+          <Property Name="Home_Address" Type="nvarchar" MaxLength="200" />
+          <Property Name="Personal_Mobile_Number" Type="nvarchar" MaxLength="50" />
+          <Property Name="Birth_Date" Type="varchar" MaxLength="50" />
+          <Property Name="Transportation" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="HR_Employee_Contract">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Employee_Id" Type="int" />
+          <Property Name="Description" Type="tinyint" />
+          <Property Name="Start_Date" Type="datetime" />
+          <Property Name="End_Date" Type="datetime" />
+          <Property Name="Status" Type="int" />
+          <Property Name="Role" Type="int" />
+          <Property Name="Daily_Working_Hours" Type="decimal" Precision="4" Scale="2" />
+        </EntityType>
+        <EntityType Name="HR_Position">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Position_Name" Type="nvarchar" MaxLength="200" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="Type" Type="int" />
+        </EntityType>
+        <EntityType Name="LeaveRequestsFiles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LeaveRequest_Id" Type="int" />
+          <Property Name="FileName" Type="nvarchar" MaxLength="250" />
+          <Property Name="FileExtension" Type="nvarchar" MaxLength="50" />
+          <Property Name="BinaryData" Type="varbinary(max)" />
+          <Property Name="DateUploaded" Type="datetime" />
+          <Property Name="Status" Type="tinyint" />
+        </EntityType>
+        <EntityType Name="LeavesDayChanges">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AnnualLeavesID" Type="int" />
+          <Property Name="LeavesRequestID" Type="int" />
+          <Property Name="AmountRemoved" Type="tinyint" />
+          <Property Name="Date" Type="datetime" />
+          <Property Name="Status" Type="tinyint" />
+        </EntityType>
+        <EntityType Name="LeavesRequests">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeId" Type="int" />
+          <Property Name="DateFrom" Type="datetime" />
+          <Property Name="DateTo" Type="datetime" />
+          <Property Name="TypeOfLeave" Type="tinyint" />
+          <Property Name="AmountRequested" Type="tinyint" />
+          <Property Name="Comments" Type="nvarchar" MaxLength="300" />
+          <Property Name="Status" Type="tinyint" />
+          <Property Name="DateCreated" Type="datetime" />
+        </EntityType>
+        <EntityType Name="LeavesRequestsResponse">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LeavesReqId" Type="int" />
+          <Property Name="EmployeeId" Type="int" />
+          <Property Name="DateOfResponse" Type="datetime" />
+          <Property Name="Status" Type="tinyint" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MyApplicationUnipi.dbo.All_Employees_View' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="All_Employees_View">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Department_Id" Type="int" />
+          <Property Name="Position_Id" Type="int" />
+          <Property Name="Employee_Fname" Type="nvarchar" MaxLength="200" />
+          <Property Name="Employee_Lname" Type="nvarchar" MaxLength="200" />
+          <Property Name="Password" Type="nvarchar" MaxLength="150" />
+          <Property Name="Privileges_Num" Type="nvarchar" MaxLength="50" />
+          <Property Name="Status" Type="int" />
+          <Property Name="Birth_Date" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MyApplicationUnipi.dbo.AnnualLeavesContractsView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="AnnualLeavesContractsView">
+          <Key>
+            <PropertyRef Name="AnnualLeavesId" />
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="AnnualLeavesId" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Employee_Id" Type="int" />
+          <Property Name="Description" Type="tinyint" />
+          <Property Name="Start_Date" Type="datetime" />
+          <Property Name="End_Date" Type="datetime" />
+          <Property Name="ContractStatus" Type="int" />
+          <Property Name="Year" Type="smallint" />
+          <Property Name="AnnualSum" Type="tinyint" />
+          <Property Name="Available" Type="tinyint" />
+          <Property Name="Status" Type="tinyint" />
+          <Property Name="LeaveType" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MyApplicationUnipi.dbo.Employee_Contracts' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Employee_Contracts">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Expr1" Type="int" />
+          <Property Name="Employee_Id" Type="int" />
+          <Property Name="Employee_Fname" Type="nvarchar" MaxLength="200" />
+          <Property Name="Employee_Lname" Type="nvarchar" MaxLength="200" />
+          <Property Name="Start_Date" Type="datetime" />
+          <Property Name="End_Date" Type="datetime" />
+          <Property Name="Employee_Status" Type="int" />
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Daily_Working_Hours" Type="decimal" Precision="4" Scale="2" />
+          <Property Name="Description" Type="tinyint" />
+          <Property Name="Contract_Status" Type="int" />
+          <Property Name="Role" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MyApplicationUnipi.dbo.Employee_Details' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Employee_Details">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Employee_Fname" Type="nvarchar" MaxLength="200" />
+          <Property Name="Employee_Lname" Type="nvarchar" MaxLength="200" />
+          <Property Name="Privileges_Num" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK__LeavesReq__Leave__160F4887">
+          <End Role="LeavesRequests" Type="Self.LeavesRequests" Multiplicity="0..1" />
+          <End Role="LeavesRequestsResponse" Type="Self.LeavesRequestsResponse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LeavesRequests">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LeavesRequestsResponse">
+              <PropertyRef Name="LeavesReqId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AnnualLeaves_HR_Employee_Contract">
+          <End Role="HR_Employee_Contract" Type="Self.HR_Employee_Contract" Multiplicity="0..1" />
+          <End Role="AnnualLeaves" Type="Self.AnnualLeaves" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HR_Employee_Contract">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AnnualLeaves">
+              <PropertyRef Name="ContractId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Attributes_Values_Attributes">
+          <End Role="Attributes" Type="Self.Attributes" Multiplicity="1" />
+          <End Role="Attributes_Values" Type="Self.Attributes_Values" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Attributes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Attributes_Values">
+              <PropertyRef Name="Attribute_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Attributes_Values_HR_Employee">
+          <End Role="HR_Employee" Type="Self.HR_Employee" Multiplicity="1" />
+          <End Role="Attributes_Values" Type="Self.Attributes_Values" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HR_Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Attributes_Values">
+              <PropertyRef Name="User_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contract_Details_Contract_Templates">
+          <End Role="Contract_Templates" Type="Self.Contract_Templates" Multiplicity="0..1" />
+          <End Role="Contract_Details" Type="Self.Contract_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contract_Templates">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contract_Details">
+              <PropertyRef Name="Contract_Templ_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contract_Details_HREmployee_Contract">
+          <End Role="HR_Employee_Contract" Type="Self.HR_Employee_Contract" Multiplicity="0..1" />
+          <End Role="Contract_Details" Type="Self.Contract_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HR_Employee_Contract">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contract_Details">
+              <PropertyRef Name="HREmployeeContract_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contract_Templates_Contract_Templ_Details">
+          <End Role="Contract_Templates" Type="Self.Contract_Templates" Multiplicity="0..1" />
+          <End Role="Contract_Template_Details" Type="Self.Contract_Template_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contract_Templates">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contract_Template_Details">
+              <PropertyRef Name="Template_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Files_LeavesRequests">
+          <End Role="LeavesRequests" Type="Self.LeavesRequests" Multiplicity="0..1" />
+          <End Role="LeaveRequestsFiles" Type="Self.LeaveRequestsFiles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LeavesRequests">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LeaveRequestsFiles">
+              <PropertyRef Name="LeaveRequest_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HR_Employee_Contract_HR_Employee">
+          <End Role="HR_Employee" Type="Self.HR_Employee" Multiplicity="0..1" />
+          <End Role="HR_Employee_Contract" Type="Self.HR_Employee_Contract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HR_Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="HR_Employee_Contract">
+              <PropertyRef Name="Employee_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HR_Employee_Contract_HR_Position">
+          <End Role="HR_Position" Type="Self.HR_Position" Multiplicity="0..1" />
+          <End Role="HR_Employee_Contract" Type="Self.HR_Employee_Contract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HR_Position">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="HR_Employee_Contract">
+              <PropertyRef Name="Role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HR_Employee_HR_Department">
+          <End Role="HR_Department" Type="Self.HR_Department" Multiplicity="0..1" />
+          <End Role="HR_Employee" Type="Self.HR_Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HR_Department">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="HR_Employee">
+              <PropertyRef Name="Department_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HR_Employee_HR_Position">
+          <End Role="HR_Position" Type="Self.HR_Position" Multiplicity="0..1" />
+          <End Role="HR_Employee" Type="Self.HR_Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HR_Position">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="HR_Employee">
+              <PropertyRef Name="Position_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LeavesDayChanges_AnnualLeaves">
+          <End Role="AnnualLeaves" Type="Self.AnnualLeaves" Multiplicity="0..1" />
+          <End Role="LeavesDayChanges" Type="Self.LeavesDayChanges" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnnualLeaves">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LeavesDayChanges">
+              <PropertyRef Name="AnnualLeavesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LeavesDayChanges_LeavesRequests">
+          <End Role="LeavesRequests" Type="Self.LeavesRequests" Multiplicity="0..1" />
+          <End Role="LeavesDayChanges" Type="Self.LeavesDayChanges" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LeavesRequests">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LeavesDayChanges">
+              <PropertyRef Name="LeavesRequestID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LeavesRequests_HR_Employee">
+          <End Role="HR_Employee" Type="Self.HR_Employee" Multiplicity="0..1" />
+          <End Role="LeavesRequests" Type="Self.LeavesRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HR_Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LeavesRequests">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LeavesRequestsResponse_HR_Employee">
+          <End Role="HR_Employee" Type="Self.HR_Employee" Multiplicity="0..1" />
+          <End Role="LeavesRequestsResponse" Type="Self.LeavesRequestsResponse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HR_Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LeavesRequestsResponse">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MyApplicationUnipiStoreContainer">
+          <EntitySet Name="AnnualLeaves" EntityType="Self.AnnualLeaves" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Attributes" EntityType="Self.Attributes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Attributes_Values" EntityType="Self.Attributes_Values" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Contract_Details" EntityType="Self.Contract_Details" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Contract_Template_Details" EntityType="Self.Contract_Template_Details" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Contract_Templates" EntityType="Self.Contract_Templates" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Daysoff" EntityType="Self.Daysoff" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HR_Department" EntityType="Self.HR_Department" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HR_Employee" EntityType="Self.HR_Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HR_Employee_Contract" EntityType="Self.HR_Employee_Contract" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HR_Position" EntityType="Self.HR_Position" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LeaveRequestsFiles" EntityType="Self.LeaveRequestsFiles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LeavesDayChanges" EntityType="Self.LeavesDayChanges" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LeavesRequests" EntityType="Self.LeavesRequests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LeavesRequestsResponse" EntityType="Self.LeavesRequestsResponse" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="All_Employees_View" EntityType="Self.All_Employees_View" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [All_Employees_View].[Id] AS [Id], 
+    [All_Employees_View].[Department_Id] AS [Department_Id], 
+    [All_Employees_View].[Position_Id] AS [Position_Id], 
+    [All_Employees_View].[Employee_Fname] AS [Employee_Fname], 
+    [All_Employees_View].[Employee_Lname] AS [Employee_Lname], 
+    [All_Employees_View].[Password] AS [Password], 
+    [All_Employees_View].[Privileges_Num] AS [Privileges_Num], 
+    [All_Employees_View].[Status] AS [Status], 
+    [All_Employees_View].[Birth_Date] AS [Birth_Date]
+    FROM [dbo].[All_Employees_View] AS [All_Employees_View]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="AnnualLeavesContractsView" EntityType="Self.AnnualLeavesContractsView" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [AnnualLeavesContractsView].[AnnualLeavesId] AS [AnnualLeavesId], 
+    [AnnualLeavesContractsView].[Id] AS [Id], 
+    [AnnualLeavesContractsView].[Employee_Id] AS [Employee_Id], 
+    [AnnualLeavesContractsView].[Description] AS [Description], 
+    [AnnualLeavesContractsView].[Start_Date] AS [Start_Date], 
+    [AnnualLeavesContractsView].[End_Date] AS [End_Date], 
+    [AnnualLeavesContractsView].[ContractStatus] AS [ContractStatus], 
+    [AnnualLeavesContractsView].[Year] AS [Year], 
+    [AnnualLeavesContractsView].[AnnualSum] AS [AnnualSum], 
+    [AnnualLeavesContractsView].[Available] AS [Available], 
+    [AnnualLeavesContractsView].[Status] AS [Status], 
+    [AnnualLeavesContractsView].[LeaveType] AS [LeaveType]
+    FROM [dbo].[AnnualLeavesContractsView] AS [AnnualLeavesContractsView]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Employee_Contracts" EntityType="Self.Employee_Contracts" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Employee_Contracts].[Expr1] AS [Expr1], 
+    [Employee_Contracts].[Employee_Id] AS [Employee_Id], 
+    [Employee_Contracts].[Employee_Fname] AS [Employee_Fname], 
+    [Employee_Contracts].[Employee_Lname] AS [Employee_Lname], 
+    [Employee_Contracts].[Start_Date] AS [Start_Date], 
+    [Employee_Contracts].[End_Date] AS [End_Date], 
+    [Employee_Contracts].[Employee_Status] AS [Employee_Status], 
+    [Employee_Contracts].[Id] AS [Id], 
+    [Employee_Contracts].[Daily_Working_Hours] AS [Daily_Working_Hours], 
+    [Employee_Contracts].[Description] AS [Description], 
+    [Employee_Contracts].[Contract_Status] AS [Contract_Status], 
+    [Employee_Contracts].[Role] AS [Role]
+    FROM [dbo].[Employee_Contracts] AS [Employee_Contracts]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Employee_Details" EntityType="Self.Employee_Details" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Employee_Details].[Id] AS [Id], 
+    [Employee_Details].[Employee_Fname] AS [Employee_Fname], 
+    [Employee_Details].[Employee_Lname] AS [Employee_Lname], 
+    [Employee_Details].[Privileges_Num] AS [Privileges_Num]
+    FROM [dbo].[Employee_Details] AS [Employee_Details]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__LeavesReq__Leave__160F4887" Association="Self.FK__LeavesReq__Leave__160F4887">
+            <End Role="LeavesRequests" EntitySet="LeavesRequests" />
+            <End Role="LeavesRequestsResponse" EntitySet="LeavesRequestsResponse" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AnnualLeaves_HR_Employee_Contract" Association="Self.FK_AnnualLeaves_HR_Employee_Contract">
+            <End Role="HR_Employee_Contract" EntitySet="HR_Employee_Contract" />
+            <End Role="AnnualLeaves" EntitySet="AnnualLeaves" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Attributes_Values_Attributes" Association="Self.FK_Attributes_Values_Attributes">
+            <End Role="Attributes" EntitySet="Attributes" />
+            <End Role="Attributes_Values" EntitySet="Attributes_Values" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Attributes_Values_HR_Employee" Association="Self.FK_Attributes_Values_HR_Employee">
+            <End Role="HR_Employee" EntitySet="HR_Employee" />
+            <End Role="Attributes_Values" EntitySet="Attributes_Values" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contract_Details_Contract_Templates" Association="Self.FK_Contract_Details_Contract_Templates">
+            <End Role="Contract_Templates" EntitySet="Contract_Templates" />
+            <End Role="Contract_Details" EntitySet="Contract_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contract_Details_HREmployee_Contract" Association="Self.FK_Contract_Details_HREmployee_Contract">
+            <End Role="HR_Employee_Contract" EntitySet="HR_Employee_Contract" />
+            <End Role="Contract_Details" EntitySet="Contract_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contract_Templates_Contract_Templ_Details" Association="Self.FK_Contract_Templates_Contract_Templ_Details">
+            <End Role="Contract_Templates" EntitySet="Contract_Templates" />
+            <End Role="Contract_Template_Details" EntitySet="Contract_Template_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Files_LeavesRequests" Association="Self.FK_Files_LeavesRequests">
+            <End Role="LeavesRequests" EntitySet="LeavesRequests" />
+            <End Role="LeaveRequestsFiles" EntitySet="LeaveRequestsFiles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HR_Employee_Contract_HR_Employee" Association="Self.FK_HR_Employee_Contract_HR_Employee">
+            <End Role="HR_Employee" EntitySet="HR_Employee" />
+            <End Role="HR_Employee_Contract" EntitySet="HR_Employee_Contract" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HR_Employee_Contract_HR_Position" Association="Self.FK_HR_Employee_Contract_HR_Position">
+            <End Role="HR_Position" EntitySet="HR_Position" />
+            <End Role="HR_Employee_Contract" EntitySet="HR_Employee_Contract" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HR_Employee_HR_Department" Association="Self.FK_HR_Employee_HR_Department">
+            <End Role="HR_Department" EntitySet="HR_Department" />
+            <End Role="HR_Employee" EntitySet="HR_Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HR_Employee_HR_Position" Association="Self.FK_HR_Employee_HR_Position">
+            <End Role="HR_Position" EntitySet="HR_Position" />
+            <End Role="HR_Employee" EntitySet="HR_Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LeavesDayChanges_AnnualLeaves" Association="Self.FK_LeavesDayChanges_AnnualLeaves">
+            <End Role="AnnualLeaves" EntitySet="AnnualLeaves" />
+            <End Role="LeavesDayChanges" EntitySet="LeavesDayChanges" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LeavesDayChanges_LeavesRequests" Association="Self.FK_LeavesDayChanges_LeavesRequests">
+            <End Role="LeavesRequests" EntitySet="LeavesRequests" />
+            <End Role="LeavesDayChanges" EntitySet="LeavesDayChanges" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LeavesRequests_HR_Employee" Association="Self.FK_LeavesRequests_HR_Employee">
+            <End Role="HR_Employee" EntitySet="HR_Employee" />
+            <End Role="LeavesRequests" EntitySet="LeavesRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LeavesRequestsResponse_HR_Employee" Association="Self.FK_LeavesRequestsResponse_HR_Employee">
+            <End Role="HR_Employee" EntitySet="HR_Employee" />
+            <End Role="LeavesRequestsResponse" EntitySet="LeavesRequestsResponse" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MyApplicationUnipi" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AnnualLeaves">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ContractId" Type="Int32" />
+          <Property Name="Year" Type="Int16" />
+          <Property Name="AnnualSum" Type="Byte" />
+          <Property Name="Available" Type="Byte" />
+          <Property Name="Status" Type="Byte" />
+          <Property Name="LeaveType" Type="Int32" />
+          <NavigationProperty Name="LeavesDayChanges" Relationship="Self.FK_LeavesDayChanges_AnnualLeaves" FromRole="AnnualLeaves" ToRole="LeavesDayChanges" />
+          <NavigationProperty Name="HR_Employee_Contract" Relationship="MyApplicationUnipi.FK_AnnualLeaves_HR_Employee_Contract" FromRole="AnnualLeaves" ToRole="HR_Employee_Contract" />
+        </EntityType>
+        <EntityType Name="Contract_Templates">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Byte" />
+          <NavigationProperty Name="Contract_Details" Relationship="MyApplicationUnipi.FK_Contract_Details_Contract_Templates" FromRole="Contract_Templates" ToRole="Contract_Details" />
+          <NavigationProperty Name="Contract_Template_Details" Relationship="MyApplicationUnipi.FK_Contract_Templates_Contract_Templ_Details" FromRole="Contract_Templates" ToRole="Contract_Template_Details" />
+        </EntityType>
+        <EntityType Name="Daysoff">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <Property Name="Desc" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HR_Department">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Department_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="HR_Employee" Relationship="MyApplicationUnipi.FK_HR_Employee_HR_Department" FromRole="HR_Department" ToRole="HR_Employee" />
+        </EntityType>
+        <EntityType Name="HR_Position">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Position_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="Int32" />
+          <NavigationProperty Name="HR_Employee" Relationship="MyApplicationUnipi.FK_HR_Employee_HR_Position" FromRole="HR_Position" ToRole="HR_Employee" />
+          <NavigationProperty Name="HR_Employee_Contract" Relationship="MyApplicationUnipi.FK_HR_Employee_Contract_HR_Position" FromRole="HR_Position" ToRole="HR_Employee_Contract" />
+        </EntityType>
+        <EntityType Name="LeavesDayChanges">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AnnualLeavesID" Type="Int32" />
+          <Property Name="LeavesRequestID" Type="Int32" />
+          <Property Name="AmountRemoved" Type="Byte" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="Byte" />
+          <NavigationProperty Name="AnnualLeaves" Relationship="Self.FK_LeavesDayChanges_AnnualLeaves" FromRole="LeavesDayChanges" ToRole="AnnualLeaves" />
+          <NavigationProperty Name="LeavesRequests" Relationship="Self.FK_LeavesDayChanges_LeavesRequests" FromRole="LeavesDayChanges" ToRole="LeavesRequests" />
+        </EntityType>
+        <EntityType Name="LeavesRequests">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeId" Type="Int32" />
+          <Property Name="DateFrom" Type="DateTime" Precision="3" />
+          <Property Name="DateTo" Type="DateTime" Precision="3" />
+          <Property Name="TypeOfLeave" Type="Byte" />
+          <Property Name="AmountRequested" Type="Byte" />
+          <Property Name="Comments" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Byte" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="LeavesDayChanges" Relationship="Self.FK_LeavesDayChanges_LeavesRequests" FromRole="LeavesRequests" ToRole="LeavesDayChanges" />
+          <NavigationProperty Name="LeaveRequestsFiles" Relationship="MyApplicationUnipi.FK_Files_LeavesRequests" FromRole="LeavesRequests" ToRole="LeaveRequestsFiles" />
+          <NavigationProperty Name="HR_Employee" Relationship="MyApplicationUnipi.FK_LeavesRequests_HR_Employee" FromRole="LeavesRequests" ToRole="HR_Employee" />
+          <NavigationProperty Name="LeavesRequestsResponse" Relationship="MyApplicationUnipi.FK__LeavesReq__Leave__160F4887" FromRole="LeavesRequests" ToRole="LeavesRequestsResponse" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_LeavesDayChanges_AnnualLeaves">
+          <End Role="AnnualLeaves" Type="Self.AnnualLeaves" Multiplicity="0..1" />
+          <End Role="LeavesDayChanges" Type="Self.LeavesDayChanges" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnnualLeaves">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LeavesDayChanges">
+              <PropertyRef Name="AnnualLeavesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LeavesDayChanges_LeavesRequests">
+          <End Role="LeavesRequests" Type="Self.LeavesRequests" Multiplicity="0..1" />
+          <End Role="LeavesDayChanges" Type="Self.LeavesDayChanges" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LeavesRequests">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LeavesDayChanges">
+              <PropertyRef Name="LeavesRequestID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MyApplicationUnipiEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AnnualLeaves" EntityType="Self.AnnualLeaves" />
+          <EntitySet Name="Contract_Templates" EntityType="Self.Contract_Templates" />
+          <EntitySet Name="Daysoff" EntityType="Self.Daysoff" />
+          <EntitySet Name="HR_Department" EntityType="Self.HR_Department" />
+          <EntitySet Name="HR_Position" EntityType="Self.HR_Position" />
+          <EntitySet Name="LeavesDayChanges" EntityType="Self.LeavesDayChanges" />
+          <EntitySet Name="LeavesRequests" EntityType="Self.LeavesRequests" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <AssociationSet Name="FK_LeavesDayChanges_AnnualLeaves" Association="Self.FK_LeavesDayChanges_AnnualLeaves">
+            <End Role="AnnualLeaves" EntitySet="AnnualLeaves" />
+            <End Role="LeavesDayChanges" EntitySet="LeavesDayChanges" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LeavesDayChanges_LeavesRequests" Association="Self.FK_LeavesDayChanges_LeavesRequests">
+            <End Role="LeavesRequests" EntitySet="LeavesRequests" />
+            <End Role="LeavesDayChanges" EntitySet="LeavesDayChanges" />
+          </AssociationSet>
+          <EntitySet Name="LeaveRequestsFiles" EntityType="MyApplicationUnipi.LeaveRequestsFiles" />
+          <AssociationSet Name="FK_Files_LeavesRequests" Association="MyApplicationUnipi.FK_Files_LeavesRequests">
+            <End Role="LeavesRequests" EntitySet="LeavesRequests" />
+            <End Role="LeaveRequestsFiles" EntitySet="LeaveRequestsFiles" />
+          </AssociationSet>
+          <EntitySet Name="HR_Employee" EntityType="MyApplicationUnipi.HR_Employee" />
+          <AssociationSet Name="FK_HR_Employee_HR_Department" Association="MyApplicationUnipi.FK_HR_Employee_HR_Department">
+            <End Role="HR_Department" EntitySet="HR_Department" />
+            <End Role="HR_Employee" EntitySet="HR_Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HR_Employee_HR_Position" Association="MyApplicationUnipi.FK_HR_Employee_HR_Position">
+            <End Role="HR_Position" EntitySet="HR_Position" />
+            <End Role="HR_Employee" EntitySet="HR_Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LeavesRequests_HR_Employee" Association="MyApplicationUnipi.FK_LeavesRequests_HR_Employee">
+            <End Role="HR_Employee" EntitySet="HR_Employee" />
+            <End Role="LeavesRequests" EntitySet="LeavesRequests" />
+          </AssociationSet>
+          <EntitySet Name="All_Employees_View" EntityType="MyApplicationUnipi.All_Employees_View" />
+          <EntitySet Name="AnnualLeavesContractsView" EntityType="MyApplicationUnipi.AnnualLeavesContractsView" />
+          <EntitySet Name="Employee_Contracts" EntityType="MyApplicationUnipi.Employee_Contracts" />
+          <EntitySet Name="Attributes" EntityType="MyApplicationUnipi.Attributes" />
+          <EntitySet Name="Attributes_Values" EntityType="MyApplicationUnipi.Attributes_Values" />
+          <AssociationSet Name="FK_Attributes_Values_Attributes" Association="MyApplicationUnipi.FK_Attributes_Values_Attributes">
+            <End Role="Attributes" EntitySet="Attributes" />
+            <End Role="Attributes_Values" EntitySet="Attributes_Values" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Attributes_Values_HR_Employee" Association="MyApplicationUnipi.FK_Attributes_Values_HR_Employee">
+            <End Role="HR_Employee" EntitySet="HR_Employee" />
+            <End Role="Attributes_Values" EntitySet="Attributes_Values" />
+          </AssociationSet>
+          <EntitySet Name="LeavesRequestsResponse" EntityType="MyApplicationUnipi.LeavesRequestsResponse" />
+          <EntitySet Name="Employee_Details" EntityType="MyApplicationUnipi.Employee_Details" />
+          <AssociationSet Name="FK_LeavesRequestsResponse_HR_Employee" Association="MyApplicationUnipi.FK_LeavesRequestsResponse_HR_Employee">
+            <End Role="HR_Employee" EntitySet="HR_Employee" />
+            <End Role="LeavesRequestsResponse" EntitySet="LeavesRequestsResponse" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LeavesReq__Leave__160F4887" Association="MyApplicationUnipi.FK__LeavesReq__Leave__160F4887">
+            <End Role="LeavesRequests" EntitySet="LeavesRequests" />
+            <End Role="LeavesRequestsResponse" EntitySet="LeavesRequestsResponse" />
+          </AssociationSet>
+          <EntitySet Name="Contract_Details" EntityType="MyApplicationUnipi.Contract_Details" />
+          <EntitySet Name="Contract_Template_Details" EntityType="MyApplicationUnipi.Contract_Template_Details" />
+          <EntitySet Name="HR_Employee_Contract" EntityType="MyApplicationUnipi.HR_Employee_Contract" />
+          <AssociationSet Name="FK_AnnualLeaves_HR_Employee_Contract" Association="MyApplicationUnipi.FK_AnnualLeaves_HR_Employee_Contract">
+            <End Role="HR_Employee_Contract" EntitySet="HR_Employee_Contract" />
+            <End Role="AnnualLeaves" EntitySet="AnnualLeaves" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contract_Details_Contract_Templates" Association="MyApplicationUnipi.FK_Contract_Details_Contract_Templates">
+            <End Role="Contract_Templates" EntitySet="Contract_Templates" />
+            <End Role="Contract_Details" EntitySet="Contract_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contract_Details_HREmployee_Contract" Association="MyApplicationUnipi.FK_Contract_Details_HREmployee_Contract">
+            <End Role="HR_Employee_Contract" EntitySet="HR_Employee_Contract" />
+            <End Role="Contract_Details" EntitySet="Contract_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contract_Templates_Contract_Templ_Details" Association="MyApplicationUnipi.FK_Contract_Templates_Contract_Templ_Details">
+            <End Role="Contract_Templates" EntitySet="Contract_Templates" />
+            <End Role="Contract_Template_Details" EntitySet="Contract_Template_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HR_Employee_Contract_HR_Employee" Association="MyApplicationUnipi.FK_HR_Employee_Contract_HR_Employee">
+            <End Role="HR_Employee" EntitySet="HR_Employee" />
+            <End Role="HR_Employee_Contract" EntitySet="HR_Employee_Contract" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HR_Employee_Contract_HR_Position" Association="MyApplicationUnipi.FK_HR_Employee_Contract_HR_Position">
+            <End Role="HR_Position" EntitySet="HR_Position" />
+            <End Role="HR_Employee_Contract" EntitySet="HR_Employee_Contract" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="LeaveRequestsFiles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LeaveRequest_Id" Type="Int32" />
+          <Property Name="FileName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="FileExtension" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BinaryData" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="DateUploaded" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="Byte" />
+          <NavigationProperty Name="LeavesRequests" Relationship="MyApplicationUnipi.FK_Files_LeavesRequests" FromRole="LeaveRequestsFiles" ToRole="LeavesRequests" />
+        </EntityType>
+        <Association Name="FK_Files_LeavesRequests">
+          <End Type="MyApplicationUnipi.LeavesRequests" Role="LeavesRequests" Multiplicity="0..1" />
+          <End Type="MyApplicationUnipi.LeaveRequestsFiles" Role="LeaveRequestsFiles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LeavesRequests">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LeaveRequestsFiles">
+              <PropertyRef Name="LeaveRequest_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="HR_Employee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Department_Id" Type="Int32" />
+          <Property Name="Position_Id" Type="Int32" />
+          <Property Name="Employee_Fname" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Employee_Lname" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Privileges_Num" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="Personal_Email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Home_Address" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Personal_Mobile_Number" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Birth_Date" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Transportation" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="HR_Department" Relationship="MyApplicationUnipi.FK_HR_Employee_HR_Department" FromRole="HR_Employee" ToRole="HR_Department" />
+          <NavigationProperty Name="HR_Position" Relationship="MyApplicationUnipi.FK_HR_Employee_HR_Position" FromRole="HR_Employee" ToRole="HR_Position" />
+          <NavigationProperty Name="LeavesRequests" Relationship="MyApplicationUnipi.FK_LeavesRequests_HR_Employee" FromRole="HR_Employee" ToRole="LeavesRequests" />
+          <NavigationProperty Name="Attributes_Values" Relationship="MyApplicationUnipi.FK_Attributes_Values_HR_Employee" FromRole="HR_Employee" ToRole="Attributes_Values" />
+          <NavigationProperty Name="LeavesRequestsResponse" Relationship="MyApplicationUnipi.FK_LeavesRequestsResponse_HR_Employee" FromRole="HR_Employee" ToRole="LeavesRequestsResponse" />
+          <NavigationProperty Name="HR_Employee_Contract" Relationship="MyApplicationUnipi.FK_HR_Employee_Contract_HR_Employee" FromRole="HR_Employee" ToRole="HR_Employee_Contract" />
+        </EntityType>
+        <Association Name="FK_HR_Employee_HR_Department">
+          <End Type="MyApplicationUnipi.HR_Department" Role="HR_Department" Multiplicity="0..1" />
+          <End Type="MyApplicationUnipi.HR_Employee" Role="HR_Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HR_Department">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="HR_Employee">
+              <PropertyRef Name="Department_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HR_Employee_HR_Position">
+          <End Type="MyApplicationUnipi.HR_Position" Role="HR_Position" Multiplicity="0..1" />
+          <End Type="MyApplicationUnipi.HR_Employee" Role="HR_Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HR_Position">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="HR_Employee">
+              <PropertyRef Name="Position_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LeavesRequests_HR_Employee">
+          <End Type="MyApplicationUnipi.HR_Employee" Role="HR_Employee" Multiplicity="0..1" />
+          <End Type="MyApplicationUnipi.LeavesRequests" Role="LeavesRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HR_Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LeavesRequests">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="All_Employees_View">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Department_Id" Type="Int32" />
+          <Property Name="Position_Id" Type="Int32" />
+          <Property Name="Employee_Fname" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Employee_Lname" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Privileges_Num" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="Birth_Date" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="AnnualLeavesContractsView">
+          <Key>
+            <PropertyRef Name="AnnualLeavesId" />
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="AnnualLeavesId" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Employee_Id" Type="Int32" />
+          <Property Name="Description" Type="Byte" />
+          <Property Name="Start_Date" Type="DateTime" Precision="3" />
+          <Property Name="End_Date" Type="DateTime" Precision="3" />
+          <Property Name="ContractStatus" Type="Int32" />
+          <Property Name="Year" Type="Int16" />
+          <Property Name="AnnualSum" Type="Byte" />
+          <Property Name="Available" Type="Byte" />
+          <Property Name="Status" Type="Byte" />
+          <Property Name="LeaveType" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Employee_Contracts">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Expr1" Type="Int32" />
+          <Property Name="Employee_Id" Type="Int32" />
+          <Property Name="Employee_Fname" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Employee_Lname" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Start_Date" Type="DateTime" Precision="3" />
+          <Property Name="End_Date" Type="DateTime" Precision="3" />
+          <Property Name="Employee_Status" Type="Int32" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Daily_Working_Hours" Type="Decimal" Precision="4" Scale="2" />
+          <Property Name="Description" Type="Byte" />
+          <Property Name="Contract_Status" Type="Int32" />
+          <Property Name="Role" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Attributes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Attributes_Values" Relationship="MyApplicationUnipi.FK_Attributes_Values_Attributes" FromRole="Attributes" ToRole="Attributes_Values" />
+        </EntityType>
+        <EntityType Name="Attributes_Values">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="User_Id" Type="Int32" Nullable="false" />
+          <Property Name="Attribute_Id" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="Int32" />
+          <NavigationProperty Name="Attributes" Relationship="MyApplicationUnipi.FK_Attributes_Values_Attributes" FromRole="Attributes_Values" ToRole="Attributes" />
+          <NavigationProperty Name="HR_Employee" Relationship="MyApplicationUnipi.FK_Attributes_Values_HR_Employee" FromRole="Attributes_Values" ToRole="HR_Employee" />
+        </EntityType>
+        <Association Name="FK_Attributes_Values_Attributes">
+          <End Type="MyApplicationUnipi.Attributes" Role="Attributes" Multiplicity="1" />
+          <End Type="MyApplicationUnipi.Attributes_Values" Role="Attributes_Values" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Attributes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Attributes_Values">
+              <PropertyRef Name="Attribute_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Attributes_Values_HR_Employee">
+          <End Type="MyApplicationUnipi.HR_Employee" Role="HR_Employee" Multiplicity="1" />
+          <End Type="MyApplicationUnipi.Attributes_Values" Role="Attributes_Values" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HR_Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Attributes_Values">
+              <PropertyRef Name="User_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="LeavesRequestsResponse">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LeavesReqId" Type="Int32" />
+          <Property Name="EmployeeId" Type="Int32" />
+          <Property Name="DateOfResponse" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="Byte" />
+          <NavigationProperty Name="HR_Employee" Relationship="MyApplicationUnipi.FK_LeavesRequestsResponse_HR_Employee" FromRole="LeavesRequestsResponse" ToRole="HR_Employee" />
+          <NavigationProperty Name="LeavesRequests" Relationship="MyApplicationUnipi.FK__LeavesReq__Leave__160F4887" FromRole="LeavesRequestsResponse" ToRole="LeavesRequests" />
+        </EntityType>
+        <EntityType Name="Employee_Details">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Employee_Fname" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Employee_Lname" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Privileges_Num" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_LeavesRequestsResponse_HR_Employee">
+          <End Type="MyApplicationUnipi.HR_Employee" Role="HR_Employee" Multiplicity="0..1" />
+          <End Type="MyApplicationUnipi.LeavesRequestsResponse" Role="LeavesRequestsResponse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HR_Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LeavesRequestsResponse">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LeavesReq__Leave__160F4887">
+          <End Type="MyApplicationUnipi.LeavesRequests" Role="LeavesRequests" Multiplicity="0..1" />
+          <End Type="MyApplicationUnipi.LeavesRequestsResponse" Role="LeavesRequestsResponse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LeavesRequests">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LeavesRequestsResponse">
+              <PropertyRef Name="LeavesReqId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Contract_Details">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HREmployeeContract_Id" Type="Int32" />
+          <Property Name="Day" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Hours" Type="Decimal" Precision="4" Scale="2" />
+          <Property Name="Status" Type="Byte" />
+          <Property Name="Contract_Templ_Id" Type="Int32" />
+          <NavigationProperty Name="Contract_Templates" Relationship="MyApplicationUnipi.FK_Contract_Details_Contract_Templates" FromRole="Contract_Details" ToRole="Contract_Templates" />
+          <NavigationProperty Name="HR_Employee_Contract" Relationship="MyApplicationUnipi.FK_Contract_Details_HREmployee_Contract" FromRole="Contract_Details" ToRole="HR_Employee_Contract" />
+        </EntityType>
+        <EntityType Name="Contract_Template_Details">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Template_Id" Type="Int32" />
+          <Property Name="Day" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Hours" Type="Decimal" Precision="4" Scale="2" />
+          <Property Name="Status" Type="Byte" />
+          <NavigationProperty Name="Contract_Templates" Relationship="MyApplicationUnipi.FK_Contract_Templates_Contract_Templ_Details" FromRole="Contract_Template_Details" ToRole="Contract_Templates" />
+        </EntityType>
+        <EntityType Name="HR_Employee_Contract">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Employee_Id" Type="Int32" />
+          <Property Name="Description" Type="Byte" />
+          <Property Name="Start_Date" Type="DateTime" Precision="3" />
+          <Property Name="End_Date" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="Role" Type="Int32" />
+          <Property Name="Daily_Working_Hours" Type="Decimal" Precision="4" Scale="2" />
+          <NavigationProperty Name="AnnualLeaves" Relationship="MyApplicationUnipi.FK_AnnualLeaves_HR_Employee_Contract" FromRole="HR_Employee_Contract" ToRole="AnnualLeaves" />
+          <NavigationProperty Name="Contract_Details" Relationship="MyApplicationUnipi.FK_Contract_Details_HREmployee_Contract" FromRole="HR_Employee_Contract" ToRole="Contract_Details" />
+          <NavigationProperty Name="HR_Employee" Relationship="MyApplicationUnipi.FK_HR_Employee_Contract_HR_Employee" FromRole="HR_Employee_Contract" ToRole="HR_Employee" />
+          <NavigationProperty Name="HR_Position" Relationship="MyApplicationUnipi.FK_HR_Employee_Contract_HR_Position" FromRole="HR_Employee_Contract" ToRole="HR_Position" />
+        </EntityType>
+        <Association Name="FK_AnnualLeaves_HR_Employee_Contract">
+          <End Type="MyApplicationUnipi.HR_Employee_Contract" Role="HR_Employee_Contract" Multiplicity="0..1" />
+          <End Type="MyApplicationUnipi.AnnualLeaves" Role="AnnualLeaves" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HR_Employee_Contract">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AnnualLeaves">
+              <PropertyRef Name="ContractId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contract_Details_Contract_Templates">
+          <End Type="MyApplicationUnipi.Contract_Templates" Role="Contract_Templates" Multiplicity="0..1" />
+          <End Type="MyApplicationUnipi.Contract_Details" Role="Contract_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contract_Templates">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contract_Details">
+              <PropertyRef Name="Contract_Templ_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contract_Details_HREmployee_Contract">
+          <End Type="MyApplicationUnipi.HR_Employee_Contract" Role="HR_Employee_Contract" Multiplicity="0..1" />
+          <End Type="MyApplicationUnipi.Contract_Details" Role="Contract_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HR_Employee_Contract">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contract_Details">
+              <PropertyRef Name="HREmployeeContract_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contract_Templates_Contract_Templ_Details">
+          <End Type="MyApplicationUnipi.Contract_Templates" Role="Contract_Templates" Multiplicity="0..1" />
+          <End Type="MyApplicationUnipi.Contract_Template_Details" Role="Contract_Template_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contract_Templates">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contract_Template_Details">
+              <PropertyRef Name="Template_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HR_Employee_Contract_HR_Employee">
+          <End Type="MyApplicationUnipi.HR_Employee" Role="HR_Employee" Multiplicity="0..1" />
+          <End Type="MyApplicationUnipi.HR_Employee_Contract" Role="HR_Employee_Contract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HR_Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="HR_Employee_Contract">
+              <PropertyRef Name="Employee_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HR_Employee_Contract_HR_Position">
+          <End Type="MyApplicationUnipi.HR_Position" Role="HR_Position" Multiplicity="0..1" />
+          <End Type="MyApplicationUnipi.HR_Employee_Contract" Role="HR_Employee_Contract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HR_Position">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="HR_Employee_Contract">
+              <PropertyRef Name="Role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MyApplicationUnipiStoreContainer" CdmEntityContainer="MyApplicationUnipiEntities">
+          <EntitySetMapping Name="AnnualLeaves">
+            <EntityTypeMapping TypeName="MyApplicationUnipi.AnnualLeaves">
+              <MappingFragment StoreEntitySet="AnnualLeaves">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ContractId" ColumnName="ContractId" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="AnnualSum" ColumnName="AnnualSum" />
+                <ScalarProperty Name="Available" ColumnName="Available" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="LeaveType" ColumnName="LeaveType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contract_Templates">
+            <EntityTypeMapping TypeName="MyApplicationUnipi.Contract_Templates">
+              <MappingFragment StoreEntitySet="Contract_Templates">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Daysoff">
+            <EntityTypeMapping TypeName="MyApplicationUnipi.Daysoff">
+              <MappingFragment StoreEntitySet="Daysoff">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Desc" ColumnName="Desc" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HR_Department">
+            <EntityTypeMapping TypeName="MyApplicationUnipi.HR_Department">
+              <MappingFragment StoreEntitySet="HR_Department">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Department_Name" ColumnName="Department_Name" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HR_Position">
+            <EntityTypeMapping TypeName="MyApplicationUnipi.HR_Position">
+              <MappingFragment StoreEntitySet="HR_Position">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Position_Name" ColumnName="Position_Name" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LeavesDayChanges">
+            <EntityTypeMapping TypeName="MyApplicationUnipi.LeavesDayChanges">
+              <MappingFragment StoreEntitySet="LeavesDayChanges">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="AnnualLeavesID" ColumnName="AnnualLeavesID" />
+                <ScalarProperty Name="LeavesRequestID" ColumnName="LeavesRequestID" />
+                <ScalarProperty Name="AmountRemoved" ColumnName="AmountRemoved" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LeavesRequests">
+            <EntityTypeMapping TypeName="MyApplicationUnipi.LeavesRequests">
+              <MappingFragment StoreEntitySet="LeavesRequests">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="DateFrom" ColumnName="DateFrom" />
+                <ScalarProperty Name="DateTo" ColumnName="DateTo" />
+                <ScalarProperty Name="TypeOfLeave" ColumnName="TypeOfLeave" />
+                <ScalarProperty Name="AmountRequested" ColumnName="AmountRequested" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="MyApplicationUnipi.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LeaveRequestsFiles">
+            <EntityTypeMapping TypeName="MyApplicationUnipi.LeaveRequestsFiles">
+              <MappingFragment StoreEntitySet="LeaveRequestsFiles">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DateUploaded" ColumnName="DateUploaded" />
+                <ScalarProperty Name="BinaryData" ColumnName="BinaryData" />
+                <ScalarProperty Name="FileExtension" ColumnName="FileExtension" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="LeaveRequest_Id" ColumnName="LeaveRequest_Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HR_Employee">
+            <EntityTypeMapping TypeName="MyApplicationUnipi.HR_Employee">
+              <MappingFragment StoreEntitySet="HR_Employee">
+                <ScalarProperty Name="Transportation" ColumnName="Transportation" />
+                <ScalarProperty Name="Birth_Date" ColumnName="Birth_Date" />
+                <ScalarProperty Name="Personal_Mobile_Number" ColumnName="Personal_Mobile_Number" />
+                <ScalarProperty Name="Home_Address" ColumnName="Home_Address" />
+                <ScalarProperty Name="Personal_Email" ColumnName="Personal_Email" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Privileges_Num" ColumnName="Privileges_Num" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Employee_Lname" ColumnName="Employee_Lname" />
+                <ScalarProperty Name="Employee_Fname" ColumnName="Employee_Fname" />
+                <ScalarProperty Name="Position_Id" ColumnName="Position_Id" />
+                <ScalarProperty Name="Department_Id" ColumnName="Department_Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="All_Employees_View">
+            <EntityTypeMapping TypeName="MyApplicationUnipi.All_Employees_View">
+              <MappingFragment StoreEntitySet="All_Employees_View">
+                <ScalarProperty Name="Birth_Date" ColumnName="Birth_Date" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Privileges_Num" ColumnName="Privileges_Num" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Employee_Lname" ColumnName="Employee_Lname" />
+                <ScalarProperty Name="Employee_Fname" ColumnName="Employee_Fname" />
+                <ScalarProperty Name="Position_Id" ColumnName="Position_Id" />
+                <ScalarProperty Name="Department_Id" ColumnName="Department_Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AnnualLeavesContractsView">
+            <EntityTypeMapping TypeName="MyApplicationUnipi.AnnualLeavesContractsView">
+              <MappingFragment StoreEntitySet="AnnualLeavesContractsView">
+                <ScalarProperty Name="LeaveType" ColumnName="LeaveType" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Available" ColumnName="Available" />
+                <ScalarProperty Name="AnnualSum" ColumnName="AnnualSum" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="ContractStatus" ColumnName="ContractStatus" />
+                <ScalarProperty Name="End_Date" ColumnName="End_Date" />
+                <ScalarProperty Name="Start_Date" ColumnName="Start_Date" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Employee_Id" ColumnName="Employee_Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="AnnualLeavesId" ColumnName="AnnualLeavesId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employee_Contracts">
+            <EntityTypeMapping TypeName="MyApplicationUnipi.Employee_Contracts">
+              <MappingFragment StoreEntitySet="Employee_Contracts">
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Contract_Status" ColumnName="Contract_Status" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Daily_Working_Hours" ColumnName="Daily_Working_Hours" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Employee_Status" ColumnName="Employee_Status" />
+                <ScalarProperty Name="End_Date" ColumnName="End_Date" />
+                <ScalarProperty Name="Start_Date" ColumnName="Start_Date" />
+                <ScalarProperty Name="Employee_Lname" ColumnName="Employee_Lname" />
+                <ScalarProperty Name="Employee_Fname" ColumnName="Employee_Fname" />
+                <ScalarProperty Name="Employee_Id" ColumnName="Employee_Id" />
+                <ScalarProperty Name="Expr1" ColumnName="Expr1" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Attributes">
+            <EntityTypeMapping TypeName="MyApplicationUnipi.Attributes">
+              <MappingFragment StoreEntitySet="Attributes">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Attributes_Values">
+            <EntityTypeMapping TypeName="MyApplicationUnipi.Attributes_Values">
+              <MappingFragment StoreEntitySet="Attributes_Values">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Attribute_Id" ColumnName="Attribute_Id" />
+                <ScalarProperty Name="User_Id" ColumnName="User_Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LeavesRequestsResponse">
+            <EntityTypeMapping TypeName="MyApplicationUnipi.LeavesRequestsResponse">
+              <MappingFragment StoreEntitySet="LeavesRequestsResponse">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DateOfResponse" ColumnName="DateOfResponse" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="LeavesReqId" ColumnName="LeavesReqId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employee_Details">
+            <EntityTypeMapping TypeName="MyApplicationUnipi.Employee_Details">
+              <MappingFragment StoreEntitySet="Employee_Details">
+                <ScalarProperty Name="Privileges_Num" ColumnName="Privileges_Num" />
+                <ScalarProperty Name="Employee_Lname" ColumnName="Employee_Lname" />
+                <ScalarProperty Name="Employee_Fname" ColumnName="Employee_Fname" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contract_Details">
+            <EntityTypeMapping TypeName="MyApplicationUnipi.Contract_Details">
+              <MappingFragment StoreEntitySet="Contract_Details">
+                <ScalarProperty Name="Contract_Templ_Id" ColumnName="Contract_Templ_Id" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Hours" ColumnName="Hours" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+                <ScalarProperty Name="HREmployeeContract_Id" ColumnName="HREmployeeContract_Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contract_Template_Details">
+            <EntityTypeMapping TypeName="MyApplicationUnipi.Contract_Template_Details">
+              <MappingFragment StoreEntitySet="Contract_Template_Details">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Hours" ColumnName="Hours" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+                <ScalarProperty Name="Template_Id" ColumnName="Template_Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HR_Employee_Contract">
+            <EntityTypeMapping TypeName="MyApplicationUnipi.HR_Employee_Contract">
+              <MappingFragment StoreEntitySet="HR_Employee_Contract">
+                <ScalarProperty Name="Daily_Working_Hours" ColumnName="Daily_Working_Hours" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="End_Date" ColumnName="End_Date" />
+                <ScalarProperty Name="Start_Date" ColumnName="Start_Date" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Employee_Id" ColumnName="Employee_Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

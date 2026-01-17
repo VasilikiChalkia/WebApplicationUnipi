@@ -1,0 +1,505 @@
+﻿.myProfile {
+    display: flex;
+    padding-inline: min(100px,max(7.4%,35px));
+    margin-block-end: 36px;
+    //gap: 1.5em;
+    font-size: clamp(16px,2.3vw,20px);
+
+    @include xs {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        margin-inline: auto;
+        padding-inline: min(20px,4.7%);
+    }
+
+    @include phone {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    @include tablet {
+        flex-direction: initial;
+        align-items: start;
+    }
+
+    h1 {
+        font-size: 36px;
+        margin-block-end: 1.139em;
+        font-family: 'Poppins-semibold';
+    }
+
+    & > section {
+        flex: 1;
+        width: 100%;
+    }
+
+    &__main {
+        max-width: 300px;
+
+        @include xs {
+            max-width: max(300px,100%);
+            margin-block-end: 1.5em;
+        }
+
+        @include phone {
+            margin-block-end: 1.5em;
+        }
+
+        @include tablet {
+            margin-block-end: unset;
+            margin-inline-end: 1.5em;
+        }
+
+        .subMenu-items {
+            margin-block-start: 1.2em;
+            width: 100%;
+
+            a {
+                width: 100%;
+                background: $color-secondary;
+                margin-block-end: 1.3em;
+                margin-inline: auto;
+
+                @include xs {
+                    max-width: 258px;
+                    padding-block: 1.1em;
+                }
+
+                @include phone {
+                    font-size: 1em; //20px
+                    max-width: 258px;
+                    padding-block: 1.1em;
+                }
+
+                @include tablet {
+                    font-size: .9em; //18px
+                }
+
+                @include desktop {
+                    max-width: 296px;
+                    padding-block: 1.4em;
+                }
+
+                &:hover,
+                &:active,
+                &:focus-visible {
+                    background: $date-green;
+                    color: $white;
+                }
+            }
+        }
+
+        &__user {
+            text-align: center;
+
+            h2 {
+                font-size: 1.4em;
+            }
+
+            &_img {
+                max-width: 103px;
+                margin-inline: auto;
+                margin-block-end: 1em;
+
+                svg {
+                    width: 100%;
+                }
+            }
+
+            p {
+                word-break: break-word;
+                margin: 0;
+            }
+        }
+    }
+
+    &__details {
+
+
+        nav {
+            width: 100%;
+            font-size: 1.4em;
+            padding: 0.5em;
+            //gap: 0.35em;
+            position: relative;
+
+            @include xs {
+                flex-direction: column;
+                font-size: 1.2em;
+                align-items: center;
+                display: none;
+            }
+
+            @include phone {
+                font-size: 1.2em;
+                /*justify-content: space-evenly;*/
+                display: none;
+            }
+
+            @include tablet {
+                flex-wrap: nowrap;
+                display: flex;
+            }
+
+            .after {
+                width: 50px;
+                height: 4px;
+                background-color: $color-secondary;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                transform: translateX(0);
+                translate: 0 -200%;
+                transition: transform 300ms ease;
+            }
+
+            h3 {
+                font-size: inherit;
+                font-weight: 400;
+                text-align: center;
+                margin: 0;
+            }
+
+            .nav-item {
+                cursor: pointer;
+                user-select: none;
+
+                &:not(:first-of-type) {
+                    margin-inline-start: 1.46em;
+                }
+            }
+        }
+
+        &_content {
+            //border-inline-start: 4px solid $clr-md-black;
+
+            max-width: calc(406px + 1.2em);
+            display: flex;
+            flex-direction: column;
+
+            h3 {
+                position: relative;
+                align-self: center;
+                margin-block-end: 1em;
+
+                &:after {
+                    content: '';
+                    position: absolute;
+                    inset: 110% 0 auto 0;
+                    height: 4px;
+                    background-color: $color-secondary;
+                }
+            }
+
+            @include xs {
+                margin-inline: auto;
+
+                h3 {
+                    display: block;
+                }
+            }
+
+            @include phone {
+                margin-inline: auto;
+
+                h3 {
+                    display: block;
+                }
+            }
+
+            @include tablet {
+                margin-inline: unset;
+
+                h3 {
+                    display: none;
+                }
+            }
+
+            section {
+                padding-inline-end: 1.2em;
+                direction: rtl; //when/if scrollbar activates, to set it on left side as the XD indicates.
+
+                & > * {
+                    direction: ltr; // reset parent's direction for all children.
+                }
+
+                &:not(:first-child) {
+                    margin-block-start: 1.5em;
+                }
+
+                label {
+                    font-size: .8em;
+                    color: $clr-offwhite;
+
+                    &:first-of-type {
+                        margin: 0;
+                    }
+                }
+            }
+        }
+
+        &_personal,
+        &_company,
+        &_other {
+            flex-direction: column;
+
+            &.section_active {
+                display: flex;
+            }
+
+            @include xs {
+                display: flex;
+                overflow: initial;
+            }
+
+            @include phone {
+                display: flex;
+                overflow: initial;
+            }
+
+            @include tablet {
+                display: none;
+                overflow: auto;
+                max-height: 600px;
+            }
+
+            &::-webkit-scrollbar {
+                width: 4px;
+                background-color: $clr-md-black;
+                border-radius: 10000em;
+
+                &-thumb {
+                    background-color: $color-secondary;
+                    border-radius: 10000em;
+                }
+            }
+
+            form {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+
+
+
+                input {
+                    background-color: $color-primary;
+                    border: 2px solid $clr-md-black;
+                    border-radius: .45em;
+                    color: $clr-offwhite;
+                    padding: 0.6em;
+                    max-width: 100%;
+                }
+
+                &.editable {
+                    input {
+                        border-color: $color-secondary;
+                        color: inherit;
+
+                        &.invalidInpVal {
+                            border-color: $warn-red;
+                        }
+                    }
+                }
+
+                &:not(.editable) {
+                    pointer-events: none;
+                }
+            }
+        }
+    }
+
+
+
+    .form-controls {
+        display: flex;
+        flex-wrap: wrap-reverse;
+        align-items: center;
+        justify-content: flex-end;
+        margin-block-start: 1.2em;
+        user-select: none;
+
+        .btn {
+            margin: 0;
+        }
+
+        @include xs {
+            display: flex;
+            pointer-events: all;
+        }
+
+        @include phone {
+            display: flex;
+            pointer-events: all;
+        }
+
+        @include tablet {
+            display: none;
+            pointer-events: none;
+        }
+
+        .btn-default {
+            border-radius: .45em;
+            padding: .875em 1.5em;
+            line-height: 1.375;
+
+            &.form { //container selector for all control BTNS.
+                &-edit {
+                    display: inline-block;
+                    padding-inline: 2.15em;
+                }
+
+                &-discard {
+                    background-color: transparent;
+                    text-decoration: underline;
+                    display: none;
+
+                    &:hover {
+                        background-color: transparent;
+                        text-decoration: underline;
+                        color: $color-secondary;
+                    }
+                }
+
+                &-save {
+                    display: none;
+                }
+            }
+        }
+
+        &[data-editing] {
+            .form { //container selector for all control BTNS.
+                &-edit {
+                    display: none;
+                }
+
+                &-discard {
+                    display: inline-block;
+                }
+
+                &-save {
+                    display: inline-block;
+                }
+            }
+        }
+    }
+
+    #form-controls-gen {
+        display: none;
+
+        @include tablet {
+            display: flex;
+            pointer-events: all;
+        }
+    }
+
+    .popUp-bg {
+        display: none;
+
+        &.popPopped {
+            display: block;
+            background-color: rgba(0,0,0,.6);
+            position: fixed;
+            inset: 0;
+            z-index: 9998; // loader has 9999
+
+            .popUp-controls {
+                display: flex;
+                pointer-events: all;
+
+                .pop-form { //container selector for all pop up control BTNS.
+                    &-save {
+                        display: inline-block;
+                    }
+
+                    &-discard {
+                        display: inline-block;
+                    }
+                }
+            }
+        }
+
+        .popUp-content {
+            position: absolute;
+            font-family: 'Poppins-semibold';
+            background-color: $color-header;
+            inset: 0;
+            max-width: min(427px, 90%);
+            max-height: 226px;
+            margin: auto;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1.35em;
+
+            p {
+                font-size: 1em;
+                margin-block-end: 0;
+                text-align: center;
+            }
+
+            > * {
+                margin-block-start: auto;
+            }
+
+            .popUp-controls {
+                margin-inline-start: auto;
+            }
+
+            .popClose {
+                position: absolute;
+                top: 18px;
+                right: 18px;
+                background: transparent;
+
+                &:hover,
+                &:active,
+                &:focus-visible {
+                    svg path {
+                        fill: #aaa;
+                        stroke: #aaa;
+                    }
+                }
+            }
+        }
+    }
+    //Employees More Details
+    &#moreDetailsEmpl {
+        padding-inline: initial;
+        margin-block-end: initial;
+        font-size: clamp(14px,3vw,18px);
+
+        .myProfile__details_content {
+            max-width: 400px;
+            margin-inline: unset !important;
+
+            section {
+                direction: initial;
+            }
+        }
+
+        form {
+            label {
+                margin-top: 0.65em;
+                color: $color-primary;
+            }
+
+            input {
+                background-color: transparent;
+                color: $color-primary;
+            }
+
+            .form-controls {
+                display: flex;
+                pointer-events: all;
+
+                .btn-default {
+                    padding: 0.5em 0.8em;
+                }
+
+            }
+        }
+    }
+}

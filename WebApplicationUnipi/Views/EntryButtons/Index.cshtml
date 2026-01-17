@@ -1,0 +1,70 @@
+﻿@{
+    ViewBag.Title = "HR";
+}
+
+<div class="gridBg rgAlg lfAlg">
+    <h3>@ViewBag.Title</h3>
+    <div class="tab">
+        <button id="3" data-tab="1" class="xtab sessionUpdate active">Department</button>
+        <button id="2" data-tab="2" class="xtab sessionUpdate">Position</button>
+        <button id="5" data-tab="3" class="xtab sessionUpdate">Specialties</button>
+        <button id="6" data-tab="4" class="xtab sessionUpdate">Public Holiday</button>
+        <button id="7" data-tab="5" class="xtab sessionUpdate">Roles</button>
+    </div>
+
+    <!-- Tab content -->
+    <div class="panelContainer HR-panelContainer">
+        <div class="target panel-1">
+            @{ Html.RenderAction("GridView1Partial"); }
+        </div>
+        <div class="target panel-2" style="transform: translate(100vw,0)"></div>
+        <div class="target panel-3" style="transform: translate(100vw,0)"></div>
+        <div class="target panel-4" style="transform: translate(100vw,0)"></div>
+        <div class="target panel-5" style="transform: translate(100vw,0)"></div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('.xtab').on("click", function (evt) {
+            if (evt.target.classList.contains("active")) return;
+
+            $(".loader").addClass("shown");
+
+            let tab = evt.target.id;
+            var xurl;
+            let dir;
+
+            let prev = $(".xtab.active").attr("data-tab");
+            let current = evt.target.getAttribute("data-tab");
+
+            prev > current ? dir = -1 : dir = 1;
+
+            if (tab == "3")
+                xurl = "GridView1Partial";       // Department
+            else if (tab == "2")
+                xurl = "GridViewPartial";       // Position
+            else if (tab == "5")
+                xurl = "SpecialtiesGridViewPartial"; // Specialties
+            else if (tab == "6")
+                xurl = "DaysOffGridViewPartial"; // Public Holiday
+            else if (tab == "7")
+                xurl = "RolesGridViewPartial";   // Roles
+
+            $.get(xurl)
+                .done(function (data) {
+                    underlineMove(current);
+                    $(".loader").removeClass("shown");
+                    $(`.target.panel-${prev}`).html("").css({ "display": "none" });
+                    $(`.target.panel-${current}`).css("transform", `translate(calc(${dir}*100vw),0)`);
+                    $(`.target.panel-${current}`).css("display", "block");
+                    setTimeout(() => {
+                        $(`.target.panel-${current}`).html(data).css("transform", "unset");
+                    }, 10)
+
+                    $('.xtab').removeClass("active");
+                    $(`[data-tab="${current}"]`).addClass("active");
+                });
+        });
+    });
+</script>

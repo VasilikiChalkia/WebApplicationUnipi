@@ -1,0 +1,240 @@
+﻿//-------| FONTS |--------
+
+@import url(http://fonts.googleapis.com/css?family=Roboto|Poppins&display=swap);
+
+@font-face {
+    font-family: 'Poppins-semibold';
+    src: url('../../../fonts/poppins-semibold-webfont.eot');
+    src: url('../../../fonts/poppins-semibold-webfont.eot?#iefix') format('embedded-opentype'), 
+        url('../../../fonts/poppins-semibold-webfont.woff2') format('woff2'), 
+        url('../../../fonts/poppins-semibold-webfont.woff') format('woff'), 
+        url('../../../fonts/poppins-semibold-webfont.ttf') format('truetype'), 
+        url('../../../fonts/poppins-semibold-webfont.svg#poppinssemibold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+//-------| VARIABLES |--------
+
+$color-primary: #333333;
+$color-secondary: #93c47d;
+$color-secondary-hover: #0E6554;
+$white: #ffffff;
+$black: #000000;
+$color-header: #555555;
+$color-dark-heading: #3e3e3e;
+$bg-color: #3e3e3e;
+
+//--Home/Updates view use those 2
+$clr-md-black: #414141;
+$clr-offwhite: #CBCBCB;
+//------------
+
+$font-primary: 'Poppins', sans-serif;
+$font-secondary: 'Roboto', serif;
+
+//Buttons variables
+$light-green: #93c47d;
+$green: #0E6554;
+$dark-green: #07322A;
+
+$turquoise: #47D3B9 ;
+$petrol: #0e5f65;
+$date-green: #1bbc9b;
+$clock-lightgreen: #c0f7e1;
+
+$light-red: #C74848;
+$red: #A51313;
+$dark-red: #460505;
+$warn-red: #D9534F;
+$dark-yellow: #C28E0F;
+
+$tab-color: #3e3e3e;
+
+$input-color: #bacbb4;
+$input-color-error: #CC9C9C;
+$input-color-error-after: #E15858; 
+$input-grey: #DFDFDF;
+$input-lightgrey: #CDDFDD;
+$grey: #757575 ;
+$container-max-widths: ( sm: 100%, md: 100%, lg: 100%, xl: 100%, xxl: 100% );
+
+//-------| MIXINS |--------
+//$breakpoints: ('xs' : 320px,'phone' : 501px, 'sm-tablet':571px, 'tablet' : 768px, 'laptop': 1280px, 'desktop': 1920px); // at new index with "boxes"
+$breakpoints: ('xs' : 500px,'phone' : 501px, 'tablet' : 768px, 'laptop': 1280px, 'desktop': 1920px); // before new index with "boxes"
+
+@mixin desktop {
+    @media (min-width: map-get($breakpoints, "desktop")) {
+        @content;
+    }
+}
+
+@mixin laptop {
+    @media (min-width: map-get($breakpoints, "laptop")) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media (min-width: map-get($breakpoints, "tablet")) {
+        @content;
+    }
+}
+
+/*@mixin sm-tablet {
+    @media(min-width: map-get($breakpoints, "sm-tablet")) {
+        @content;
+    }
+}*/ // at new index with "boxes"
+
+@mixin phone {
+    @media (min-width: map-get($breakpoints, "phone")) {
+        @content;
+    }
+}
+
+@mixin xs {
+    //@media (min-width: map-get($breakpoints, "xs")) { // at new index with "boxes"
+	@media (max-width: map-get($breakpoints, "xs")) { // before new index with "boxes"
+        @content;
+    }
+}
+
+@mixin link-decor {
+    text-decoration: none;
+}
+
+@mixin max-cont {
+    max-width: -webkit-max-content;
+    max-width: -moz-max-content;
+    max-width: max-content;
+}
+
+@mixin wrong-pass {
+    color: $warn-red;
+    font-size: 17px;
+}
+
+@mixin right-pass {
+    color: $light-green;
+    font-size: 17px;
+}
+
+@mixin input-style {
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active,
+    select,
+    select option {
+        -webkit-box-shadow: 0 0 0 30px #bacbb4 inset !important;
+    }
+    /*for firefox*/
+    input {
+        -webkit-filter: none;
+        filter: none;
+
+        &.err {
+            background-color: $input-color-error !important;
+        }
+    }
+
+    input:not(.btn):not(.err) {
+        background-color: $input-color !important;
+    }
+}
+
+@mixin gradient-btn {
+    color: $white;
+    background: rgb(14,95,101);
+    background: -moz-linear-gradient(90deg, rgba(14,95,101,1) 0%, rgba(14,101,84,1) 100%);
+    background: -webkit-linear-gradient(90deg, rgba(14,95,101,1) 0%, rgba(14,101,84,1) 100%);
+    background: linear-gradient(90deg, rgba(14,95,101,1) 0%, rgba(14,101,84,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#0e5f65",endColorstr="#0e6554",GradientType=1);
+}
+
+@mixin shadow-btn {
+    background: rgb(14,95,101);
+    background: -moz-linear-gradient(90deg, rgba(14,95,101,1) 35%, rgba(131,177,173,1) 100%);
+    background: -webkit-linear-gradient(90deg, rgba(14,95,101,1) 35%, rgba(131,177,173,1) 100%);
+    background: linear-gradient(90deg, rgba(14,95,101,1) 35%, rgba(131,177,173,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#0e5f65",endColorstr="#83b1ad",GradientType=1);
+
+}
+
+@mixin material-btn {
+    background: rgb(103,110,109);
+    background: -moz-linear-gradient(90deg, rgba(103,110,109,1) 0%, rgba(116,122,121,1) 100%);
+    background: -webkit-linear-gradient(90deg, rgba(103,110,109,1) 0%, rgba(116,122,121,1) 100%);
+    background: linear-gradient(90deg, rgba(103,110,109,1) 0%, rgba(116,122,121,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#676E6D",endColorstr="#747A79",GradientType=1);
+}
+
+//-------| ANIMATIONS |--------
+//show - hide sidemenu animation
+@keyframes slide-out {
+    0% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+    100% {
+        -webkit-transform: translateX(-200px);
+        transform: translateX(-200px);
+        visibility: hidden;
+    }
+}
+
+@keyframes slide-in {
+    0% {
+        -webkit-transform: translateX(-200px);
+        transform: translateX(-200px);
+        opacity: 0;
+    }
+    80% {
+        opacity: 0;
+    }
+    90% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+        
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes gradient-animation {
+    0% {
+        background-position: 15% 0%;
+    }
+
+    50% {
+        background-position: 85% 100%;
+    }
+
+    100% {
+        background-position: 15% 0%;
+    }
+}
+
+@keyframes frame-enter {
+    0% {
+        clip-path: polygon(0% 100%, 3px 100%, 3px 3px, calc(100% - 3px) 3px, calc(100% - 3px) calc(100% - 3px), 3px calc(100% - 3px), 3px 100%, 100% 100%, 100% 0%, 0% 0%);
+    }
+
+    25% {
+        clip-path: polygon(0% 100%, 3px 100%, 3px 3px, calc(100% - 3px) 3px, calc(100% - 3px) calc(100% - 3px), calc(100% - 3px) calc(100% - 3px), calc(100% - 3px) 100%, 100% 100%, 100% 0%, 0% 0%);
+    }
+
+    50% {
+        clip-path: polygon(0% 100%, 3px 100%, 3px 3px, calc(100% - 3px) 3px, calc(100% - 3px) 3px, calc(100% - 3px) 3px, calc(100% - 3px) 3px, calc(100% - 3px) 3px, 100% 0%, 0% 0%);
+    }
+
+    75% {
+        -webkit-clip-path: polygon(0% 100%, 3px 100%, 3px 3px, 3px 3px, 3px 3px, 3px 3px, 3px 3px, 3px 3px, 3px 0%, 0% 0%);
+    }
+
+    100% {
+        -webkit-clip-path: polygon(0% 100%, 3px 100%, 3px 100%, 3px 100%, 3px 100%, 3px 100%, 3px 100%, 3px 100%, 3px 100%, 0% 100%);
+    }
+}

@@ -1,0 +1,44 @@
+﻿.dxmLite_MaterialCompact .dxctToolbar_MaterialCompact.dxm-main.dxmtb {
+    @include shadow-btn;
+    color: $white;
+}
+
+dxm-main dxm-horizontal dxctToolbar_MaterialCompact dxct-sys dxgvCTTop dxmtb dxm-noWrap {
+    @include shadow-btn;
+    color: $white;
+}
+
+.dxucBrowseButtonHover_MaterialCompact {
+    background-color: #93c47d;
+    color: $white;
+}
+
+.HR-panelContainer {
+    overflow-X: inherit!important;
+}
+
+.dxgvADDC {
+    max-width: calc(100vw - 300px) !important;
+    overflow-wrap: break-word;
+    padding-right: 50px;
+}
+
+.dxflFormLayout_MaterialCompact{
+    label {
+    margin: 0;
+    }
+}
+.smallGrid{
+    max-width:768px;
+}
+.mediumGrid{
+    max-width:992px;
+}
+
+.LargeGrid{
+    max-width:1200px;
+}
+
+.ExtraLargeGrid {
+    max-width: 1400px;
+}

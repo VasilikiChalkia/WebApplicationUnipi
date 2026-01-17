@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mvcSiteMap xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns="http://mvcsitemap.codeplex.com/schemas/MvcSiteMap-File-4.0"
+            xsi:schemaLocation="http://mvcsitemap.codeplex.com/schemas/MvcSiteMap-File-4.0 MvcSiteMapSchema.xsd">
+
+	<mvcSiteMapNode title="Home" controller="Home" action="Index">
+		
+		
+		
+		<mvcSiteMapNode title="Employees" controller="AllEmployeesView" action="Index" preservedRouteParameters="id">
+			
+				<mvcSiteMapNode title="More Employee Details" controller="AllEmployeesView" action="MoreDetailsEmployee" preservedRouteParameters="usrID"/>
+			</mvcSiteMapNode>
+			
+				<mvcSiteMapNode title=" More Employee Details" controller="AllEmployeesView" action="MoreDetailsEmployee" preservedRouteParameters="usrID,status"/>
+			
+	
+		<mvcSiteMapNode title="HR" controller="EntryButtons" action="Index"/>
+		
+		<mvcSiteMapNode title="Admin Requests" controller="AdminRequests" action="Index">
+		
+		</mvcSiteMapNode>
+
+		<mvcSiteMapNode title="My Profile" controller="MyProfile" action="Index">
+			<mvcSiteMapNode title="My annual leaves" controller="MyProfile" action="MyAnnualLeave">
+				<mvcSiteMapNode title="Upload files" controller="MyProfile" action="UploadLeaveRequestFile" preservedRouteParameters="id"/>
+			</mvcSiteMapNode>
+		</mvcSiteMapNode>
+
+
+
+
+
+
+		<mvcSiteMapNode title="Admin Leaves" controller="AdminAnnualLeaves" action="Index" >
+			
+		</mvcSiteMapNode>
+			<mvcSiteMapNode title="Admin Leavess" controller="AdminAnnualLeaves" action="AdminLeaves"  preservedRouteParameters="id"/>
+		</mvcSiteMapNode>
+
+</mvcSiteMap>
+
+

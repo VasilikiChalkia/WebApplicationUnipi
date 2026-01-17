@@ -1,0 +1,138 @@
+﻿
+
+.body-errorsLayout {
+    .view-content {
+        padding-left: 0px;
+        min-height: 850px;
+    }
+
+    .error-page {
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        flex-direction: column;
+        background-repeat: no-repeat;
+        justify-content: flex-start;
+        height: 100%;
+
+        @include xs {
+            background-size: 100%;
+        }
+
+        a {
+            @include link-decor;
+            display: block;
+            color: $color-primary;
+        }
+
+        .goHome {
+            background: $color-header;
+            color: $white;
+            cursor: pointer;
+            padding: 13px 22px;
+            font-family: $font-primary;
+            font-size: 18px;
+            text-align: center;
+            transition: all .2s ease;
+            margin-top: 24px;
+            border-radius: 9px;
+
+            &:hover {
+                background: $grey;
+            }
+        }
+    }
+
+    .error-404 {
+        background-image: url("/Content/images/error404.png");
+        margin-top: 123px;
+        background-position: right center;
+
+        @include xs {
+            background-size: 120%;
+            background-position: -40% 60%;
+        }
+
+        @include phone {
+            background-size: 91%;
+            background-position: 330% 69%;
+        }
+
+        @include tablet {
+            background-size: 60%;
+            background-position: 134% 50%;
+        }
+
+        @include laptop {
+            background-size: 64%;
+            background-position: 142% 50%;
+        }
+
+        @include desktop {
+            background-size: 55%;
+            background-position: 125% 40%;
+        }
+    }
+
+
+    .no-access {
+        background-image: url("/Content/images/error401.png");
+        background-position: center;
+        margin-top: 123px;
+        background-position-y: 50%;
+
+
+        @include laptop {
+            margin-top: 163px;
+            background-position-y: 250px;
+        }
+    }
+
+    .error-maintenance {
+        background-image: url("/Content/images/maintenance.png");
+        background-position: center;
+
+
+        @include xs {
+            background-position-y: 50%;
+            margin-top: 15%;
+        }
+
+
+        @include phone {
+            background-position-y: 50%;
+            margin-top: 15%;
+        }
+
+        @include tablet {
+            background-position-y: 40%;
+            margin-top: 123px;
+        }
+
+        @include laptop {
+            background-position-y: 180px;
+        }
+    }
+
+    .line {
+
+        &-big {
+            font-family: 'Poppins', sans-serif;
+            font-size: 36px;
+            color: #CBCBCB;
+            line-height: 55px;
+        }
+
+        &-sm {
+            font-family: 'Poppins', sans-serif;
+            font-size: 18px;
+            color: #0B846C;
+            line-height: 27px;
+            padding-top: 9px;
+        }
+    }
+}
+.head-errorsLayout{
+    text-align: center;
+}
