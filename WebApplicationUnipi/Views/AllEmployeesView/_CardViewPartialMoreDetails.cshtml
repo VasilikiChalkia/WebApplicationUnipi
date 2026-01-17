@@ -1,0 +1,115 @@
+@{
+    var cardView = Html.DevExpress().CardView(settings =>
+    {
+        settings.Name = "CardView1";
+        settings.CallbackRouteValues = new {
+            Controller = "AllEmployeesView",
+            Action = "CardViewPartialMoreDetails",
+            Id = int.Parse(Session["queryId"].ToString())
+        };
+        settings.SettingsEditing.AddNewCardRouteValues = new { Controller = "AllEmployeesView", Action = "CardViewPartialMoreDetailsAddNew" };
+        settings.SettingsEditing.UpdateCardRouteValues = new { Controller = "AllEmployeesView", Action = "CardViewPartialMoreDetailsUpdate", Id = ViewData["Id"] };
+        settings.SettingsEditing.DeleteCardRouteValues = new { Controller = "AllEmployeesView", Action = "CardViewPartialMoreDetailsDelete" };
+        settings.SettingsEditing.Mode = CardViewEditingMode.EditForm;
+        settings.SettingsBehavior.ConfirmDelete = true;
+        settings.KeyFieldName = "Id";
+        settings.SettingsPager.Visible = true;
+        settings.Settings.ShowHeaderPanel = false;
+        settings.Settings.ShowHeaderFilterButton = false;
+        settings.SettingsBehavior.AllowSelectByCardClick = true;
+        //settings.Columns.Add("Employee_Fname");
+        //settings.Columns.Add("Employee_Lname");
+
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Personal_Email";
+            column.Caption = "Personal Email";
+        });
+
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Home_Address";
+            column.Caption = "Home Address";
+        });
+
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Personal_Mobile_Number";
+            column.Caption = "Mobile Number";
+        });
+
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Birth_Date";
+            column.Caption = "Birth Date";
+            column.ColumnType = MVCxCardViewColumnType.DateEdit;
+            //var dateEditProperties = column.PropertiesEdit as DateEditProperties;
+            (column.PropertiesEdit as DateEditProperties).DisplayFormatString = "dd/MM/yyyy";
+            (column.PropertiesEdit as DateEditProperties).EditFormatString = "dd/MM/yyyy";
+            //(column.PropertiesEdit as DateEditProperties).DisplayFormatInEditMode = true;
+
+        });
+
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Transportation";
+            column.Caption = "Transportation";
+        });
+
+        //settings.CardLayoutProperties.Items.Add("Employee_Fname");
+        //settings.CardLayoutProperties.Items.Add("Employee_Lname");
+        settings.CardLayoutProperties.Items.Add("Personal_Email");
+        settings.CardLayoutProperties.Items.Add("Home_Address");
+        settings.CardLayoutProperties.Items.Add("Personal_Mobile_Number");
+        settings.CardLayoutProperties.Items.Add("Birth_Date");
+        settings.CardLayoutProperties.Items.Add("Transportation");
+        settings.CardLayoutProperties.Items.AddEditModeCommandItem().Width = 500;
+        settings.CardLayoutProperties.Items.AddCommandItem(i =>
+        {
+            i.ShowNewButton = false;
+            i.ShowEditButton = true;
+            i.ShowDeleteButton = true;
+        });
+
+        settings.CommandButtonInitialize = (s, e) =>
+        {
+            if (e.ButtonType == CardViewCommandButtonType.Edit)
+            {
+                MVCxCardView g = s as MVCxCardView;
+                var PrimeList = (List<int>)Session["UserRights"];
+                if (PrimeList.Contains((int)WebApplicationUnipi.Models.Enums.Privileges.HR_Admin))
+                {
+                    e.Visible = true;
+                }
+            }
+            if (e.ButtonType == CardViewCommandButtonType.Delete)
+            {
+                MVCxCardView g = s as MVCxCardView;
+                var PrimeList = (List<int>)Session["UserRights"];
+                if (PrimeList.Contains((int)WebApplicationUnipi.Models.Enums.Privileges.HR_Admin))
+                {
+                    e.Visible = true;
+                }
+            }
+            if (e.ButtonType == CardViewCommandButtonType.New)
+            {
+                MVCxCardView g = s as MVCxCardView;
+                var PrimeList = (List<int>)Session["UserRights"];
+                if (PrimeList.Contains((int)WebApplicationUnipi.Models.Enums.Privileges.HR_Admin))
+                {
+                    e.Visible = true;
+                }
+            }
+        };
+    });
+    if (ViewData["EditError"] != null)
+    {
+        cardView.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+@cardView.Bind(Model).GetHtml()

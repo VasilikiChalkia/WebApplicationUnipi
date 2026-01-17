@@ -1,0 +1,83 @@
+﻿.tab {
+    display: inline-flex;
+    margin-bottom: 30px;
+    padding-left: 0 !important;
+    --left: 0;
+    position: relative;
+    /* Style the buttons that are used to open the tab content */
+    li {
+        list-style: none;
+    }
+
+    button,
+    li {
+        width: 210px;
+        color: $tab-color;
+        background: transparent;
+        border-bottom: 2px solid $white;
+        border-bottom-color: $white;
+        float: left;
+        outline: none;
+        cursor: pointer;
+        padding: 5px 10px;
+        transition: 0.3s;
+        font-size: 18px;
+        text-align: center;
+        /* Create an active/current tablink class */
+        &.active {
+            /*border-color: $tab-color;
+            border-width: 4px;*/
+            font-weight: bold;
+        }
+        /* Change background color of buttons on hover */
+        &:hover {
+            /*border-color: $tab-color;*/
+            color: $white;
+        }
+    }
+
+    &::before {
+        content: '';
+        width: 210px;
+        height: 4px;
+        background-color: $tab-color;
+        position: absolute;
+        bottom: 0;
+        left: var(--left,0);
+        z-index:10;
+        transition: left 700ms ease;
+    }
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+.tab-content {
+    overflow-x:hidden;
+    > div {
+        transition: transform 700ms ease;
+    }
+}
+.tab-pane {
+    table {
+        .table-striped table-hover tablesorter {
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+        }
+
+        thead {
+            background: rgb(14,95,101);
+            background: -moz-linear-gradient(90deg, rgba(14,95,101,1) 0%, rgba(14,101,84,1) 100%);
+            background: -webkit-linear-gradient(90deg, rgba(14,95,101,1) 0%, rgba(14,101,84,1) 100%);
+            background: linear-gradient(90deg, rgba(14,95,101,1) 0%, rgba(14,101,84,1) 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#0e5f65",endColorstr="#0e6554",GradientType=1);
+        }
+    }
+}
+
+

@@ -1,0 +1,82 @@
+﻿@model WebApplicationUnipi.Models.MyApplicationUnipi.Employee_Details
+@{
+    ViewBag.Title = "Employees";
+    var id = ViewBag.Id;
+}
+
+<div class="gridBg rgAlg lfAlg annual">
+    <div class="employee-header">
+        <h3>More Details Employee: @Model.Employee_Fname @Model.Employee_Lname </h3>
+    </div>
+    <div class="tab">
+        <button id="1" class="xtab sessionUpdate active">Contracts</button>
+        <button id="2" class="xtab sessionUpdate">Annual Leaves per Contract</button>
+        <button id="3" class="xtab sessionUpdate">Annual Leaves per Year</button>
+        <button id="4" class="xtab sessionUpdate">Personal Details</button>
+    </div>
+
+    <!-- Tab content -->
+    <div>
+        <div class="target panel panel-1">
+            @* Preload Contracts as default *@
+            @{
+                Html.RenderAction("GridViewPartialContracts", new { Id = id });
+            }
+        </div>
+        <div class="target panel panel-2" style="transform: translate(100vw,0)"></div>
+        <div class="target panel panel-3" style="transform: translate(100vw,0)"></div>
+        <div class="target panel panel-4" style="transform: translate(100vw,0)"></div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(ViewData["EditError"]?.ToString()))
+    {
+        <div class="msgPopUpSuccess">
+            @Html.Partial("../ReturnedMessage/_ReturnedMessage", ViewData["EditError"]?.ToString());
+        </div>
+    }
+</div>
+
+<script>
+    $(function () {
+        $('.xtab').on("click", function (evt) {
+            if (evt.target.classList.contains("active")) return;
+            $(".loader").addClass("shown");
+            let tab = evt.target.id;
+            let prev = $(".xtab.active").attr("id");
+            var xurl;
+
+            prev > tab ? dir = -1 : dir = 1;
+
+            if (tab == "1")
+                xurl = "/../AllEmployeesView/GridViewPartialContracts";
+            else if (tab == "2")
+                xurl = "/../AllEmployeesView/GridViewPartialAnnualLeaves";
+            else if (tab == "3")
+                xurl = "/../AllEmployeesView/ApprovedLeavesPerYear";
+            else
+                xurl = "/../AllEmployeesView/FetchPersonalInfo";
+
+            $.ajax({
+                url: xurl,
+                type: 'get',
+                data: {
+                    'Id': @id,
+                },
+                success: function (data) {
+                    underlineMove(tab);
+                    $(".loader").removeClass("shown");
+                    $(`.target.panel-${tab}`).css("transform", `translate(calc(${dir}*100vw),0)`)
+                    $(`.target.panel-${tab}`).css("display", "block");
+                    setTimeout(() => {
+                        $(`.target.panel-${tab}`).html(data).css("transform", "unset");
+                    }, 10)
+                    $(`.target.panel-${prev}`).html("").css({ "display": "none" });
+
+                    $('.xtab').removeClass("active");
+                    $(`#${tab}`).addClass("active");
+                }
+            });
+        });
+        $(".employee-card-btn").on("click", escapeBeforeUnload);
+    });
+</script>

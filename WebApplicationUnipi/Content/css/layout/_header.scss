@@ -1,0 +1,142 @@
+﻿//-------| HEADER |--------
+header {
+    background: $color-header;
+    //border-bottom: 10px solid $color-secondary;
+    position: relative;
+    /*padding: 20px 0 0 0;*/
+    padding: 0;
+    z-index: 1;
+
+    .head-content {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: stretch;
+        justify-content: center;
+        isolation: isolate;
+
+        > a {
+            display: flex;
+            padding-inline: min(20px,5%);
+            padding-block: min(10px,2.5%);
+            max-width: 180px;
+            width: 100%;
+
+            img {
+                width: 100%;
+            }
+        }
+
+        .notif-area {
+            border-bottom: 10px solid $color-secondary;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            flex-grow: 1000;
+            padding-inline: 1em;
+            position: relative;
+            z-index: 1;
+        }
+    }
+
+    img {
+        width: 180px;
+    }
+
+    &.userIn {
+        .head-content {
+            max-width: 100%;
+        }
+
+        .notif-area {
+            
+        }
+
+        .userBox {
+            display: flex;
+            flex: 1 1 565px;
+        }
+    }
+
+    &:not(.userIn) {
+        .head-content {
+            > * {
+                flex: 1 1 50%;
+                max-width: unset;
+            }
+
+            > a {
+                justify-content: end;
+
+                img {
+                    max-width: 180px;
+                }
+            }
+
+            @include xs {
+                > a {
+                    justify-content: center;
+                    padding-inline: 1em;
+                }
+
+                .notif-area {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    .userBox {
+        display: none;
+        background-color: $color-secondary;
+        padding: 20px 0;
+        position: static;
+        padding: min(20px,6%) 0;
+        padding-inline-end: min(20px,5%);
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        row-gap: 10px;
+
+        > * {
+            padding-inline: 15px;
+        }
+
+        a, div {
+            display: inline-block;
+        }
+
+        a {
+            height: 35px;
+            width: 35px;
+            background: url(/Content/images/logout.svg) center no-repeat;
+            transition-duration: 0.2s;
+            transition-timing-function: linear;
+
+            &:hover {
+                transform: scale(1.1);
+            }
+        }
+
+    
+
+        .prof {
+            margin-left: 0px;
+            margin-inline-end: 10px;
+
+            a {
+                height: 35px;
+                width: 35px;
+                background-image: url(/Content/images/profile.svg);
+                background-repeat: no-repeat;
+                background-size: contain;
+                transition-duration: 0.1s;
+                transition-timing-function: linear;
+
+                &:hover {
+                    transform: scale(1.1);
+                }
+            }
+        }
+    }
+
+   }

@@ -1,0 +1,257 @@
+@using WebApplicationUnipi.Services.Factories
+@{
+
+    try
+    {
+        var grid = Html.DevExpress().GridView(settings =>
+        {
+            settings.Name = "GridViewIndex";
+            settings.CallbackRouteValues = new { Controller = "AllEmployeesView", Action = "GridViewIndexPartial" };
+            settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "AllEmployeesView", Action = "GridViewIndexPartialUpdate"};
+            settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "AllEmployeesView", Action = "GridViewIndexPartialDelete"};
+            settings.SettingsEditing.Mode = GridViewEditingMode.EditFormAndDisplayRow;
+
+            settings.EditFormLayoutProperties.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.SingleColumnWindowLimit;
+            settings.EditFormLayoutProperties.SettingsAdaptivity.SwitchToSingleColumnAtWindowInnerWidth = 992;
+
+            settings.SettingsBehavior.ConfirmDelete = true;
+            settings.Settings.ShowFooter = true;
+            settings.Settings.ShowGroupPanel = true;
+            settings.SettingsExport.EnableClientSideExportAPI = true;
+            settings.SettingsExport.ExcelExportMode = DevExpress.Export.ExportType.Default;
+            settings.SettingsExport.FileName = nameof(WebApplicationUnipi.Models.MyApplicationUnipi.All_Employees_View);
+            settings.CommandColumn.Visible = true;
+            settings.CommandColumn.ShowNewButtonInHeader = true;
+            settings.CommandColumn.ShowDeleteButton = true;
+            settings.CommandColumn.ShowEditButton = true;
+            settings.KeyFieldName = "Id";
+            settings.SettingsPager.Visible = true;
+            settings.Settings.ShowGroupPanel = true;
+            settings.Settings.ShowFilterRow = true;
+            settings.SettingsBehavior.AllowSelectByRowClick = true;
+            settings.SettingsDataSecurity.AllowDelete = true;
+
+
+            settings.EditFormLayoutProperties.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.SingleColumnWindowLimit;
+            settings.EditFormLayoutProperties.SettingsAdaptivity.SwitchToSingleColumnAtWindowInnerWidth = 992;
+
+            settings.SettingsCustomizationDialog.Enabled = true;
+
+
+            /*
+            settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.Off;
+            settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+            settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+            settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = false;
+            settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 0;
+            */
+
+            settings.CommandColumn.Width = 100;
+            settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.HideDataCells; //Hide data if there's not enough space
+            settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right; //spread icon. ...
+            settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1; // 1 column when dropdrown menu is open.
+            settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = true; //Hides specific column and not using default order.
+            settings.Width = System.Web.UI.WebControls.Unit.Percentage(100); //width 100%
+            settings.SettingsBehavior.AllowEllipsisInText = true; //text ellipsis - wrap text.
+            settings.Styles.Cell.Wrap = DefaultBoolean.True;
+
+
+            settings.EditFormLayoutProperties.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.SingleColumnWindowLimit;
+            settings.EditFormLayoutProperties.SettingsAdaptivity.SwitchToSingleColumnAtWindowInnerWidth = 992;
+
+            settings.Columns.Add(column =>
+            {
+                MVCxColumnTextBoxProperties editorProperties = column.PropertiesEdit as MVCxColumnTextBoxProperties;
+                editorProperties.ValidationSettings.RequiredField.IsRequired = true;
+                column.FieldName = "Employee_Lname";
+                column.Caption = "Surname";
+            });
+
+            settings.Columns.Add(column =>
+            {
+                MVCxColumnTextBoxProperties editorProperties = column.PropertiesEdit as MVCxColumnTextBoxProperties;
+                editorProperties.ValidationSettings.RequiredField.IsRequired = true;
+                column.FieldName = "Employee_Fname";
+                column.Caption = "Name";
+            });
+
+            settings.Columns.Add(column =>
+            {
+                column.FieldName = "Department_Id";
+                column.ColumnType = MVCxGridViewColumnType.ComboBox;
+                var comboBoxProperties = column.PropertiesEdit as ComboBoxProperties;
+                MVCxColumnComboBoxProperties editorProperties = column.PropertiesEdit as MVCxColumnComboBoxProperties;
+                editorProperties.ValidationSettings.RequiredField.IsRequired = true;
+                column.EditFormSettings.Visible = DefaultBoolean.True;
+                comboBoxProperties.TextField = "Department_Name";
+                column.Caption = "Department";
+                comboBoxProperties.ValueField = "Id";
+                comboBoxProperties.DataSource = new WebApplicationUnipi.Models.MyApplicationUnipi.MyApplicationUnipiEntities().HR_Department.Where(x => x.Status != 3).GroupBy(x => x.Id).Select(grp => grp.FirstOrDefault()).ToList();
+                comboBoxProperties.ValueType = typeof(string);
+            });
+            settings.Columns.Add(column =>
+            {
+                column.FieldName = "Position_Id";
+                column.ColumnType = MVCxGridViewColumnType.ComboBox;
+                var comboBoxProperties = column.PropertiesEdit as ComboBoxProperties;
+                column.EditFormSettings.Visible = DefaultBoolean.True;
+                MVCxColumnComboBoxProperties editorProperties = column.PropertiesEdit as MVCxColumnComboBoxProperties;
+                editorProperties.ValidationSettings.RequiredField.IsRequired = true;
+                comboBoxProperties.TextField = "Position_Name";
+                column.Caption = "Position";
+                comboBoxProperties.ValueField = "Id";
+                comboBoxProperties.DataSource = new WebApplicationUnipi.Models.MyApplicationUnipi.MyApplicationUnipiEntities().HR_Position.Where(x => x.Type == 1 && x.Status != (byte)WebApplicationUnipi.Models.Enums.Status.InActive).GroupBy(x => x.Id).Select(grp => grp.FirstOrDefault()).ToList();
+                comboBoxProperties.ValueType = typeof(string);
+            });
+
+
+
+
+
+            settings.Columns.Add(col =>
+            {
+                col.FieldName = "Privileges_Num";
+                col.Caption = "Privileges";
+                col.ColumnType = MVCxGridViewColumnType.ComboBox;
+
+                var dict = Enum.GetValues(typeof(WebApplicationUnipi.Models.Enums.Privileges))
+                               .Cast<WebApplicationUnipi.Models.Enums.Privileges>()
+                               .ToDictionary(
+                                   e => (int)e,
+                                   e => e.GetDisplayAttributeFrom()
+                               );
+
+                var comboBoxProperties = col.PropertiesEdit as MVCxColumnComboBoxProperties;
+                if (comboBoxProperties != null)
+                {
+                    comboBoxProperties.DataSource = dict;
+                    comboBoxProperties.ValueField = "Key";
+                    comboBoxProperties.TextField = "Value";
+                    comboBoxProperties.ValueType = typeof(int);
+                }
+
+                col.Settings.AllowAutoFilter = DefaultBoolean.True;
+            });
+
+            settings.Columns.Add(column =>
+            {
+                column.FieldName = "Available";
+                column.Caption = "Available Leaves";
+                MVCxColumnTextBoxProperties editorProperties = column.PropertiesEdit as MVCxColumnTextBoxProperties;
+                editorProperties.ValidationSettings.RequiredField.IsRequired = true;
+                column.EditFormSettings.Visible = DefaultBoolean.False;
+                column.ReadOnly = true;
+                column.Width = 140;
+            });
+
+            settings.Columns.Add(col =>
+            {
+                col.FieldName = "Status";
+                Dictionary<int, string> dict = new Dictionary<int, string>();
+                foreach (var option in Enum.GetValues(typeof(WebApplicationUnipi.Models.Enums.Status)))
+                {
+                    dict.Add((int)option, option.ToString());
+                }
+                col.ColumnType = MVCxGridViewColumnType.ComboBox;
+                var comboBoxProperties = col.PropertiesEdit as ComboBoxProperties;
+                comboBoxProperties.TextField = "Status";
+                comboBoxProperties.DataSource = dict;
+                comboBoxProperties.TextField = "Value";
+                comboBoxProperties.ValueField = "Key";
+                comboBoxProperties.ValueType = typeof(WebApplicationUnipi.Models.Enums.Status);
+
+
+                col.Settings.AllowAutoFilter = DefaultBoolean.True;
+                col.Width = 140;
+            });
+
+
+            settings.Columns.Add(column =>
+            {
+                column.Caption = "Details";
+                column.Width = 70;
+                column.EditFormSettings.Visible = DefaultBoolean.False;
+                column.SetDataItemTemplateContent(container =>
+                {
+                    Html.DevExpress().HyperLink(hyperlink =>
+                    {
+                        var visibleIndex = container.VisibleIndex;
+                        var keyValue = container.KeyValue;
+                        var Id = DataBinder.Eval(container.DataItem, "Id");
+                        hyperlink.Name = "hl" + keyValue.ToString();
+                        hyperlink.Properties.Text = "More...";
+                        hyperlink.NavigateUrl = Url.Action("MoreDetailsEmployee", "AllEmployeesView",
+      new { usrID = Id });
+
+                    }).Render();
+                });
+            });
+
+
+            settings.Settings.ShowFilterRow = true;
+            settings.Settings.ShowFilterRowMenu = true;
+            settings.CommandColumn.Visible = true;
+            settings.CommandColumn.ShowClearFilterButton = true;
+
+            settings.Toolbars.Add(t =>
+            {
+                t.EnableAdaptivity = true;
+                t.Items.Add(GridViewToolbarCommand.ExportToPdf);
+                t.Items.Add(GridViewToolbarCommand.ExportToXls);
+                t.Items.Add(GridViewToolbarCommand.ShowCustomizationDialog).Text = "Organize Menu";
+            });
+
+            settings.ClientSideEvents.ToolbarItemClick = "escapeBeforeUnload";
+
+            settings.CommandButtonInitialize = (s, e) =>
+            {
+                if (e.ButtonType == ColumnCommandButtonType.Edit)
+                {
+                    MVCxGridView g = s as MVCxGridView;
+                    var PrimeList = (List<int>)Session["UserRights"];
+                    if (PrimeList.Contains((int)WebApplicationUnipi.Models.Enums.Privileges.HR_Admin))
+                    {
+                        e.Visible = true;
+                    }
+                }
+                if (e.ButtonType == ColumnCommandButtonType.Delete)
+                {
+                    MVCxGridView g = s as MVCxGridView;
+                    var PrimeList = (List<int>)Session["UserRights"];
+                    if (PrimeList.Contains((int)WebApplicationUnipi.Models.Enums.Privileges.HR_Admin))
+                    {
+                        e.Visible = true;
+                    }
+                }
+                if (e.ButtonType == ColumnCommandButtonType.New)
+                {
+                    MVCxGridView g = s as MVCxGridView;
+                    var PrimeList = (List<int>)Session["UserRights"];
+                    if (PrimeList.Contains((int)WebApplicationUnipi.Models.Enums.Privileges.HR_Admin))
+                    {
+                        e.Visible = false;
+                    }
+                }
+            };
+
+            var PrimeListRights = (List<int>)Session["UserRights"];
+            if (PrimeListRights.Contains((int)WebApplicationUnipi.Models.Enums.Privileges.HR_Admin))
+            {
+                settings.CommandColumn.Visible = true;
+            }
+
+        }).Bind(Model).GetHtml();
+        if (ViewData["EditError"] != null)
+        {
+            grid.SetEditErrorText((string)ViewData["EditError"]);
+        }
+    }
+    catch (Exception ex)
+    {
+        if (ex.Message == "Server cannot append header after HTTP headers have been sent.") { }
+        else
+        {
+            throw ex;
+        }
+    }
+}

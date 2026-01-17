@@ -1,0 +1,22 @@
+﻿
+.breadcrumbs {
+    display: flex;
+    font-size: 13px;
+    color: $white;
+    padding: 8px 30px;
+    align-items: center;
+    background: $color-primary;
+
+    &-arrow {
+        padding: 0 5px;
+    }
+
+    a {
+        @include link-decor;
+        color: $light-green;
+
+        &:hover {
+            color: $input-color;
+        }
+    }
+}

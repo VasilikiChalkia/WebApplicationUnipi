@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "Employees";
+}
+
+<div class="gridBg lfAlg rgAlg">
+    <h3>@ViewBag.Title.Replace("-", " ")</h3>
+
+
+
+    @using (Html.BeginForm())
+    {
+        <div class="target">
+            @Html.Action("GridViewIndexPartial")
+
+
+        </div>
+    }
+ 
+    @Html.ActionLink("Upload excel file", "delUploadFolder", "Upload", null, new { @class = "uploadFile" })
+
+</div>

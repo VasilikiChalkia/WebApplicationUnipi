@@ -1,0 +1,357 @@
+﻿.hideMenu {
+    display: none !important;
+}
+
+.sideMenu {
+    height: 100%;
+    //max-width: 100%;
+    padding: 10px 10px 0 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    background: $bg-color;
+    z-index: 1000;
+    //overflow: auto;
+
+    /*&::-webkit-scrollbar {
+        width: 4px;
+
+        &-track {
+            background-color: $color-header;
+            border-radius: 100em;
+            margin-block: .45em;
+        }
+
+        &-thumb {
+            background-color: $color-secondary;
+            border-radius: 100em;
+
+            &:hover {
+                background-color: $color-secondary-hover;
+            }
+        }
+    }*/
+
+    a {
+        @include link-decor;
+        display: block;
+        position: relative;
+        //overflow: hidden;
+    }
+
+    .compList-item {
+        margin-bottom: 5px;
+        text-align: center;
+        width: 255px;
+        height: auto;
+        padding: 10px 0 10px 0;
+        background-color: $color-header;
+        color: $white;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        -webkit-transition: all 0.3s linear;
+        -o-transition: all 0.3s linear;
+        transition: all 0.3s linear;
+        border-top-right-radius: 25px;
+        border-bottom-right-radius: 25px;
+        border-left: 5px solid $color-header;
+
+        i {
+            margin-left: 8px;
+        }
+
+        div {
+            text-align: center;
+            width: 100%;
+            padding-right: 3px;
+            font-size: 15px;
+            white-space: nowrap;
+        }
+
+        &.selectedItem {
+            background-color: $green;
+            border-left: 5px solid $green;
+        }
+
+        &:not(.selectedItem):hover {
+            border-left: 5px solid $color-secondary;
+        }
+
+        .hideTxt {
+            opacity: 0;
+            -webkit-animation: slide-out 0.3s linear forwards;
+            animation: slide-out 0.3s linear forwards;
+        }
+
+        .showTxt {
+            opacity: 1;
+            -webkit-animation: slide-in 0.3s linear forwards;
+            animation: slide-in 0.3s linear forwards;
+        }
+    }
+
+    &.smallMenu {
+        .compList-item {
+            width: 50px !important;
+        }
+
+        a {
+            &::after,
+            &::before {
+                opacity: 0;
+                position: absolute;
+                right: 0;
+                top: 50%;
+                color: $white;
+                background-color: #242424;
+                user-select: none;
+                pointer-events: none;
+                z-index: 999;
+            }
+
+            &::after {
+                content: attr(data-title);
+                padding: 0.5em;
+                transform: translate(calc(100% + 1em),-50%);
+                width: max-content;
+            }
+
+            &:before {
+                content: "";
+                transform: translate(calc(100% + 0.6em),-50%)rotate(45deg);
+                width: 0.7em;
+                height: 0.7em;
+            }
+
+            &:hover {
+                &::after,
+                &::before {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+}
+
+// side menu icon with arrow
+#menu-icon {
+    -webkit-tap-highlight-color: transparent;
+    margin: 0 6px 18px 0;
+    display: inline-block;
+    float: right;
+
+    &:focus {
+        outline: none;
+    }
+}
+
+.nav-icon {
+    width: 30px;
+    height: 26px;
+    position: relative;
+    cursor: pointer;
+
+    span {
+        display: block;
+        width: 100%;
+        height: 4px;
+        left: 0px;
+        background-color: #FFF;
+        position: absolute;
+        border-radius: 2px;
+        transition: .3s cubic-bezier(.8, .5, .2, 1.4);
+
+        &:nth-child(1) {
+            top: 3px;
+        }
+
+        &:nth-child(2) {
+            top: 11px;
+        }
+
+        &:nth-child(3) {
+            bottom: 3px;
+        }
+    }
+}
+
+.nav-icon:not(.open):hover span:nth-child(1) {
+    width: 100%;
+    height: 4px;
+    display: block;
+    transform:translateY(-2px);
+    left: 0px;
+    transition: .3s cubic-bezier(.8, .5, .2, 1.4);
+}
+
+.nav-icon:not(.open):hover span:nth-child(2) {
+    width: 100%;
+    height: 4px;
+    display: block;
+    top: 11px;
+    left: 0px;
+    transition: .4s cubic-bezier(.8, .5, .2, 1.4);
+}
+
+.nav-icon:not(.open):hover span:nth-child(3) {
+    width: 100%;
+    height: 4px;
+    display: block;
+    transform: translateY(2px);
+    left: 0px;
+    transition: .3s cubic-bezier(.8, .5, .2, 1.4);
+}
+
+.nav-icon.open {
+    transform: rotate(90deg);
+}
+
+.nav-icon.open span:nth-child(1) {
+    left: 3px;
+    top: 12px;
+    width: 30px;
+    transition: .3s cubic-bezier(.8, .5, .2, 1.4);
+    transform: rotate(90deg);
+    transition-delay: 150ms;
+}
+
+.nav-icon.open span:nth-child(2) {
+    left: 2px;
+    top: 20px;
+    width: 20px;
+    transition: .3s cubic-bezier(.8, .5, .2, 1.4);
+    transform: rotate(45deg);
+    transition-delay: 50ms;
+}
+
+.nav-icon.open span:nth-child(3) {
+    left: 14px;
+    top: 20px;
+    width: 20px;
+    transition: .3s cubic-bezier(.8, .5, .2, 1.4);
+    transform: rotate(-45deg);
+    transition-delay: 100ms;
+}
+
+// side menu icon with MENU word --OLD MENU--
+
+/*#menu_button {
+    width: 39px;
+    overflow: hidden;
+}
+
+#menu_checkbox {
+    display: none;
+}
+
+#menu_label {
+    position: relative;
+    display: block;
+    height: 29px;
+    cursor: pointer;
+}
+
+#menu_label:before, #menu_label:after, #menu_text_bar {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background-color: $white;
+}
+
+#menu_label:before, #menu_label:after {
+    content: '';
+    transition: 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55) left;
+}
+
+#menu_label:before {
+    top: 0;
+}
+
+#menu_label:after {
+    top: 12px;
+}
+
+#menu_text_bar {
+    top: 24px;
+}
+
+#menu_text_bar:before {
+    content: 'MENU';
+    position: absolute;
+    top: 5px;
+    right: 0;
+    left: 0;
+    color: $white;
+    font-size: 12px;
+    /*font-weight: bold;
+    text-align: center;
+}
+
+#menu_checkbox:checked + #menu_label:before {
+    left: -39px;
+}
+
+#menu_checkbox:checked + #menu_label:after {
+    left: 39px;
+}
+
+#menu_checkbox:checked + #menu_label #menu_text_bar:before {
+    animation: moveUpThenDown 0.8s ease 0.2s forwards, shakeWhileMovingUp 0.8s ease 0.2s forwards, shakeWhileMovingDown 0.2s ease 0.8s forwards;
+}
+
+@keyframes moveUpThenDown {
+    0% {
+        top: 0;
+    }
+
+    50% {
+        top: -27px;
+    }
+
+    100% {
+        top: -14px;
+    }
+}
+
+@keyframes shakeWhileMovingUp {
+    0% {
+        transform: rotateZ(0);
+    }
+
+    25% {
+        transform: rotateZ(-10deg);
+    }
+
+    50% {
+        transform: rotateZ(0deg);
+    }
+
+    75% {
+        transform: rotateZ(10deg);
+    }
+
+    100% {
+        transform: rotateZ(0);
+    }
+}
+
+@keyframes shakeWhileMovingDown {
+    0% {
+        transform: rotateZ(0);
+    }
+
+    80% {
+        transform: rotateZ(3deg);
+    }
+
+    90% {
+        transform: rotateZ(-3deg);
+    }
+
+    100% {
+        transform: rotateZ(0);
+    }
+}*/

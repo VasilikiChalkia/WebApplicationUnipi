@@ -1,0 +1,48 @@
+﻿@{
+    ViewBag.Title = "Employees";
+}
+
+<script>
+
+    $(document).ready(function () {
+
+        $('.employeeSelection select').selectize({
+            sortField: 'text'
+        });
+
+        let userID;
+
+
+        $(document).on('click', '.btnPrimary', function (e) {
+            e.preventDefault();
+            userID = $('#ddl1 :selected').attr("value");
+            $.get('@Url.Action("ApprovedLeavesGridViewPartial", "AllEmployeesView")', { userID:userID })
+                .done(function (data) { $('.targetB').html(data) });
+        })
+
+    });
+</script>
+
+<div class="checkdata gridBg lfAlg">
+    <div class="approvedLeavesContainer">
+        <div @*class="dates"*@>
+
+            <div class="employeeSelection">
+                @Html.DropDownList(
+                "userID",
+                new SelectList(ViewData["empList"] as IEnumerable<SelectListItem>, "Value", "Text"), "", new { id = "ddl1", @class = "DDList-green", @placeholder = "Choose an Employee" })
+            </div>
+            <button type="submit" class="btnPrimary sessionUpdate" id="dateBtn">Go</button>
+        </div>
+
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        <div class="targetB">
+
+        </div>
+    }
+
+</div>
+

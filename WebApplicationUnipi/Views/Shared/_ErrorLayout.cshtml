@@ -1,0 +1,204 @@
+﻿@using System.Web.Optimization;
+@{
+    var PrimeList = (List<int>)Session["UserRights"] ?? new List<int> { 1 };
+    string isItHome = Request.Url.PathAndQuery;
+    var over = Session["timerOn"];
+
+
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+
+    @* Fonts *@
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    @* Favicon *@
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#909090">
+    <meta name="theme-color" content="#ffffff">
+
+    @Styles.Render("~/bundles/hubStyle")
+    @Scripts.Render("~/bundles/modernizr")
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/hubScripts")
+
+    @Scripts.Render("~/bundles/bootstrap")
+
+
+    @* luxon *@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/luxon/2.3.0/luxon.min.js" integrity="sha512-2j5fkjQ4q5ceXgfxi+kqrU2Oz234MrpyywZsQz1F5OGnfat7mOhjRr0oz5cpQ+YwwWB+hhDBSyxNGuL/tKWMFw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QSDRRHSLZ6"></script>
+    <script>window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', 'G-QSDRRHSLZ6');</script>
+    <script>
+        function OnExpandCollapseExecute(s, e) {
+            debugger;
+            if (e.item.name == "CustomFullExpand") {
+                var gv = ASPx.GetControlCollection().Get(s.name);
+                gv.gridCallBack([ASPxClientGridViewCallbackCommand.ShowAllDetail]);
+            } else if (e.item.name == "CustomFullCollapse"){
+                var gv = ASPx.GetControlCollection().Get(s.name);
+                gv.gridCallBack([ASPxClientGridViewCallbackCommand.HideAllDetail]);
+            }
+            debugger;
+        }
+
+        $(document).ready(function () {
+            //variables
+            let compList;
+            let userRights = [];
+            let loc = "@isItHome"; //get current path
+            let myWorker;
+            let refresh = false;
+            let sessionTime = "@over";
+            const timeoutMsg = `<div class="login-msg-suc">Your session has expired! Please login again.</div>`;
+
+     
+
+            if (localStorage.getItem('session') === 'over') {
+                $(".loginForm .form-horizontal").append(timeoutMsg);
+                localStorage.removeItem('session');
+            }
+
+            //connection to web worker
+            const isSession = (a, b) => {
+                if (a != "") {
+                    var over = a;
+                    var extra = b;
+
+                    myWorker = new SharedWorker("/Content/js/myWorker.js");
+                    myWorker.port.start();
+                    myWorker.port.postMessage({ reply: over, extra: extra });
+                    myWorker.port.onmessage = function (a) {
+                        //console.log(a.data);
+                        if (a.data.reply == "over") {
+                            refresh = true;
+                            localStorage.setItem('session', 'over');
+                            $(".sesPopup").fadeIn();
+                            setTimeout(() => { location.reload(); }, 3000);
+                        }
+                    };
+                }
+            };
+
+            isSession(sessionTime, "start");
+
+            //build side menu
+            function buildComponents() {
+                compList.home.sort(function (a, b) {
+                    return a.order - b.order;
+                });
+                for (let i = 0; i < compList.home.length; i++) {
+                    let comp;
+                    if ((compList.home[i].rights === undefined || compList.home[i].rights.length == 0) && !userRights.includes("73")) {
+                        comp = `<a href=/${compList.home[i].controller}/${compList.home[i].view} data-title="${compList.home[i].text}"><div class="compList-item">${compList.home[i].icon}<div class="hideTxt">${compList.home[i].text}</div></div></a>`;
+                    }
+                    else {
+                        for (let j = 0; j < compList.home[i].rights.length; j++) {
+                            for (let x = 0; x < userRights.length; x++) {
+                                if (userRights[x] == compList.home[i].rights[j]) {
+                                    comp = `<a href=/${compList.home[i].controller}/${compList.home[i].view} data-title="${compList.home[i].text}"><div class="compList-item">${compList.home[i].icon}<div class="hideTxt">${compList.home[i].text}</div></div></a>`;
+                                }
+                            }
+                        }
+                    }
+                    $(".sideMenu").append(comp);
+                }
+                setTimeout(function () {
+                    $(".compList a").length > 5 ? $(".compList").addClass("maxSize") : $(".compList").removeClass("maxSize");
+                }, 40);
+            }
+
+            //hide sidemenu for urls without login required
+            if (sessionTime === "" || loc === "/") {
+                $(".sideMenu").addClass("hideMenu");
+                $(".breadcrumbs").addClass("hideMenu");
+                $(".view-content").removeClass("smallMnView");
+            }
+            else {
+                $(".sideMenu").removeClass("hideMenu");
+                $(".breadcrumbs").removeClass("hideMenu");
+                $(".view-content").addClass("smallMnView");
+            }
+
+            //add style to active side menu button
+            function itemSelection() {
+                let title = "@ViewBag.Title";
+
+                $(".sideMenu a").each(function (index, value) {
+                    let menuItem = $(this).find("div").find("div").html();
+                    //console.log(menuItem[1].replace("<div>", "").replace("</div>", ""));
+                    if (menuItem == title) {
+                        $(this).find("div").addClass("selectedItem");
+                    }
+                });
+            }
+
+            //small menu icon click
+            $(document).on('click', '#menu-icon', sideMenuToggle);
+
+
+            @{ if (Session["username"] != null) //user logged in
+                {
+                    <text>
+                        $("header").addClass("userIn");
+                        $("footer").addClass("userIn");
+
+
+                        userRights = "@string.Join(",", PrimeList)".split(",");
+
+                        $.getJSON('/Content/js/homeList.json', function (data) {
+                            compList = data;
+                        }).done(function () {
+                            buildComponents();
+                            itemSelection();
+                        });
+                    </text>
+                }
+            }
+
+            //update session
+            $(document).on("click", ".sessionUpdate", function () {
+                //end web worker
+                isSession(sessionTime, "close");
+
+                //restart web worker
+                setTimeout(function () {
+                    isSession(sessionTime, "start");
+                }, 200);
+            });
+
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <div class="head-content head-errorsLayout">          
+        </div>
+    </header>
+    <div class="body-content body-errorsLayout">
+        <div class="view-content smallMnView">
+            @RenderBody()
+        </div>
+    </div>
+    <footer class="container-footer">
+        <div class="version">@System.Configuration.ConfigurationManager.AppSettings["Version"] &copy; @DateTime.Now.Year - WebApplicationUnipi</div>
+    </footer>
+</body>
+
+</html>
+

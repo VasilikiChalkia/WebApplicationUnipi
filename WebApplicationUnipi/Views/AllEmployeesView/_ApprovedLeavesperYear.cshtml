@@ -1,0 +1,90 @@
+﻿@{
+    ViewBag.Title = "Approved Leaves Per Year";
+    var id = ViewBag.Id;
+}
+
+<script>
+
+    $(document).ready(function () {
+
+        let year = @DateTime.Now.Year;
+        let startYear = 2020;
+
+        $('#leavesPerYear').selectize({
+            sortField: 'text'
+        });
+
+        for (i = year + 1; i > startYear; i--) {
+            if (i === year) {
+                document.getElementById('leavesPerYear').selectize.addOption({ value: i, text: i })
+                document.getElementById('leavesPerYear').selectize.setValue(i);
+                continue
+            }
+            document.getElementById('leavesPerYear').selectize.addOption({ value: i, text: i })
+        }
+
+        $(document).on('click', '#yearBtn', function (e) {
+            e.preventDefault();
+            $(".loader").addClass("shown");
+            userId = @id;
+            let Year = $('#leavesPerYear :selected').attr("value") !== '0' ? $('#leavesPerYear :selected').attr("value") : null  ;
+            console.log("user: ", userId, "year: ", Year);
+            //return;
+            $.get('@Url.Action("ApprovedLeavesGridViewPartial", "AllEmployeesView")', { Id: userId, year: Year })
+                .done(function (data) {
+                    $('.target-n').html(data)
+                })
+                .fail(() => {
+                    alert("Something went wrong!");
+                })
+                .always(() => {
+                    $(".loader").removeClass("shown");
+                });
+        })
+
+    });
+</script>
+<style>
+    .approvedLeavesContainer {
+        display: flex;
+        align-items: end;
+        gap: 1em;
+        max-width: 840px;
+        min-width: 320px;
+    }
+    .approvedLeavesContainer label{
+        margin-block-start:0;
+    }
+    .approvedLeavesContainer > * {
+        max-width: 160px;
+        width: 100%;
+    }
+    .approvedLeavesContainer .selectize-control.single {
+        display:flex;
+    }
+    .approvedLeavesContainer .selectize-control.single .selectize-input {
+        width: 100%;
+        height: 100%;
+    }
+    .btnPrimary {
+        margin-block-end:1px;
+    }
+</style>
+<div class="checkdata">
+    <div class="approvedLeavesContainer">
+        <div>
+            <label for="leavesPerYear">Select Specific Year</label>
+            <select name="leavesPerYear" id="leavesPerYear" class="employeeSelectionYear"></select>
+        </div>
+        <button type="submit" class="btnPrimary sessionUpdate" id="yearBtn">Filter Results</button>
+        
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        <div class="target-n">
+            @{Html.RenderAction("ApprovedLeavesGridViewPartial");}
+        </div>
+    }
+
+</div>

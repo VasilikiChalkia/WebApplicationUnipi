@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ee80ac8c949d41989e830313c0b48466" Name="Diagram1" ZoomLevel="63">
+        <EntityTypeShape EntityType="MyApplicationUnipi.AnnualLeaves" Width="1.5" PointX="13.5" PointY="42.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyApplicationUnipi.Contract_Templates" Width="1.5" PointX="14.25" PointY="46.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyApplicationUnipi.Daysoff" Width="1.5" PointX="4.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyApplicationUnipi.HR_Department" Width="1.5" PointX="0.75" PointY="33.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyApplicationUnipi.HR_Position" Width="1.5" PointX="0.75" PointY="36.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyApplicationUnipi.LeavesDayChanges" Width="1.5" PointX="15.75" PointY="53.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyApplicationUnipi.LeavesRequests" Width="1.5" PointX="5.25" PointY="63.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyApplicationUnipi.sysdiagrams" Width="1.5" PointX="12.25" PointY="15.875" IsExpanded="true" />
+        <AssociationConnector Association="MyApplicationUnipi.FK_LeavesDayChanges_AnnualLeaves" ManuallyRouted="false" />
+        <AssociationConnector Association="MyApplicationUnipi.FK_LeavesDayChanges_LeavesRequests" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="MyApplicationUnipi.LeaveRequestsFiles" Width="1.5" PointX="7.5" PointY="63.875" />
+        <AssociationConnector Association="MyApplicationUnipi.FK_Files_LeavesRequests" />
+        <EntityTypeShape EntityType="MyApplicationUnipi.HR_Employee" Width="1.5" PointX="3" PointY="33.75" />
+        <AssociationConnector Association="MyApplicationUnipi.FK_HR_Employee_HR_Department" />
+        <AssociationConnector Association="MyApplicationUnipi.FK_HR_Employee_HR_Position" />
+        <AssociationConnector Association="MyApplicationUnipi.FK_LeavesRequests_HR_Employee" />
+        <EntityTypeShape EntityType="MyApplicationUnipi.All_Employees_View" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="MyApplicationUnipi.AnnualLeavesContractsView" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="MyApplicationUnipi.Employee_Contracts" Width="1.5" PointX="7.375" PointY="0.75" />
+        <EntityTypeShape EntityType="MyApplicationUnipi.Attributes" Width="1.5" PointX="3" PointY="30.375" />
+        <EntityTypeShape EntityType="MyApplicationUnipi.Attributes_Values" Width="1.5" PointX="5.25" PointY="32.25" />
+        <AssociationConnector Association="MyApplicationUnipi.FK_Attributes_Values_Attributes" />
+        <AssociationConnector Association="MyApplicationUnipi.FK_Attributes_Values_HR_Employee" />
+        <EntityTypeShape EntityType="MyApplicationUnipi.LeavesRequestsResponse" Width="1.5" PointX="7.875" PointY="49.25" />
+        <EntityTypeShape EntityType="MyApplicationUnipi.Employee_Details" Width="1.5" PointX="0.75" PointY="0.75" />
+        <AssociationConnector Association="MyApplicationUnipi.FK_LeavesRequestsResponse_HR_Employee" />
+        <AssociationConnector Association="MyApplicationUnipi.FK__LeavesReq__Leave__160F4887" />
+        <EntityTypeShape EntityType="MyApplicationUnipi.Contract_Details" Width="1.5" PointX="16.5" PointY="40.875" />
+        <EntityTypeShape EntityType="MyApplicationUnipi.Contract_Template_Details" Width="1.5" PointX="16.5" PointY="46.625" />
+        <EntityTypeShape EntityType="MyApplicationUnipi.HR_Employee_Contract" Width="1.5" PointX="5.25" PointY="35.5" />
+        <AssociationConnector Association="MyApplicationUnipi.FK_AnnualLeaves_HR_Employee_Contract" />
+        <AssociationConnector Association="MyApplicationUnipi.FK_Contract_Details_Contract_Templates" />
+        <AssociationConnector Association="MyApplicationUnipi.FK_Contract_Details_HREmployee_Contract" />
+        <AssociationConnector Association="MyApplicationUnipi.FK_Contract_Templates_Contract_Templ_Details" />
+        <AssociationConnector Association="MyApplicationUnipi.FK_HR_Employee_Contract_HR_Employee" />
+        <AssociationConnector Association="MyApplicationUnipi.FK_HR_Employee_Contract_HR_Position" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

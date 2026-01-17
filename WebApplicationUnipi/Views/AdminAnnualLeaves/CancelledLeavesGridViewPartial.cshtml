@@ -1,0 +1,201 @@
+﻿@using WebApplicationUnipi.Services.Factories;
+@{
+    var grid = Html.DevExpress().GridView(settings =>
+    {
+        settings.Name = "CancelledLeavesGrid";
+        settings.CallbackRouteValues = new { Controller = "AdminAnnualLeaves", Action = "CancelledLeavesGridPartial", year = (int?)ViewBag.year } ;
+        //settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "AdminAnnualLeaves", Action = "" };
+
+        //settings.CallbackRouteValues = new { Controller = "Customization", Action = "CustomizationDialogPagePartial" };
+        settings.SettingsCustomizationDialog.Enabled = true;
+
+
+        settings.CommandColumn.Visible = false;
+        settings.CommandColumn.ShowNewButton = false;
+        settings.CommandColumn.ShowDeleteButton = false;
+        settings.CommandColumn.ShowEditButton = false;
+        settings.KeyFieldName = "Id";
+        settings.SettingsExport.EnableClientSideExportAPI = true;
+        settings.SettingsExport.ExcelExportMode = DevExpress.Export.ExportType.WYSIWYG;
+        settings.SettingsExport.FileName = nameof(WebApplicationUnipi.Models.MyApplicationUnipi.AnnualLeaves);
+        settings.Settings.ShowGroupPanel = true;
+        settings.Settings.ShowFilterRow = true;
+        settings.SettingsBehavior.AllowSelectByRowClick = true;
+
+        settings.CommandColumn.Width = 100;
+        settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.HideDataCells;
+        settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+        settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+        settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = true;
+        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+        //settings.SettingsBehavior.AllowEllipsisInText = true;
+        settings.Styles.Cell.Wrap = DefaultBoolean.True;
+
+        /*
+        settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.Off;
+        settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+        settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+        settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = false;
+        settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 0;
+        */
+        settings.Settings.ShowFilterRow = true;
+        settings.Settings.ShowFilterRowMenu = true;
+        settings.CommandColumn.ShowClearFilterButton = true;
+
+      
+        settings.Columns.Add(col =>
+        {
+            col.FieldName = "Employee_Lname";
+            col.Caption = "Surname";
+            //col.Width = 200;
+        });
+
+        settings.Columns.Add(col =>
+        {
+            col.FieldName = "Employee_Fname";
+            col.Caption = "Name";
+            //col.Width = 200;
+        });
+
+        settings.Columns.Add(col =>
+        {
+            col.FieldName = "DateCreated";
+            col.Caption = "Date Created";
+            //col.Width = 200;
+            col.PropertiesEdit.DisplayFormatString = "dd/MM/yyyy HH:mm:ss";
+
+            col.Settings.AllowAutoFilter = DefaultBoolean.False;
+        });
+        settings.Columns.Add(col =>
+        {
+            col.FieldName = "TypeOfLeave";
+            col.Caption = "Type";
+            Dictionary<int, string> dict = new Dictionary<int, string>();
+            foreach (WebApplicationUnipi.Models.Enums.LeaveTypes option in Enum.GetValues(typeof(WebApplicationUnipi.Models.Enums.LeaveTypes)))
+            {
+                dict.Add((int)option, option.GetDisplayAttributeFrom());
+            }
+            col.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = col.PropertiesEdit as ComboBoxProperties;
+            comboBoxProperties.TextField = "TypeOfLeave";
+            comboBoxProperties.DataSource = dict;
+            comboBoxProperties.TextField = "Value";
+            comboBoxProperties.ValueField = "Key";
+            comboBoxProperties.ValueType = typeof(WebApplicationUnipi.Models.Enums.LeaveTypes);
+        });
+        settings.Columns.Add(col =>
+        {
+            col.FieldName = "DateFrom";
+            col.PropertiesEdit.DisplayFormatString = "dd/MM/yyyy HH:mm";
+            col.Settings.AllowAutoFilter = DefaultBoolean.False;
+        });
+        settings.Columns.Add(col =>
+        {
+            col.FieldName = "DateTo";
+            col.PropertiesEdit.DisplayFormatString = "dd/MM/yyyy HH:mm";
+            col.Settings.AllowAutoFilter = DefaultBoolean.False;
+        });
+        settings.Columns.Add(col =>
+        {
+            col.FieldName = "AmountRequested";
+            col.Caption = "Amount Requested";
+        });
+        settings.Columns.Add("Comments");
+
+
+
+        settings.Columns.Add(col =>
+        {
+            col.FieldName = "Status";
+            Dictionary<int, string> dict = new Dictionary<int, string>();
+            foreach (var option in Enum.GetValues(typeof(WebApplicationUnipi.Models.Enums.LeavesRequestStatus)))
+            {
+                dict.Add((int)option, option.ToString());
+            }
+            col.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = col.PropertiesEdit as ComboBoxProperties;
+            comboBoxProperties.TextField = "Status";
+            comboBoxProperties.DataSource = dict;
+            comboBoxProperties.TextField = "Value";
+            comboBoxProperties.ValueField = "Key";
+            comboBoxProperties.ValueType = typeof(WebApplicationUnipi.Models.Enums.LeavesRequestStatus);
+
+            col.Settings.AllowAutoFilter = DefaultBoolean.False;
+        });
+
+        var PrivList = (List<int>)Session["UserRights"];
+        if (PrivList.Contains((int)WebApplicationUnipi.Models.Enums.Privileges.HR_Admin))
+        {
+            settings.Columns.Add(column =>
+            {
+                column.FieldName = "Files";
+                column.EditFormSettings.Visible = DefaultBoolean.False;
+                column.Settings.AllowAutoFilter = DefaultBoolean.False;
+                column.SetDataItemTemplateContent(container =>
+                {
+                    var keyValue = container.KeyValue;
+                    var Id = (int)DataBinder.Eval(container.DataItem, "Id");
+                    string fileNames = (string)DataBinder.Eval(container.DataItem, "Files");
+                    var fileList = fileNames.Split(',').ToList();
+
+                    foreach (var i in fileList)
+                    {
+                        Html.DevExpress().HyperLink(hyperlink =>
+                        {
+                            hyperlink.Name = "hf" + keyValue.ToString() + fileList.IndexOf(i).ToString();
+                            hyperlink.Properties.Text = i + ((fileList.IndexOf(i) + 1 != fileList.Count()) ? ", " : "");
+                            hyperlink.NavigateUrl = Url.Action("DownloadLeavesFile", "AdminAnnualLeaves", new { requestId = Id, fileName = i });
+                            hyperlink.Properties.ClientSideEvents.Click = "escapeBeforeUnload";
+                        }).Render();
+                    }
+                });
+            });
+        }
+
+        settings.FormatConditions.AddHighlight(c =>
+        {
+            c.FieldName = "Status";
+            c.Value1 = (byte)WebApplicationUnipi.Models.Enums.LeavesRequestStatus.Cancelled;
+            c.Rule = GridConditionRule.Equal;
+            c.Format = GridConditionHighlightFormat.BoldText;
+        });
+
+        settings.SettingsDetail.AllowOnlyOneMasterRowExpanded = false;
+        settings.SettingsDetail.ShowDetailRow = true;
+        settings.SetDetailRowTemplateContent(c =>
+        {
+            Html.RenderAction("LeavesRequestsMoreDetails", new { Id = DataBinder.Eval(c.DataItem, "Id") });
+        });
+
+        settings.Toolbars.Add(t =>
+        {
+            t.EnableAdaptivity = true;
+            t.Items.Add(GridViewToolbarCommand.ExportToXls);
+            t.Items.Add(i =>
+            {
+                i.Name = "CustomFullExpand";
+                i.Text = "Expand All";
+                i.Command = GridViewToolbarCommand.Custom;
+            });
+
+            t.Items.Add(i =>
+            {
+                i.Name = "CustomFullCollapse";
+                i.Text = "Collapse All";
+                i.Command = GridViewToolbarCommand.Custom;
+            });
+            t.Items.Add(GridViewToolbarCommand.ShowCustomizationDialog).Text = "Organize Menu";
+
+        });
+        settings.ClientSideEvents.ToolbarItemClick = "function(s, e) { OnExpandCollapseExecute(s, e); escapeBeforeUnload(s, e) }";
+
+
+
+    });
+    if (ViewData["EditError"] != null)
+    {
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+@grid.Bind(Model).GetHtml()
+

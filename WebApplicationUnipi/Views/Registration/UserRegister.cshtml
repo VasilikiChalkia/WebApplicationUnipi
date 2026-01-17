@@ -1,0 +1,286 @@
+﻿@{
+    ViewBag.Title = "User Registration";
+}
+
+<style>
+    /* Registration Box Styling */
+    .registration-box {
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        border: 3px solid #93c47d; /* Green border */
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background-color: #FFFFFFE6; /* Semi-transparent white background */
+    }
+
+    /* Centered Registration Phrase */
+    .registration-phrase {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 25px;
+        color: #93c47d;
+    }
+
+    /* Form Styling */
+    .registrationForm {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+        color: #93c47d;
+    }
+
+    .control-label {
+        font-weight: bold;
+    }
+
+    .text-danger {
+        color: red;
+        font-size: 12px;
+        display: none;
+    }
+
+    /* Input Field Styling */
+    .form-control {
+        color: white !important;
+        background-color: #333 !important;
+        border: 1px solid #93c47d !important;
+    }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.7) !important;
+        }
+
+    select.form-control {
+        color: white !important;
+    }
+
+    input[type="date"].form-control {
+        color: white !important;
+    }
+
+    .form-control:focus {
+        border-color: #93c47d !important;
+        box-shadow: 0 0 0 0.2rem rgba(6, 132, 108, 0.25) !important;
+        background-color: #444 !important;
+    }
+
+    /* Input Group Icons */
+    .input-group-text {
+        background-color: #93c47d !important;
+        border-color: #93c47d !important;
+    }
+
+    /* Links Styling */
+    .log-links, .reg-links {
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .forgotPass, .register {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+        .forgotPass:hover, .register:hover {
+            text-decoration: underline;
+        }
+
+    /* Message Styling */
+    .registration-msg, .registration-msg-suc {
+        text-align: center;
+        margin-top: 10px;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .registration-msg {
+        background-color: #ffebee;
+        color: #c62828;
+    }
+
+    .registration-msg-suc {
+        background-color: #e8f5e9;
+        color: #2e7d32;
+    }
+
+    /* Button Styling */
+    .btn-primary {
+        background-color: #93c47d;
+        border-color: #93c47d;
+    }
+
+        .btn-primary:hover {
+            background-color: #056652;
+            border-color: #056652;
+        }
+</style>
+
+<div class="registration-box">
+    <h2 class="registration-phrase">Create Your Account</h2>
+
+    @using (Html.BeginForm("SubmitRegistration", "Registration", FormMethod.Post, new { @class = "registrationForm", novalidate = "true" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <!-- Personal Information -->
+        <h5 class="text-primary mb-3">Personal Information</h5>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label">First Name</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        @Html.TextBox("FirstName", "", new { @class = "form-control", required = "required", placeholder = "First Name" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label">Last Name</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        @Html.TextBox("LastName", "", new { @class = "form-control", required = "required", placeholder = "Last Name" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Home Address</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-home"></i></span>
+                @Html.TextBox("Home_Address", "", new { @class = "form-control", required = "required", placeholder = "Home Address" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Personal Mobile Number</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                @Html.TextBox("Personal_Mobile_Number", "", new { @class = "form-control", required = "required", placeholder = "Personal Mobile Number" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Birth Date</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-birthday-cake"></i></span>
+                @Html.TextBox("Birth_Date", "", new { @class = "form-control", type = "date", required = "required", placeholder = "Birth Date" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Transportation</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-car"></i></span>
+                @Html.TextBox("Transportation", "", new { @class = "form-control", placeholder = "Transportation" })
+            </div>
+        </div>
+
+        <!-- Employment Information -->
+        <h5 class="text-primary mb-3 mt-4">Employment Information</h5>
+
+        <div class="form-group">
+            <label class="control-label">Department</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-building"></i></span>
+                <select class="form-control" name="Department_Id" required>
+                    <option value="" selected disabled hidden>Select Department</option>
+                    @foreach (var dept in ViewData["Departments"] as IEnumerable<SelectListItem>)
+                    {
+                        <option value="@dept.Value">@dept.Text</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Position</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-briefcase"></i></span>
+                <select class="form-control" name="Position_Id" required>
+                    <option value="" selected disabled hidden>Select Position</option>
+                    @foreach (var pos in ViewData["Positions"] as IEnumerable<SelectListItem>)
+                    {
+                        <option value="@pos.Value">@pos.Text</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Privilege</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-shield-alt"></i></span>
+                <select class="form-control" name="Privileges_Num" required>
+                    <option value="" selected disabled hidden>Select Privilege</option>
+                    @foreach (var p in ViewData["Privilege"] as IEnumerable<SelectListItem>)
+                    {
+                        <option value="@p.Value">@p.Text</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Status</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-toggle-on"></i></span>
+                <select class="form-control" name="Status" required>
+                    <option value="" selected disabled hidden>Select Status</option>
+                    <option value="1">Active</option>
+                    <option value="0">Inactive</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Personal Email</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
+                @Html.TextBox("Personal_Email", "", new { @class = "form-control", required = "required", placeholder = "Personal Email" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Password</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                @Html.Password("Password", "", new { @class = "form-control", required = "required", placeholder = "Password" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Confirm Password</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                @Html.Password("ConfirmPassword", "", new { @class = "form-control", required = "required", placeholder = "Confirm Password" })
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="form-group text-center">
+            <button type="submit" class="btn btn-primary btn-lg">
+                <i class="fas fa-user-check"></i> Register
+            </button>
+        </div>
+
+        <!-- Validation Messages -->
+        if (ViewData.ContainsKey("Message"))
+        {
+            <div class="registration-msg">@ViewData["Message"].ToString()</div>
+        }
+        if (TempData.ContainsKey("Success"))
+        {
+            <div class="registration-msg-suc">@TempData["Success"].ToString()</div>
+        }
+    }
+
+    <p class="text-center mt-3">
+        <a href="@Url.Action("Index", "Login")" class="text-primary fw-bold">Or click to sign in</a>
+    </p>
+</div>

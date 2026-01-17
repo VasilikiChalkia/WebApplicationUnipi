@@ -1,0 +1,168 @@
+﻿//-------| IMPORTS |--------
+
+@import 'general/index',
+        'layout/index',
+        'categories/index';
+
+
+//-------| BODY |--------
+* {
+    box-sizing: border-box;
+    
+    &::before, &::after {
+        box-sizing: border-box;
+    }
+}
+
+svg {
+    width: 100%;
+}
+
+html,
+body {
+    height: 100%;
+}
+body {
+    font-family: $font-primary;
+    background-color: $color-primary;
+    color: $white;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+}
+
+input:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+h3,
+h4 {
+    margin-bottom: 15px;
+}
+
+.body-content {
+    display: flex;
+    flex: 1 0 auto;
+    justify-content: center;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.view-content {
+    max-width: 100%;
+    flex-grow: 3;
+    background: $color-primary;
+    padding-left: 60px;
+    /*background: rgb(62,62,62);
+    background: -moz-linear-gradient(90deg, rgba(62,62,62,1) 0%, rgba(31,31,31,1) 100%);
+    background: -webkit-linear-gradient(90deg, rgba(62,62,62,1) 0%, rgba(31,31,31,1) 100%);
+    background: linear-gradient(90deg, rgba(62,62,62,1) 0%, rgba(31,31,31,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#3e3e3e",endColorstr="#1f1f1f",GradientType=1);*/
+    -webkit-transition: all 0.3s linear;
+    -o-transition: all 0.3s linear;
+    transition: all 0.3s linear;
+    /*&.fullView {
+        padding-left: 200px;
+    }
+
+    &.smallMnView {
+        padding-left: 60px;
+    }*/
+}
+
+//-------| EXTRA CLASSES |--------
+.clearfix {
+    clear: both;
+}
+
+.btn:focus {
+    box-shadow: none !important;
+}
+
+//upload button
+.uploadFile {
+    @include link-decor;
+    margin: 20px 0;
+    padding: 8px;
+    display: inline-block;
+    color: $white;
+    background: rgb(14,95,101);
+    background: -moz-linear-gradient(90deg, rgba(14,95,101,1) 0%, rgba(14,101,84,1) 100%);
+    background: -webkit-linear-gradient(90deg, rgba(14,95,101,1) 0%, rgba(14,101,84,1) 100%);
+    background: linear-gradient(90deg, rgba(14,95,101,1) 0%, rgba(14,101,84,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#0e5f65",endColorstr="#0e6554",GradientType=1);
+    border-radius: 8px;
+    text-align: center;
+    width: 200px;
+
+    &:hover {
+        color: $color-secondary;
+        background: $white;
+    }
+
+    &:before {
+        font-family: "Font Awesome 6 Free";
+        content: "\e09a";
+        display: inline-block;
+        padding-right: 3px;
+        vertical-align: middle;
+        font-weight: 900;
+        margin-right: 5px;
+    }
+}
+
+//grid views style
+.gridBg {
+    height: 100%;
+    background: rgb(131,177,173);
+    background: -moz-linear-gradient(90deg, rgba(131,177,173,1) 0%, rgba(215,220,221,1) 100%);
+    background: -webkit-linear-gradient(90deg, rgba(131,177,173,1) 0%, rgba(215,220,221,1) 100%);
+    background: linear-gradient(90deg, rgba(131,177,173,1) 0%, rgba(215,220,221,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#83b1ad",endColorstr="#d7dcdd",GradientType=1);
+    padding-top: 20px;
+    padding-bottom: 40px;
+    position: relative;
+
+    h3 {
+        color: $color-dark-heading;
+    }
+
+    /*form div:first-of-type {
+        overflow-y: hidden;
+        border-radius: 2px;
+    }*/
+}
+
+.dxgvEditForm_MaterialCompact {
+    input {
+        max-width:unset;
+    }
+}
+//pages with left alignment
+.lfAlg {
+    padding-left: 30px;
+}
+
+
+.rgAlg {
+    padding-right: 30px;
+}
+
+
+.exportStatsResults {
+    padding-left: 45px;
+}
+//-------| MEDIA QUERIES |--------
+@media (min-width: 576px) {
+}
+
+@media (min-width: 768px) {
+}
+
+@media (min-width: 992px) {
+}
+
+@media (min-width: 1200px) {
+}

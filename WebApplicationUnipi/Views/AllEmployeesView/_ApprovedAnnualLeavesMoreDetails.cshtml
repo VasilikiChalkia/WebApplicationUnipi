@@ -1,0 +1,118 @@
+﻿@{
+    var grid = Html.DevExpress().GridView(settings =>
+    {
+        settings.Name = "GridViewMoreDetails" + ViewData["Id"];
+        settings.CallbackRouteValues = new { Controller = "AllEmployeesView", Action = "LeavesRequestsMoreDetails", ViewBag.Id };
+
+        settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.HideDataCells;
+        settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+        settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+        settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = true;
+        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+        settings.SettingsBehavior.AllowEllipsisInText = true;
+        settings.SettingsCustomizationDialog.Enabled = true;
+
+
+        settings.SettingsBehavior.ConfirmDelete = true;
+
+        settings.KeyFieldName = "Id";
+
+        settings.Columns.Add(col =>
+        {
+            col.FieldName = "LeavesReqId";
+            col.Visible = false;
+            // Needed for checks later
+        });
+
+        settings.Columns.Add(col =>
+        {
+            col.FieldName = "EmployeeId";
+            col.Visible = false;
+            // Needed for checks later
+        });
+
+        settings.Columns.Add(col =>
+        {
+            col.FieldName = "FullName";
+            col.Caption = "Response From:";
+        });
+        settings.Columns.Add(col =>
+        {
+            col.FieldName = "DateOfResponse";
+            col.PropertiesEdit.DisplayFormatString = "dd/MM/yyyy HH:mm:ss";
+        });
+
+        settings.Columns.Add(col =>
+        {
+            col.FieldName = "Status";
+            Dictionary<int, string> dict = new Dictionary<int, string>();
+            foreach (var option in Enum.GetValues(typeof(WebApplicationUnipi.Models.Enums.LeavesRequestStatus)))
+            {
+                dict.Add((int)option, option.ToString());
+            }
+            col.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = col.PropertiesEdit as ComboBoxProperties;
+            comboBoxProperties.TextField = "Status";
+            comboBoxProperties.DataSource = dict;
+            comboBoxProperties.TextField = "Value";
+            comboBoxProperties.ValueField = "Key";
+            comboBoxProperties.ValueType = typeof(WebApplicationUnipi.Models.Enums.LeavesRequestStatus);
+        });
+
+
+        //settings.Columns.Add(column =>
+        //{
+        //    column.Caption = "Delete";
+        //    column.EditFormSettings.Visible = DefaultBoolean.False;
+
+        //    column.SetDataItemTemplateContent(container =>
+        //    {
+        //        int userId = (int)Session["userId"];
+        //        var idCheck = (int?)DataBinder.Eval(container.DataItem, "EmployeeId") ?? 0;
+        //        int parentRequestId = (int)DataBinder.Eval(container.DataItem, "LeavesReqId");
+        //        var parentRequestStatus = new WebApplicationUnipi.Models.MyApplicationUnipi.MyApplicationUnipiEntities().LeavesRequests.FirstOrDefault(f => f.Id == parentRequestId).Status;
+
+        //        if (idCheck == userId && parentRequestStatus != (byte)WebApplicationUnipi.Models.Enums.LeavesRequestStatus.Approved)
+        //        {
+        //            Html.DevExpress().HyperLink(hyperlink =>
+        //            {
+        //                var visibleIndex = container.VisibleIndex;
+        //                var keyValue = container.KeyValue;
+        //                var Id = DataBinder.Eval(container.DataItem, "Id");
+        //                hyperlink.Name = "dl" + keyValue.ToString();
+        //                hyperlink.Properties.Text = "🗑️";
+        //                hyperlink.NavigateUrl = Url.Action("DeleteLeaveResponse", "AllEmployeesView", new { id = Id });
+        //            }).Render();
+        //        }
+        //        Session["userId"] = userId; // needed ??
+        //    });
+        //});
+
+        settings.FormatConditions.AddHighlight(c =>
+        {
+            c.FieldName = "Status";
+            c.Value1 = (byte)WebApplicationUnipi.Models.Enums.LeavesRequestStatus.Rejected;
+            c.Rule = GridConditionRule.Equal;
+            c.Format = GridConditionHighlightFormat.RedText;
+        });
+        settings.FormatConditions.AddHighlight(c =>
+        {
+            c.FieldName = "Status";
+            c.Value1 = (byte)WebApplicationUnipi.Models.Enums.LeavesRequestStatus.Approved;
+            c.Rule = GridConditionRule.Equal;
+            c.Format = GridConditionHighlightFormat.GreenText;
+        });
+
+        settings.Toolbars.Add(t =>
+            {
+                t.EnableAdaptivity = true;
+                t.Items.Add(GridViewToolbarCommand.ShowCustomizationDialog).Text = "Organize Menu";
+            });
+
+    });
+    if (ViewData["EditError"] != null)
+    {
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+@grid.Bind(Model).GetHtml()

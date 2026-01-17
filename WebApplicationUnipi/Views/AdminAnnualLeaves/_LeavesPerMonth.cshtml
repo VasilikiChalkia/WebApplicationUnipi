@@ -1,0 +1,72 @@
+﻿@{
+    ViewBag.Title = "Admin Annual Leaves";
+
+}
+
+
+<script>
+    $(document).ready(function () {
+        const DateTime = luxon.DateTime;
+        let pickedDate;
+        //---needs change to use luxor extension
+        const now = new Date(); // Get the current date and time
+        const oneYearFromNow = new Date(now.getFullYear() + 1, now.getMonth(), now.getDate()); // Set the date to one year from now
+        //---needs change to use luxor extension
+
+
+        $("#datePicker").flatpickr({
+            maxDate: oneYearFromNow,
+            plugins: [
+                new monthSelectPlugin({
+                    shorthand: false, //defaults to false
+                    dateFormat: "F Y", //defaults to "F Y"
+                    altFormat: "F Y", //defaults to "F Y"
+                    //theme: "dark" // defaults to "light"
+                })
+            ]
+        });
+
+        $("#datePicker").on("input", function () {
+            pickedDate = $("#datePicker").val();
+            console.log("month-year", pickedDate);
+        });
+
+        $("#datePicker").on('change', (e) => {
+            $(e.currentTarget).val() ?
+                $('#dateBtn').removeClass('btnDisabled') :
+                $('#dateBtn').addClass('btnDisabled');
+        });
+
+        $('#dateBtn').on("click", function (e) {
+            e.preventDefault();
+            $(".loader").addClass("shown");
+            $.get('@Url.Action("ApprovedLeavesRequestsGridViewPartial", "AdminAnnualLeaves")', { dateFrom: pickedDate})
+                .done(function (data) {
+                    $('.targetA').html(data)
+                    $(".loader").removeClass("shown");
+                });
+        });
+
+    });
+</script>
+
+
+<div class="checkdata "@*gridBg lfAlg*@>
+    @*<h3>Monthly Report</h3>*@
+    <div @*class="monthlyReportContainer"*@>
+
+        <div class="dates">
+            <input class="dates-input" id="datePicker" type="text" name="dateFrom" value="" placeholder="Select month" />
+            <i class="fa-regular fa-calendar"></i>
+        </div>
+        <button type="submit" class="btnPrimary sessionUpdate btnDisabled" id="dateBtn">Search</button>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        <div class="targetA panel">
+        </div>
+    }
+</div>
+
+

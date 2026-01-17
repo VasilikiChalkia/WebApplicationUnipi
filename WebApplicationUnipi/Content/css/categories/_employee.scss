@@ -1,0 +1,39 @@
+﻿.employee {
+
+    &-header {
+        display: flex;
+        justify-content: space-between;
+        max-width: 1070px;
+        flex-direction: column;
+
+        div {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .alertMsg {
+            width: max-content;
+            flex-direction: row;
+            justify-content: center;
+            margin: 5px;
+            padding: 7px 12px;
+            border-radius: 8px;
+        }
+
+        a.btnLink {
+            margin-bottom: 10px;
+        }
+    }
+
+    &-card-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: max-content;
+        height: auto;
+        max-height: 120px;
+        line-height: 1.2;
+        margin: 5px;
+    }
+}

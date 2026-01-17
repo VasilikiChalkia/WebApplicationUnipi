@@ -1,0 +1,37 @@
+﻿@model string
+
+@if (@Html.Raw(TempData["returnMsg"]).ToString() != null)
+{
+    var returnValue = TempData["Msg"] ?? Model ?? "";
+    <div class="form-group msgPopUpRequest">
+        <svg class="closePopUp" width="17.7" height="17.115" viewBox="0 0 17.7 17.115">
+            <g id="Group_91" data-name="Group 91" transform="translate(-998.379 -370.379)">
+                <line id="Line_28" data-name="Line 28" x2="13.458" y2="12.873" transform="translate(1000.5 372.5)" fill="none" stroke="#0e6554" stroke-linecap="round" stroke-width="3" />
+                <line id="Line_29" data-name="Line 29" x1="13.458" y2="12.873" transform="translate(1000.5 372.5)" fill="none" stroke="#0e6554" stroke-linecap="round" stroke-width="3" />
+            </g>
+        </svg>
+        @if (@Html.Raw(TempData["returnMsg"]).ToString() == "True")
+        {
+            @*@Html.Raw(TempData["returnMsg"])*@
+            <div id='returnmsg'>@returnValue</div>
+        }
+        @if (@Html.Raw(TempData["returnMsg"]).ToString() == "False")
+        {
+            @*@Html.Raw(TempData["returnMsg"])*@
+            <div id='returnmsg' class="msgPopUpRequestOops">Oops something went wrong!</div>
+        }
+        @if (@Html.Raw(TempData["returnMsg"]).ToString() == "None")
+        {
+            @*@Html.Raw(TempData["returnMsg"])*@
+            <div id='returnmsg'><span style="color:red">@returnValue</span></div>
+        }
+    </div>
+    <script>
+        $(".closePopUp").on("click", function () {
+            $('.msgPopUpRequest').fadeOut();
+        });
+        setTimeout(() => { 
+            $('.msgPopUpRequest').fadeOut();
+        }, 13000)
+    </script>
+}

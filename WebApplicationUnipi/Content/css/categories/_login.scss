@@ -1,0 +1,382 @@
+﻿.btn {
+    background-color: $color-secondary;
+    margin-top: 10px;
+
+    &:hover {
+        background-color: $color-secondary-hover;
+    }
+}
+
+.form-horizontal {
+    width: 100%;
+    margin: 0 auto;
+
+    label {
+        font-size: 15px;
+        margin-top: 0px;
+    }
+
+    .forgotPass {
+        @include link-decor;
+        font-size: 13px;
+        float: right;
+        color: $color-secondary;
+        margin-left: auto;
+        font-weight: 600;
+
+        &:hover {
+            color: $color-secondary-hover;
+        }
+    }
+}
+
+.loginForm {
+    @include input-style;
+    max-width: 330px;
+    margin: 40px auto;
+
+    .form-group {
+        display: inline-block;
+        width: 100%;
+        margin-bottom: 10px;
+
+        input:not(.btn) {
+            max-width: 100%;
+            margin-bottom: 10px;
+        }
+
+        label {
+            margin-bottom: 10px;
+        }
+
+        span {
+            margin-top: 5px;
+            &.text-danger{
+                display:none;
+            }
+        }
+
+        &.log-links .col {
+            display: flex;
+            flex-flow: row nowrap;
+            align-items: flex-end;
+        }
+
+        .password {
+            padding-right: 36px;
+        }
+    }
+}
+
+.login-msg {
+    font-size: 13px;
+    text-align: left;
+    margin-top: 40px;
+    padding: 8px;
+    width: 100%;
+    color: $warn-red;
+    border: 2px solid $warn-red;
+
+    &-suc {
+        @extend .login-msg;
+        color: $white;
+        border: 2px solid $white;
+    }
+
+    &.msg-cnt {
+        text-align: center;
+        margin: 0 auto;
+        @include max-cont;
+    }
+}
+
+.forgotPassForm {
+    @include input-style;
+    max-width: 480px;
+    margin: 40px auto;
+    text-align: center;
+
+    h2,h3 {
+        margin-bottom: 30px;
+    }
+
+    input {
+        max-width: 60%;
+        margin: 0 auto;
+        margin-top: 10px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    &-msg {
+        &-suc {
+            @include right-pass;
+        }
+
+        &-er {
+            @include wrong-pass;
+        }
+    }
+}
+
+.resetPassForm {
+    @include input-style;
+    margin: 40px auto;
+    max-width: 420px;
+
+    .form-group {
+        margin: 15px 0;
+    }
+
+    .form-control {
+        max-width: 100%;
+    }
+
+    h1 {
+        font-size: 36px;
+        font-weight: 700;
+        text-align: center;
+        margin-block-end: 1em;
+    }
+
+    .col {
+        position:relative;
+        &.err {
+            .notMatchy {
+                display: inline-block;
+            }
+        }
+        .notMatchy {
+            color: $input-color-error-after;
+            font-size: 12px;
+            display: none;
+            position:absolute;
+            top:100%;
+            left:0;
+            transform:translateY(50%);
+        }
+    }
+}
+
+.passRequirements {
+    font-size: 15px;
+    color: inherit;
+    background-color: #484848;
+    border: 3px solid #9C9C9C;
+    border-radius: 5px;
+    padding: 2em;
+    position: relative;
+    margin-block-start: 2.5em;
+
+    &.fulfilled {
+        border-color: $color-secondary;
+    }
+
+    &:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 25px;
+        height: 25px;
+        background-color: inherit;
+        border: inherit;
+        border-inline-end: none;
+        border-block-end: none;
+        transform: translate(-120%,-59%) rotate(45deg) skew(15deg,15deg);
+    }
+
+    h3 {
+        font-size: 1.2em;
+        font-weight: 600;
+    }
+
+    ul {
+        padding-inline-start: 1.2em;
+
+        .fulfilled {
+            &:after {
+                content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="20.01" height="14.921" viewBox="0 0 20.01 14.921"><path id="Icon_awesome-check" data-name="Icon awesome-check" d="M6.8,19.205l-6.5-6.5a1,1,0,0,1,0-1.415L1.708,9.873a1,1,0,0,1,1.415,0L7.5,14.253,16.887,4.87a1,1,0,0,1,1.415,0l1.415,1.415a1,1,0,0,1,0,1.415L8.211,19.206A1,1,0,0,1,6.8,19.205Z" transform="translate(0 -4.577)" fill="%230b846c"/></svg>');
+                display: inline-block;
+                margin-inline-start: 1em;
+            }
+        }
+    }
+}
+
+.errmessage {
+    margin-top: 70px;
+
+    .err {
+        text-align: center;
+        padding-top: 60px;
+
+        a {
+            @include link-decor;
+            background-color: $color-secondary;
+            color: $white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-align: center;
+            width: 140px;
+
+            &:hover {
+                color: $color-secondary;
+                background: $white;
+            }
+        }
+    }
+}
+
+.reg-links {
+    font-size: 13px;
+    color: $color-secondary;
+    margin-top: 16px;
+
+    .col {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    span {
+        margin-top: 0 !important;
+    }
+
+    a {
+        @include link-decor;
+        color: $color-secondary;
+        font-weight: 600;
+
+        &:hover {
+            color: $color-secondary-hover;
+        }
+    }
+}
+
+#togglePass, #togglePass2 {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    color: $color-primary;
+}
+
+.fa-eye-slash {
+    right: 9px !important;
+}
+
+#NewPassword, #ConfirmPassword {
+    padding-inline-end: 36px;
+}
+
+.message-area.notif_lg {
+    margin-block-start: 40px;
+
+    .col {
+        display: flex;
+        align-items: stretch;
+        font-size: 14px;
+        color: #BBBBBB;
+        border: 2px solid #454545;
+        border-radius: 10px;
+        overflow: hidden;
+
+        @include xs {
+            flex-direction: column;
+
+            .message-area__icon {
+                border-right: unset;
+                border-bottom: 2px solid #454545;
+            }
+
+            .message-area__icon,
+            .message-area__message {
+                padding: 10px;
+                font-size: 12px;
+            }
+        }
+    }
+
+    .message-area__icon,
+    .message-area__message {
+        padding: 30px;
+    }
+
+    .message-area__icon {
+        flex: 0 0 auto;
+        background-color: rgb(46 61 58);
+        border-right: 2px solid #454545;
+        display: flex;
+        align-items: center;
+
+        svg {
+            max-width: 35px;
+            max-height: 35px;
+        }
+    }
+
+    .message-area__message {
+
+        p {
+            margin: unset;
+            font-weight: normal;
+        }
+    }
+}
+
+.message-area.notif_sm {
+    position: relative;
+    max-width: 45px;
+    max-height: 45px;
+    color: #BBBBBB;
+    transition: transform 250ms ease;
+    isolation: isolate;
+
+    &:before {
+        display: none;
+        content: '';
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        background-color: #707070;
+        top: calc(100% + 1.5em);
+        left: 50%;
+        transform: translate(-50%,0) rotate(45deg) skew(10deg,10deg);
+        z-index: -1;
+    }
+
+    .message-area__message {
+        display: none;
+        font-size: 14px;
+        color: #A5A5A5;
+        position: absolute;
+        width: min(200px,60vw);
+        top: calc(100% + 2.2em);
+        left: 50%;
+        transform: translate(-50%,0);
+        border: 3px solid #707070;
+        border-radius: 10px;
+        padding: 10px;
+        background-color: #555555;
+
+        p {
+            font-size: inherit;
+            margin: 0;
+        }
+    }
+
+    &:hover:not(.notif-open) {
+        transform: scale(1.1);
+    }
+
+    &.notif-open {
+        transition: unset;
+
+        .message-area__message,
+        &:before {
+            display: block;
+        }
+    }
+}

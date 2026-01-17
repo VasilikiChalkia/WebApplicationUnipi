@@ -1,0 +1,415 @@
+﻿.formFields {
+    @include input-style;
+    padding-top: 20px;
+
+    input,
+    select {
+        border-style: solid;
+        border: none;
+        border-width: 1px;
+        border: 1px solid $light-green;
+    }
+
+    .submitBtn {
+        @include gradient-btn;
+        display: block;
+        color: $white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        margin-top: 30px;
+        width: 140px;
+        &:hover {
+            color: $color-secondary;
+            background: $white;
+        }
+    }
+
+    .aws {
+
+        .btn {
+            @include gradient-btn;
+            border-radius: 8px;
+            padding: 10px 20px;
+            border: none;
+            width: 140px;
+            margin: 40px 0px 0px 0px;
+
+            &:hover {
+                color: $color-secondary;
+                background: $white;
+            }
+        }
+
+        .date {
+            font-size: 18px;
+        }
+
+        .uzbtext {
+            width: 54%;
+            /*margin: 0 auto;*/
+            border: 2px solid #0e6554;
+            padding: 10px;
+            box-shadow: 5px 4px #0e6554;
+            /*margin-top: 55px;*/
+            margin: 30px 0px 40px 0px;
+            font-size: 18px;
+        }
+    }
+
+    .sizing {
+        font-size: 18px;
+    }
+}
+
+
+.export {
+    a {
+        @include gradient-btn;
+        display: block;
+        color: $white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-align: center;
+        width: 140px;
+        margin-bottom: 40px;
+        text-decoration: none;
+
+        &:hover {
+            color: $color-secondary;
+            background: $white;
+        }
+    }
+}
+
+
+.editBtn{
+    margin-top:0px;
+}
+
+.form-horizontal {
+
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0 30px #bacbb4 inset !important;
+    }
+
+    .help-block {
+        font-size: 18px;
+    }
+
+    .myDiv {
+
+        .control-label {
+            font-size: 18px;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            @include gradient-btn;
+            border-radius: 8px;
+            padding: 10px 20px;
+            border: none;
+            width: 140px;
+            margin: 40px 0px 20px 0px;
+
+            &:hover {
+                color: $color-secondary;
+                background: $white;
+            }
+        }
+
+        .flip {
+            background-color: #bacbb4 !important;
+            border-radius: 4px;
+        }
+
+        .reset {
+            margin-left: 10px;
+        }
+
+        .selectize-input {
+            background: $input-color !important;
+        }
+    }
+
+    .NumForm {
+        font-size: 20px;
+        display: inline-flex;
+
+        button {
+            border-radius: 5px;
+            padding: 0px 15px;
+            background: $light-green;
+            color: $white;
+
+            &:hover {
+                background: $green;
+            }
+        }
+
+        input {
+            margin: 0px 10px;
+        }
+    }
+}
+#activeMonths + .selectize-control > .selectize-input {
+    overflow: visible;
+
+    &::before {
+        $dimensions: 30px;
+        opacity: 0;
+        display: inline-block;
+        content: url(/Content/images/required.svg);
+        position: absolute;
+        left: unset;
+        right: 0;
+        top: 50%;
+        transform: translate(calc(100% + 1em), -50%);
+        width: $dimensions;
+        height: $dimensions;
+        background-color: transparent;
+        filter: drop-shadow(0 0 2px #ff5349);
+        transition: opacity 200ms ease;
+    }
+}
+#activeMonths + .selectize-control > .selectize-input.not-full::before { //when selectized input (Demo:active months) is not filled.. creates an after
+    opacity: 1;
+}
+
+
+.selectize-control.single .selectize-input,
+.selectize-dropdown .active {
+    background: $input-color !important;
+}
+.DDList-green {
+    .selectize-input option {
+        background: #ffffff;
+    }
+        
+}
+
+.product {
+    font-size: 17px;
+    color: $light-green;
+    margin-top: 30px;
+
+    &NF {
+        color: $light-red !important;
+    }
+}
+
+/*.form-control{
+background-color:$white;
+}*/
+
+.checkbox label, .help-block, .radio label, label {
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+
+.FunnyPh {
+
+    &-table {
+        border: 2px solid $green;
+        width: 504px;
+
+        .form-group {
+            display: flex;
+
+            &:nth-child(2n) {
+                background: $color-header;
+            }
+
+
+            .bortab {
+                border: 2px solid $green;
+                padding: 10px;
+                font-size: 18px;
+                width: 250px;
+            }
+        }
+    }
+}
+.popupoops {
+    border-radius: 8px;
+    background: -moz-linear-gradient(320deg,#A51313 0%,#C74848 100%);
+    background: linear-gradient(320deg,#A51313 0%,#C74848 100%);
+    background: -webkit-linear-gradient(320deg,#A51313 0%,#C74848 100%);
+    width: fit-content;
+    margin: 40px 0 20px 0;
+    border: none;
+    height: 60px;
+}
+.popupsuccess {
+    border-radius: 8px;
+    background: $light-green;
+    width: fit-content;
+   
+}
+.chooseClick {
+    color: $turquoise;
+    background: $turquoise;
+}
+
+/* Standard Radio Buttons */
+.standardRB {
+    input[type=radio] {
+        display: none;
+    }
+
+    /**
+     * How it should look when hovered
+     */
+    .active-clickButton {
+
+        &:before {
+            background: $turquoise;
+            border-color: $turquoise;
+        }
+    }
+    .clickButton {
+        cursor: pointer;
+        padding: 8px 8px 8px 20px;
+        position: relative;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        transition: all .15s ease;
+        height: 30px;
+
+        &:checked {
+            @extend .active-clickButton;
+        }
+
+        &:first-of-type {
+            border: 0;
+        }
+        /**
+       * This is the radio fake dot basically
+       */
+        &:before {
+            content: "";
+            position: absolute;
+            left: 0px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 1px solid $turquoise;
+            margin-top: 5px;
+        }
+    }
+
+    /**
+     * How it should look when checked
+     */
+    input:checked + label,
+    input:focus + label {
+        @extend .active-clickButton;
+
+        &:before {
+            border-color: $turquoise;
+            border: none;
+            background: $turquoise;
+        }
+    }
+}
+
+.DDList { //drop down list
+    &-green {
+        width: 400px;
+
+        #Prod {
+            background: $input-color !important;
+            border-radius: 5px;
+            width: 280px;
+            height: 34px;
+            opacity: 0.7;
+        }
+
+        .selectize-control.single .selectize-input,
+        .selectize-dropdown .active.selectize-dropdown .active {
+            background: $input-color !important;
+        }
+
+        .selectize-dropdown {
+            cursor: pointer;
+            font-family: "Poppins",sans-serif;
+        }
+
+        .selectize-control.single .selectize-input,
+        .selectize-control.single .selectize-input {
+            text-shadow: none;
+        }
+
+        .selectize-input.input-active, .selectize-input.input-active:hover, .selectize-control.multi .selectize-input.focus,
+        .selectize-input.input-active, .selectize-input.input-active:hover, .selectize-control.multi .selectize-input.focus,
+        .selectize-input.input-active, .selectize-input.input-active:hover, .selectize-control.multi .selectize-input.focus {
+            border-color: none;
+        }
+
+        .selectize-dropdown [data-selectable].option {
+            word-break: break-word;
+        }
+    }
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.mmGoOrders .DDList-green {
+    width: 600px;
+}
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+.flatpickr-calendar.noCalendar.hasTime .flatpickr-time {
+    height: auto;
+    width: 280px;
+    border: 1px solid #555;
+    border-radius: 5px;
+
+  
+}
+.flatpickr-calendar.open, .flatpickr-calendar.inline {
+    max-width: 307px;
+    width: fit-content;
+}
+
+.teamsContainer {
+    .selectize-control.single .selectize-input {
+        width: 430px;
+    }
+
+    .teamSelection,
+    .employeeSelection {
+        margin-bottom: 40px;
+    }
+}
+
+
+
+/*form {
+    max-width: calc(100% - 30px);
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+        background-color: $clr-offwhite;
+        border-radius: 1000em;
+
+        &-thumb {
+            background-color: $color-secondary;
+            border-radius: 1000em;
+
+            &:hover {
+                background-color: $color-secondary-hover;
+            }
+        }
+    }
+}*/

@@ -1,0 +1,172 @@
+﻿button:focus {
+    outline: none;
+}
+
+.UpDistance {
+    margin-top: 16px;
+}
+
+.btn {
+    &Primary {
+        @include gradient-btn;
+        color: $white;
+        border-radius: 8px;
+        text-align: center;
+        border: none;
+        padding: 5px 12px;
+        height: 40px;
+        width: 140px;
+
+        &:not(.btnDisabled):hover {
+            color: $color-secondary;
+            background: $white;
+        }
+
+
+
+        &-checkout { 
+            text-decoration: none;
+            line-height: 31px;
+            width: auto;
+            margin-top: 20px;
+        }
+    }
+
+    &Link {
+        @extend .btnPrimary;
+        padding: 10px 20px;
+        text-decoration: none;
+    }
+
+    &Outline-lightBg {
+        color: $color-secondary !important;
+        border: 3px solid $color-secondary;
+        background: transparent;
+        border-radius: 15px;
+        text-align: center;
+        text-decoration: none !important;
+        padding: 10px;
+
+        &:hover {
+            color: $color-header !important;
+            border: 3px solid $color-header;
+        }
+    }
+
+    &Outline-darkBg {
+        margin: 40px 10px 20px;
+        background-image: linear-gradient($color-primary,$color-primary), linear-gradient(to right, $petrol, $light-green);
+        background-clip: padding-box, border-box;
+        background-origin: border-box;
+        border-radius: 8px;
+        border: double 3px transparent;
+        height: 44px;
+        width: 140px;
+        color: white;
+
+
+        &:hover {
+            color: $color-secondary;
+            background: none;
+            border: 3px solid $white;
+        }
+    }
+
+    &Outline-green {
+        color: $color-secondary !important;
+        border: 3px solid $color-secondary;
+        background: transparent;
+        border-radius: 15px;
+        text-align: center;
+        text-decoration: none !important;
+        padding: 10px;
+
+        &:hover {
+            color: $color-header !important;
+            border: 3px solid $color-header;
+        }
+    }
+
+    &Outline-turquoise {
+        color: $turquoise !important;
+        border: 3px solid $turquoise;
+        background: transparent;
+        border-radius: 15px;
+        text-align: center;
+        text-decoration: none !important;
+        padding: 7px;
+
+        &:hover {
+            color: $white !important;
+            border: 3px solid $white;
+            background: $bg-color !important;
+        }
+    }
+
+    &Disabled {
+        opacity: 0.5;
+        cursor: default !important;
+        pointer-events: none;
+        user-select: none;
+    }
+
+    &Beta, &New {
+        &:before {
+            content: '';
+            background-size: contain;
+            background-repeat: no-repeat;
+            position: absolute;
+            top: 5px;
+            right: -11px;
+            width: 50px;
+            height: 22px;
+        }
+    }
+
+    &Beta {
+        &:before {
+            background-image: url('/Content/images/beta_tag.svg');
+        }
+    }
+
+    &New {
+        &:before {
+            background-image: url('/Content/images/new_tag.svg');
+        }
+    }
+}
+
+.display-none {
+    display: none !important;
+}
+
+.flexyy {
+    display: flex !important;
+}
+
+.it-operations-btn,
+.companyLogo-btn {
+    margin-bottom: 20px;
+
+    a {
+        height: 70px;
+        text-align: left !important;
+    }
+
+    svg {
+        height: 100%;
+        width: auto;
+    }
+}
+
+.companyLogo-btn svg path,
+.companyLogo-btn svg circle,
+.companyLogo-btn svg polygon {
+    fill: #ffffff !important;
+}
+
+.companyLogo-btn:hover svg path,
+.companyLogo-btn:hover svg circle,
+.companyLogo-btn:hover svg polygon {
+    fill: #0e5f65 !important;
+}

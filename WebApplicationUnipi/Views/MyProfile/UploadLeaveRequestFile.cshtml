@@ -1,0 +1,430 @@
+﻿@using WebApplicationUnipi.Services.Factories;
+@model WebApplicationUnipi.Models.MyApplicationUnipi.LeavesRequests
+@{
+    ViewBag.Title = "Upload Leave Documents";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var fileList = (Model != null) ? Model.LeaveRequestsFiles.Where(w => w.Status == 1).ToList() : new List<WebApplicationUnipi.Models.MyApplicationUnipi.LeaveRequestsFiles>();
+    string fileListJson = Newtonsoft.Json.JsonConvert.SerializeObject(fileList.Select(f => new { FileName = f.FileName, DateUploaded = f.DateUploaded }));
+}
+
+<script>
+    var uploadedFiles = @Html.Raw(fileListJson);
+</script>
+
+
+
+<div class="checkdata uploadDocs gridBg rgAlg lfAlg">
+    <h3 id="uploadHeader">@ViewBag.Title</h3>
+    <h6>
+        @(((WebApplicationUnipi.Models.Enums.LeaveTypes)Model.TypeOfLeave).GetDisplayAttributeFrom())
+        @((Model.TypeOfLeave == 6) ? (Model.DateFrom.Value.ToString("dd/MM/yyyy HH:mm:ss").Replace('-', '/')) : Model.DateFrom.Value.ToString("dd/MM/yyyy").Replace('-', '/'))
+        -
+        @((Model.TypeOfLeave == 6) ? Model.DateTo.Value.ToString("dd/MM/yyyy HH:mm:ss").Replace('-', '/') : Model.DateTo.Value.ToString("dd/MM/yyyy").Replace('-', '/'))
+    </h6>
+    <form>
+        <div class="custom-file">
+            <label for="upFile">
+                <span class="uploadContent">
+                   
+                    <span>Drag and drop your documents here</span>
+                    <span>or click to open the file manager.</span>
+                    <input type="file" name="file" id="upFile" accept=".pdf,.png,.jpeg,.jpg" multiple />
+                    <img id="hoverImg" src="../../Content/images/hoverUploadIcon.svg" class="icon" />
+                </span>
+            </label>
+
+            <div class="previewUploaded">
+                <div class="addIcon">
+                    <label for="upFile">
+                        <img id="addImg" src="../../Content/images/addIcon.svg" />
+                        <span>Add more files</span>
+                    </label>
+                    <input type="file" name="file" id="upFile" accept=".pdf,.png,.jpeg,.jpg" multiple style="display: none;" />
+                </div>
+            </div>
+        </div>
+        <input name="requestId" type="hidden" value="@Model.Id">
+
+        <div class="controlBtns">
+            <button type="submit" class="btnOutline-lightBg btnDisabled" onclick="clearImportedFiles(event)" id="discardBtn">Discard</button>
+            <button type="submit" class="btnPrimary sessionUpdate btnDisabled" id="btnReqCheckOut">Upload</button>
+        </div>
+
+    </form>
+
+    <h4>Uploaded Documents: </h4>
+    <div class="docContainer">
+        @if (fileList.Count > 0)
+        {
+            foreach (var f in fileList)
+            {
+                <form class="uploadedDoc" id="removeFileForm_@f.Id" action="~/MyProfile/RemoveFile" method="post" enctype="multipart/form-data">
+                         <div class="docThumb">
+                            <span class="docType">@Path.GetExtension(f.FileName).Replace('.', ' ')</span>
+                        </div>
+                        <span class="docName">@f.FileName</span><br />
+                        <div class="hoverElements">
+                            <button type="submit" class="deleteButton" name="fileId" value="@f.Id"><img src="../../Content/images/DeleteIcon.svg" class="DeleteIcon" /></button>
+                            <div class="docTime">@f.DateUploaded.Value.ToString("HH:mm").Replace('/', '-')</div>
+                            <div class="docDate">@f.DateUploaded.Value.ToString("dd/MM/yyyy").Replace('/', '-')</div>
+                            <input name="requestId" type="hidden" value="@Model.Id">
+                        </div>
+                   
+                </form>
+            }
+        }
+        else
+        {
+            <span id="docsNotFound">No uploaded documents.</span>
+        }
+
+    </div>
+</div>
+
+
+
+
+<script>
+    var fileToUpload = [];
+    var isActive = 0;
+    const dropArea = document.querySelector('.custom-file');
+    const formData = new FormData();
+
+
+    //Init
+    $(document).ready(function () {
+
+        const container = document.querySelector('.previewUploaded');
+        dragAndDropFunctionality();
+
+        $('#upFile').change(function () {
+            checkFilesBeforeImport(this.files,container); 
+        });
+        attachHoverEventListeners("uploadedDoc", "docThumb", "hoverElements"); //for uploaded files.
+        $('#upFile').val('');
+     });
+
+    
+
+    //---Hover actions--
+    const activateHover = () => {
+        dropArea.classList.add('hoverBackround');
+    };
+    const deactivateHover = () => {
+        isActive = 0;
+        dropArea.classList.remove('hoverBackround');
+    };
+
+
+    //Clear imported files.
+    const clearImportedFiles = (e) => {
+        fileToUpload = [];
+        toggleButtons(fileToUpload.length);
+        $('.previewUploadedDoc').remove();
+        e.preventDefault();
+        handleDisplay();
+    }
+
+ 
+    //Create preview card.
+    function createPreviewDocCard(file) {
+        console.log("Creating File card:", file.name);
+        var card = document.createElement('div');
+        card.classList.add('previewUploadedDoc');
+
+        var thumb = document.createElement('div');
+        thumb.classList.add('previewDocThumb');
+
+        var docType = document.createElement('span');
+        docType.classList.add('previewDocType');
+        docType.textContent = file.name.split('.').pop();
+
+        var docName = document.createElement('span');
+        docName.classList.add('previewDocName');
+        docName.textContent = file.name;
+
+        var hoverDiv = document.createElement('div');
+        hoverDiv.classList.add('prevHover');
+
+        var button = document.createElement('button');
+        button.setAttribute('type', 'submit');
+
+        var img = document.createElement('img');
+        img.setAttribute('src', '../../Content/images/DeleteIcon.svg');
+        img.classList.add('DeleteIcon');
+        img.setAttribute("id", "previewDeleteBtn");
+        button.appendChild(img);
+        hoverDiv.appendChild(button);
+
+        thumb.appendChild(docType);
+        card.appendChild(thumb);
+        card.appendChild(docName);
+        card.appendChild(document.createElement('br'));
+        card.appendChild(hoverDiv);
+        return card;
+    }
+
+
+
+    //Delete Preview Doc Item.
+    $(document).on('click', '#previewDeleteBtn', function () {
+        var card = $(this).closest('.previewUploadedDoc');
+        var fileName = card.find('.previewDocName').text();
+        var index = fileToUpload.findIndex(function (file) {
+            return file.name === fileName;
+        });
+        if (index !== -1) {
+            fileToUpload.splice(index, 1);
+        }
+        card.remove();
+        toggleButtons(fileToUpload.length);
+        handleDisplay();
+    });
+
+
+    //Toggle control buttons.
+    function toggleButtons(fileCount) {
+        var discardButton = $("#discardBtn");
+        var uploadButton = $("#btnReqCheckOut");
+
+        if (fileCount > 0) { //! enable
+            discardButton.removeClass("btnDisabled");
+            uploadButton.removeClass("btnDisabled");
+        } else { //disable
+            discardButton.addClass("btnDisabled");
+            uploadButton.addClass("btnDisabled");
+        }
+    }
+
+
+    // !Drag & Drop Functionallity
+    const dragAndDropFunctionality = () => {
+
+        //---listeners
+        dropArea.addEventListener('dragenter', (e) => {
+            e.preventDefault();
+            isActive++;
+            if (isActive === 1) {
+                activateHover();
+            }
+        });
+
+        dropArea.addEventListener('mouseenter', (e) => {
+            e.preventDefault();
+            if (!$('.uploadContent').hasClass('hidden')) {
+                isActive++;
+                if (isActive === 1) {
+                    activateHover();
+                }
+            }
+        });
+
+        dropArea.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            isActive--;
+            if (isActive === 0) {
+                deactivateHover();
+            }
+        });
+
+
+        dropArea.addEventListener('mouseleave', (e) => {
+            e.preventDefault();
+            if (!$('.uploadContent').hasClass('hidden')) {
+                isActive--;
+                if (isActive === 0) {
+                    deactivateHover();
+                }
+            }
+        });
+
+
+        dropArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+        });
+
+        dropArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            deactivateHover();
+            isActive = 0;
+        });
+
+        //handling drop.
+        dropArea.addEventListener('drop', handleDrop);
+    };
+
+
+
+
+
+    //Handling drop function.
+    const handleDrop = (e) => {
+        e.preventDefault();
+
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        const container = document.querySelector('.previewUploaded');
+        checkFilesBeforeImport(files, container);
+    };
+
+
+    function checkFilesBeforeImport(files, container) {
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            if (!["application/pdf", "image/png", "image/jpeg", "image/jpg"].includes(file.type)) {
+                console.error('wrong file type');
+                showPopup("Unsupported file format", "Please upload a PNG,JPEG,JPG, or PDF file");
+                 continue;
+
+            } else if (uploadedFiles.some(e => e.FileName === file.name)) {
+                showPopup("This file already Uploaded", "Use a different name or delete the existing file.");
+                continue;
+
+            } else if (fileToUpload.some(e => e.name === file.name)) {
+                showPopup("This file already imported.", "Use a different name or delete the existing file.");
+                 continue;
+
+            } else {
+                toggleButtons(files.length);
+                fileToUpload.push(file);
+                const card = createPreviewDocCard(file);
+                container.appendChild(card);
+                attachHoverEventListeners("previewUploadedDoc", "previewDocThumb", "prevHover");
+                deactivateHover();
+
+            }
+        }
+       
+        console.log("isActive:", isActive);
+        handleDisplay();
+    }
+
+
+
+    //Handling display
+    const handleDisplay = () => {
+        const hasFiles = fileToUpload.length > 0;
+        $('.previewUploaded').toggleClass('hidden', !hasFiles).toggleClass('visible', hasFiles);
+        $('.uploadContent').toggleClass('hidden', hasFiles).toggleClass('visible', !hasFiles);
+        $('.custom-file').toggleClass('previewStyle', hasFiles);
+        $('#upFile').val(''); //clear input.
+    };
+
+
+    //Handling upload
+    const uploadFiles = (files, requestId) => {
+
+        for (let i = 0; i < files.length; i++) {
+            formData.append('file', files[i]);
+        }
+        formData.append('requestId', requestId);
+        $.ajax({
+            url: '/MyProfile/UploadLeaveRequestFilePost?requestId=' + requestId,
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                console.log('Files uploaded successfully:', response);
+            },
+            error: function (xhr, status, error) {
+                alert("Upload failed - Please retry");
+                console.error('Error uploading files:', error);
+            }
+        });
+    };
+
+    $(document).ready(function () {
+        $('.deleteButton').click(function () {
+            var fileId = $(this).data('file-id');
+            var requestId = $('input[name="requestId"]').val();
+            $.ajax({
+                url: '/MyProfile/RemoveFile',
+                type: 'POST',
+                data: {
+                    requestId: requestId,
+                    fileId: fileId
+                },
+                success: function (response) {
+                    if (response.success) {
+                        $('[data-file-id="' + fileId + '"]').closest('.uploadedDoc').remove();
+                    } else {
+                        console.error('Error: ' + response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                     console.error('Error: ' + error);
+                }
+            });
+        });
+    });
+
+
+
+    //Handling hover on Docs.
+    function attachHoverEventListeners(docContainer, docThumbClass, hoverElemClass) {
+        const docContainers = document.querySelectorAll(`.${docContainer}`);
+        docContainers.forEach((container) => {
+            const docThumb = container.querySelector(`.${docThumbClass}`);
+            const hoverElements = container.querySelector(`.${hoverElemClass}`);
+            container.addEventListener("mouseover", function () {
+                docThumb.style.background = "gray";
+                hoverElements.classList.add("displayElement");
+            });
+            container.addEventListener("mouseleave", function () {
+                docThumb.style.background = "white";
+                hoverElements.classList.remove("displayElement");
+            });
+        });
+    }
+
+
+
+    // Create popup element with dynamic text
+    const usePopup = (text1, text2) => {
+        $('.popUp-bg').remove(); //clear
+
+        var svgElement = $('<svg xmlns="http://www.w3.org/2000/svg" width="19.666" height="19.666" viewBox="0 0 19.666 19.666"><g id="Icon_ionic-md-close" data-name="Icon ionic-md-close" transform="translate(1.414 1.414)"><path id="Icon_ionic-md-close-2" data-name="Icon ionic-md-close" d="M24.361,9.207,22.678,7.523l-6.735,6.735L9.207,7.523,7.523,9.207l6.735,6.735L7.523,22.678l1.684,1.684,6.735-6.735,6.735,6.735,1.684-1.684-6.735-6.735Z" transform="translate(-7.523 -7.523)" fill="#717171" stroke="#717171" stroke-width="2" /></g></svg>');
+
+        var buttonElement = $('<button type="button" id="popUp-close" class="popClose"></button>').append(svgElement);
+
+        var popUpContent = $('<div class="popUp-content" id="pop-cnt"></div>').append(buttonElement);
+        var divElement = $('<div class="popUp-bg"></div>').append(popUpContent);
+
+        var paragraph1 = $('<p>').text(text1);
+        var paragraph2 = $('<p>').text(text2);
+
+        popUpContent.append(paragraph1);
+        popUpContent.append(paragraph2);
+
+        $('body').append(divElement);
+
+        divElement.find('#popUp-close').on('click', function () {
+            divElement.removeClass('popPopped');
+            $('body').removeClass('popPopped');
+        });
+       
+    }
+
+    //Show popup Handler.
+    const showPopup = (text1, text2) => {
+        usePopup(text1,text2);
+        document.querySelector('.popUp-bg').classList.add('popPopped');
+        document.body.classList.add('popPopped');
+      
+    }
+
+
+    //Upload Button handler.
+    $("#btnReqCheckOut").click((e) => {
+        const requestId = document.querySelector('input[name="requestId"]').value;
+        //e.preventDefault();
+        uploadFiles(fileToUpload, requestId);
+    })
+
+
+</script>
+
+ 
+

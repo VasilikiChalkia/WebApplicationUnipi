@@ -1,0 +1,176 @@
+@using WebApplicationUnipi.Services.Factories
+@using WebApplicationUnipi.Controllers
+@using WebApplicationUnipi.Models.MyApplicationUnipi
+@using WebApplicationUnipi.Models.Enums
+
+@{
+    int queryId = 0;
+    if (Session["queryId"] != null)
+    {
+        int.TryParse(Session["queryId"].ToString(), out queryId);
+    }
+
+    var grid = Html.DevExpress().GridView(settings =>
+    {
+        settings.Name = "GridView";
+        settings.CallbackRouteValues = new
+        {
+            Controller = "AllEmployeesView",
+            Action = "GridViewPartialAnnualLeaves",
+            Id = queryId
+        };
+
+        settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "AllEmployeesView", Action = "GridViewPartialAnnualLeavesAddNew" };
+        settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "AllEmployeesView", Action = "GridViewPartialAnnualLeavesUpdate" };
+        settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "AllEmployeesView", Action = "GridViewPartialAnnualLeavesDelete" };
+        settings.SettingsEditing.Mode = GridViewEditingMode.EditFormAndDisplayRow;
+        settings.SettingsBehavior.ConfirmDelete = true;
+
+        settings.CommandColumn.Visible = true;
+        settings.CommandColumn.ShowNewButtonInHeader = true;
+        settings.CommandColumn.ShowDeleteButton = true;
+        settings.CommandColumn.ShowEditButton = true;
+
+        settings.KeyFieldName = "AnnualLeavesId";
+
+        settings.SettingsPager.Visible = true;
+        settings.Settings.ShowGroupPanel = true;
+        settings.Settings.ShowFilterRow = true;
+        settings.SettingsBehavior.AllowSelectByRowClick = true;
+
+        settings.CommandColumn.Width = 100;
+        settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.HideDataCells;
+        settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+        settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+        settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = true;
+        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+        settings.SettingsBehavior.AllowEllipsisInText = true;
+        settings.EditFormLayoutProperties.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.SingleColumnWindowLimit;
+        settings.EditFormLayoutProperties.SettingsAdaptivity.SwitchToSingleColumnAtWindowInnerWidth = 992;
+        settings.SettingsCustomizationDialog.Enabled = true;
+        settings.Styles.Cell.Wrap = DefaultBoolean.True;
+
+        // Columns
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Id";
+            column.Caption = "Contract ID";
+            column.Visible = false;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "contractInfo";
+            column.Caption = "Contract";
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = column.PropertiesEdit as MVCxColumnComboBoxProperties;
+            comboBoxProperties.ValidationSettings.RequiredField.IsRequired = true;
+            column.EditFormSettings.Visible = DefaultBoolean.True;
+
+            var db = new MyApplicationUnipiEntities();
+            var contractsList = db.HR_Employee_Contract
+                                  .Where(w => w.Employee_Id == queryId && w.Status != 3)
+                                  .ToList();
+
+            comboBoxProperties.DataSource = contractsList.Select(s => new
+            {
+                Contract_Id = s.Id,
+                Contract_Info = string.Format(
+                    "{0} - {1} - {2} - {3}",
+                    ((Contracts)s.Description).GetDisplayAttributeFrom() ?? "",
+                    s.Start_Date?.ToString("dd/MM/yy") ?? "",
+                    s.End_Date?.ToString("dd/MM/yy") ?? "...",
+                    ((ContractsStatus)s.Status).GetDisplayAttributeFrom() ?? ""
+                )
+            }).ToList();
+
+            comboBoxProperties.ValueField = "Contract_Id";
+            comboBoxProperties.TextField = "Contract_Info";
+            comboBoxProperties.ValueType = typeof(int);
+
+            column.Settings.AllowAutoFilter = DefaultBoolean.True;
+            column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Year";
+            column.Caption = "Year";
+            var editorProperties = column.PropertiesEdit as MVCxColumnTextBoxProperties;
+            editorProperties.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "AnnualSum";
+            column.Caption = "Total Amount";
+            var editorProperties = column.PropertiesEdit as MVCxColumnTextBoxProperties;
+            editorProperties.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Available";
+            column.Caption = "Remaining";
+            var editorProperties = column.PropertiesEdit as MVCxColumnTextBoxProperties;
+            editorProperties.ValidationSettings.RequiredField.IsRequired = true;
+            column.Width = 120; // smaller width
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "LeaveType";
+            column.Caption = "Type Leave";
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = column.PropertiesEdit as MVCxColumnComboBoxProperties;
+
+            var leaveTypesToPickFrom = new List<int>
+            {
+                (int)LeaveTypes.Annual,
+                (int)LeaveTypes.Student
+                    };
+
+            var dict = Enum.GetValues(typeof(LeaveTypes))
+                           .Cast<LeaveTypes>()
+                           .Where(l => leaveTypesToPickFrom.Contains((int)l))
+                           .ToDictionary(l => (int)l, l => l.GetDisplayAttributeFrom());
+
+            comboBoxProperties.DataSource = dict;
+            comboBoxProperties.ValueField = "Key";
+            comboBoxProperties.TextField = "Value";
+            comboBoxProperties.ValueType = typeof(int);
+
+            column.Settings.AllowAutoFilter = DefaultBoolean.True;
+            column.Settings.AutoFilterCondition = AutoFilterCondition.Equals;
+        });
+
+        // Command button visibility based on user rights
+        settings.CommandButtonInitialize = (s, e) =>
+        {
+            var PrimeList = Session["UserRights"] as List<int> ?? new List<int>();
+            if (e.ButtonType == ColumnCommandButtonType.Edit || e.ButtonType == ColumnCommandButtonType.Delete)
+            {
+                e.Visible = PrimeList.Contains((int)Privileges.HR_Admin);
+            }
+            if (e.ButtonType == ColumnCommandButtonType.New)
+            {
+                e.Visible = PrimeList.Contains((int)Privileges.HR_Admin);
+            }
+        };
+
+        var PrimeRightsList = Session["UserRights"] as List<int> ?? new List<int>();
+        if (PrimeRightsList.Contains((int)Privileges.HR_Admin))
+        {
+            settings.CommandColumn.Visible = true;
+            settings.Toolbars.Add(t =>
+            {
+                t.EnableAdaptivity = true;
+                t.Items.Add(GridViewToolbarCommand.ShowCustomizationDialog).Text = "Organize Menu";
+            });
+        }
+
+
+    });
+}
+
+@grid.Bind(Model).GetHtml()

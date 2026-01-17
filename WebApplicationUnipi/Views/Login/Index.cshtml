@@ -1,0 +1,165 @@
+﻿@model WebApplicationUnipi.Models.MyApplicationUnipi.User
+@{
+    ViewBag.Title = "Login";
+
+    ViewData["Special Message"] = "LALALA LALALA LALALA LALALA LALALA LALALA LALALA LALALA LALALA ";
+}
+
+<style>
+    /* Login Box Styling */
+    .login-box {
+        max-width: 400px;
+       /* margin: 50px auto;*/
+        padding: 20px;
+        border: 3px solid #93c47d; /* Red border to highlight the corners */
+        border-radius: 10px; /* Rounded corners */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background-color: #FFFFFFE6;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    /* Centered Login Phrase */
+    .login-phrase {
+        text-align: center; /* Centers the text horizontally */
+        margin-bottom: 20px;
+        font-size: 25px;
+        color: #93c47d;
+    }
+
+    /* Form Styling */
+    .loginForm {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+        color: #93c47d;
+    }
+
+    .control-label {
+        font-weight: bold;
+    }
+
+    .text-danger {
+        color: red;
+        font-size: 12px;
+        display: none;
+    }
+
+    /* Links Styling */
+    .log-links, .reg-links {
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .forgotPass, .register {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+        .forgotPass:hover, .register:hover {
+            text-decoration: underline;
+        }
+
+    /* Message Styling */
+    .login-msg, .login-msg-suc {
+        text-align: center;
+        margin-top: 10px;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .login-msg {
+        background-color: #ffebee;
+        color: #c62828;
+    }
+
+    .login-msg-suc {
+        background-color: #e8f5e9;
+        color: #2e7d32;
+    }
+</style>
+
+<div class="login-box">
+    <h2 class="login-phrase">Welcome back! Please Login</h2>
+
+    @using (Html.BeginForm("LoginUser", "Login", FormMethod.Post, new { @class = "loginForm" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Username, "Email Address", htmlAttributes: new { @class = "control-label col" })
+                <div class="col">
+                    @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control", @type = "email" } })
+                    <span class="text-danger">Enter your email</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col" })
+                <div class="col" style="position: relative;">
+                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                    <span class="text-danger">Enter your password</span>
+                    <i class="fas fa-eye" id="togglePass"></i>
+                </div>
+            </div>
+
+            <div class="form-group log-links">
+                <div class="col">
+                    <input id="login_home" type="submit" value="Login" class="btn btn-default" />
+                    @Html.ActionLink("Forgot your password?", "ForgotPassword", "ForgotPass", null, new { @class = "forgotPass" })
+                </div>
+            </div>
+
+            <div class="form-group reg-links">
+                <div class="col">
+                    <span>Don't have an account yet?</span>
+                    <span>Create one @Html.ActionLink("here", "UserRegister", "Registration", null, new { @class = "register" })</span>
+                </div>
+            </div>
+
+            @if (ViewData.ContainsKey("Message"))
+            {
+                <div class="login-msg">@ViewData["Message"].ToString()</div>
+            }
+
+            @if (TempData.ContainsKey("Message"))
+            {
+                <div class="login-msg-suc">@TempData["Message"].ToString()</div>
+            }
+        </div>
+    }
+</div>
+
+<script>
+    const nameInp = $('#Username');
+    const passInp = $('#Password');
+    const submitBtn = $("#login_home");
+
+    submitBtn.on('click', (e) => {
+        if (nameInp.val() == "" || nameInp.data('valid') == false || passInp.val() == "") {
+            e.preventDefault();
+            const message = $('.loginForm').find('.login-msg')[0] ?? $(`<div class="login-msg nn"></div>`);
+            $(message).text('Invalid Credentials, Try Again.');
+            !$('.loginForm .form-horizontal').find('.login-msg').length && $('.loginForm').append(message);
+        }
+    });
+
+    nameInp.on('input', (e) => {
+        validate_Mail($(e.currentTarget).val()) ?
+            $(e.currentTarget).data('valid', true) :
+            $(e.currentTarget).data('valid', false);
+    });
+
+    const spMessage = '@ViewData["Special Message"]';
+    if (spMessage !== '') {
+        const pp = notifPop();
+        $('.loginForm').append(pp);
+    };
+</script>

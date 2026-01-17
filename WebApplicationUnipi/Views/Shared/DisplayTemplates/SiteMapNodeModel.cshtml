@@ -1,0 +1,25 @@
+﻿@model MvcSiteMapProvider.Web.Html.Models.SiteMapNodeModel
+@using System.Web.Mvc.Html
+@using MvcSiteMapProvider.Web.Html.Models
+
+@{
+    var modelTitle = Model.Title;
+    if (modelTitle == "Home") {
+        modelTitle = "<i class='fa-solid fa-house'></i>";
+    }
+ }
+
+@if (Model.IsCurrentNode && Model.SourceMetadata["HtmlHelper"].ToString() != "MvcSiteMapProvider.Web.Html.MenuHelper")  { 
+    <text>@Html.Raw(modelTitle)</text>
+} else if (Model.IsClickable) { 
+    if (string.IsNullOrEmpty(Model.Description))
+    {
+        <a href="@Model.Url">@Html.Raw(modelTitle)</a>
+    }
+    else
+    {
+        <a href="@Model.Url" title="@Model.Description">@Html.Raw(modelTitle)</a>
+    }
+} else { 
+    <text>@Html.Raw(modelTitle)</text>
+}

@@ -1,0 +1,188 @@
+﻿@model WebApplicationUnipi.Models.MyApplicationUnipi.HR_Employee
+
+<div class="myProfile" id="moreDetailsEmpl">
+    <section class="myProfile__details">
+        <div class="myProfile__details_content">
+            <section id="personal-details" class="myProfile__details_personal section_active">
+                <form action="/AllEmployeesView/SavePersonalInfo" method="post">
+                    <input type="hidden" name="name" value="@Model.Id" id="Id" />
+
+                    <label for="Personal_Email">Personal email</label>
+                    <input class="details-input" id="Personal_Email" type="text" name="E-mail" value="@Model.Personal_Email" readonly />
+
+                    <label for="Home_Address">Home address</label>
+                    <input class="details-input" id="Home_Address" type="text" name="Physical address" value="@Model.Home_Address" readonly />
+
+                    <label for="Personal_Mobile_Number">Mobile number</label>
+                    <input class="details-input" id="Personal_Mobile_Number" type="text" name="Mobile number" value="@Model.Personal_Mobile_Number" readonly />
+
+                    <label for="Birth_Date">Birth Date</label>
+                    @{
+                        string[] y_M_dDate = (Model.Birth_Date != null) ? Model.Birth_Date.Split('-') : new string[] { };
+                        Array.Reverse(y_M_dDate);
+                        string logDate = string.Join("-", y_M_dDate);
+
+                        <input class="details-input" id="Birth_Date" type="text" name="Birthday" value="@logDate" readonly />
+                    }
+
+                    <label for="Transportation">Transportation</label>
+                    <input class="details-input" id="Transportation" type="text" name="Transportation" value="@Model.Transportation" readonly />
+
+                    <div class="form-controls">
+                        <button type="button" class="btn btn-default form-discard">Discard</button>
+                        <button type="submit" class="btn btn-default form-save">Save Changes</button>
+                        <button type="button" class="btn btn-default form-edit">Edit</button>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </section>
+
+    <script>
+        // Base data initialization
+        if (!baseData) {
+            var eighteenYo = new Date().setFullYear(new Date().getFullYear() - 18);
+            var y_m_dDate = '@Model.Birth_Date'.split('-').reverse().join('/');
+            var baseData = {
+                Id: '@Model.Id',
+                Personal_Email: '@Model.Personal_Email',
+                Home_Address: '@Model.Home_Address',
+                Personal_Mobile_Number: '@Model.Personal_Mobile_Number',
+                Birth_Date: '@Model.Birth_Date',
+                Transportation: '@Model.Transportation',
+            };
+        } else {
+            eighteenYo = new Date().setFullYear(new Date().getFullYear() - 18);
+            y_m_dDate = '@Model.Birth_Date'.split('-').reverse().join('/');
+            baseData = {
+                Id: '@Model.Id',
+                Personal_Email: '@Model.Personal_Email',
+                Home_Address: '@Model.Home_Address',
+                Personal_Mobile_Number: '@Model.Personal_Mobile_Number',
+                Birth_Date: '@Model.Birth_Date',
+                Transportation: '@Model.Transportation',
+            };
+            $('.flatpickr-calendar').remove();
+        }
+
+        $('#moreDetailsEmpl form').on('submit', (e) => e.preventDefault());
+
+        // Force gray background for all readonly inputs on page load
+        document.querySelectorAll('.details-input[readonly]').forEach(inp => {
+            inp.style.backgroundColor = '#f5f5f5';
+        });
+
+        $("#Personal_Email")
+            .on('change', (e) => {
+                !validate_Mail(e.currentTarget.value) &&
+                    (
+                        e.currentTarget.value = '@Model.Personal_Email',
+                        e.currentTarget.classList.remove('invalidInpVal')
+                    )
+            })
+            .on('input', (e) => {
+                !validate_Mail(e.currentTarget.value) ?
+                    e.currentTarget.classList.add('invalidInpVal') :
+                    e.currentTarget.classList.remove('invalidInpVal');
+            });
+
+        $("#Birth_Date").flatpickr({
+            dateFormat: "d/m/Y",
+            maxDate: eighteenYo,
+            defaultDate: y_m_dDate
+        });
+
+        $("#Personal_Mobile_Number").on('keypress keyup', (e) => {
+             if ((e.which < 48 || e.which > 57)) {
+                 e.preventDefault();
+             }
+             e.currentTarget.value.length > 10 ?
+                 e.currentTarget.classList.add('invalidInpVal') :
+                 e.currentTarget.classList.remove('invalidInpVal');
+         }).on('change', (e) => {
+             if (/[^\d]+/.test(e.currentTarget.value) || e.currentTarget.value.length > 10) {
+                 e.currentTarget.value = '@Model.Personal_Mobile_Number';
+                 e.currentTarget.classList.remove('invalidInpVal');
+             }
+         });
+
+        function toggleEdit(e) {
+            const form = e.currentTarget.closest('form');
+            const inputs = form.querySelectorAll('.details-input');
+            const formControls = e.currentTarget.parentNode;
+
+            inputs.forEach(inp => {
+                if (inp.hasAttribute('readonly')) {
+                    inp.removeAttribute('readonly');
+                    inp.style.backgroundColor = '#fff';
+                } else {
+                    inp.setAttribute('readonly', '');
+                    inp.style.backgroundColor = '#f5f5f5';
+                }
+            });
+
+            form.classList.toggle('editable');
+            formControls.toggleAttribute('data-editing');
+        }
+
+        document.querySelector('.form-edit').addEventListener('click', toggleEdit);
+
+        function lockForm(form) {
+            const inputs = form.querySelectorAll('.details-input');
+            inputs.forEach(inp => {
+                inp.setAttribute('readonly', '');
+                inp.style.backgroundColor = '#f5f5f5';
+            });
+            form.classList.remove('editable');
+            const formControls = form.querySelector('.form-controls');
+            formControls.removeAttribute('data-editing');
+        }
+
+        function discardAction(e) {
+            const form = e.currentTarget.closest('form');
+            lockForm(form);
+
+            form.querySelectorAll('.details-input').forEach(inp => {
+                if (inp.id === 'Birth_Date') {
+                    inp.value = y_m_dDate;
+                } else {
+                    inp.value = baseData[inp.id];
+                }
+            });
+        }
+
+        document.querySelector('.form-discard').addEventListener('click', discardAction);
+
+        function saveAction(e) {
+            const form = e.currentTarget.closest('form');
+
+            const postData = {};
+            form.querySelectorAll('.details-input').forEach(inp => {
+                postData[inp.id] = inp.value;
+            });
+
+            postData.Birth_Date = postData.Birth_Date.split('/').reverse().join('-');
+
+            $.ajax({
+                url: '/AllEmployeesView/SavePersonalInfo',
+                type: 'post',
+                data: { empl: { ...baseData, ...postData } },
+                success: function (data) {
+                    form.querySelectorAll('.details-input').forEach(inp => {
+                        if (inp.id === 'Birth_Date') {
+                            inp.value = data[inp.id].split('-').reverse().join('/');
+                        } else {
+                            inp.value = data[inp.id];
+                        }
+                    });
+                    lockForm(form);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus + "\n" + errorThrown + "\n" + jqXHR);
+                },
+            });
+        }
+
+        document.querySelector('.form-save').addEventListener('click', saveAction);
+    </script>
+</div>

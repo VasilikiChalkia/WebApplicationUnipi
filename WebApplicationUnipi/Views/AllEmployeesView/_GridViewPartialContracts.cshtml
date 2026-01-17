@@ -1,0 +1,257 @@
+@using WebApplicationUnipi.Services.Factories;
+@{
+
+    var grid = Html.DevExpress().GridView(settings =>
+    {
+        settings.Name = "GridViewContracts";
+        settings.CallbackRouteValues = new
+        {
+            Controller = "AllEmployeesView",
+            Action = "GridViewPartialContracts",
+            Id = int.Parse(Session["queryId"].ToString())
+        };
+
+        settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "AllEmployeesView", Action = "GridViewPartialContractsAddNew" };
+        settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "AllEmployeesView", Action = "GridViewPartialContractsUpdate" };
+        settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "AllEmployeesView", Action = "GridViewPartialContractsDelete" };
+        settings.SettingsEditing.Mode = GridViewEditingMode.EditFormAndDisplayRow;
+        settings.SettingsBehavior.ConfirmDelete = true;
+
+        settings.CommandColumn.Visible = true;
+        settings.CommandColumn.ShowNewButtonInHeader = true;
+        settings.CommandColumn.ShowDeleteButton = true;
+        settings.CommandColumn.ShowEditButton = true;
+
+        settings.KeyFieldName = "Id;Expr1";
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Expr1";
+            column.Caption = "Contract ID";
+            column.Visible = false;
+        });
+
+        settings.SettingsPager.Visible = true;
+        settings.Settings.ShowGroupPanel = true;
+        settings.Settings.ShowFilterRow = true;
+        settings.SettingsBehavior.AllowSelectByRowClick = true;
+
+        //settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.Off;
+        //settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+        //settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+        //settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = false;
+        //settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 0;
+
+
+
+        settings.CommandColumn.Width = 100;
+        settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.HideDataCells;
+        settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+        settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+        settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = true;
+        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+        //settings.SettingsBehavior.AllowEllipsisInText = true;
+        settings.EditFormLayoutProperties.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.SingleColumnWindowLimit;
+        settings.EditFormLayoutProperties.SettingsAdaptivity.SwitchToSingleColumnAtWindowInnerWidth = 992;
+        settings.SettingsCustomizationDialog.Enabled = true;
+        settings.Styles.Cell.Wrap = DefaultBoolean.True;
+
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Employee_Fname";
+            column.Caption = "First Name";
+            column.ReadOnly = true;
+            column.EditFormSettings.Visible = DefaultBoolean.False;
+
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Employee_Lname";
+            column.Caption = "Last Name";
+            column.ReadOnly = true;
+            column.EditFormSettings.Visible = DefaultBoolean.False;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Description";
+            //column.FieldName = "Contract_Type_Id";
+            column.Caption = "Contract Type";
+
+            Dictionary<int, string> dict = new Dictionary<int, string>();
+            // dict <value to get, what to display>
+            foreach (WebApplicationUnipi.Models.Enums.Contracts option in Enum.GetValues(typeof(WebApplicationUnipi.Models.Enums.Contracts)))
+            {
+                dict.Add((int)option, option.GetDisplayAttributeFrom());
+
+            }
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = column.PropertiesEdit as ComboBoxProperties;
+            column.EditFormSettings.Visible = DefaultBoolean.True;
+            comboBoxProperties.DataSource = dict;
+            comboBoxProperties.TextField = "Value";
+            comboBoxProperties.ValueField = "Key";
+            comboBoxProperties.ValueType = typeof(WebApplicationUnipi.Models.Enums.Contracts);
+
+            MVCxColumnComboBoxProperties editorProperties = column.PropertiesEdit as MVCxColumnComboBoxProperties;
+            editorProperties.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Start_Date";
+            column.Caption = "Start Date";
+
+            column.ColumnType = MVCxGridViewColumnType.DateEdit;
+            (column.PropertiesEdit as DateEditProperties).DisplayFormatString = "dd/MM/yyyy";
+            (column.PropertiesEdit as DateEditProperties).EditFormatString = "dd/MM/yyyy";
+            (column.PropertiesEdit as DateEditProperties).DisplayFormatInEditMode = false;
+
+            MVCxColumnDateEditProperties editorProperties = column.PropertiesEdit as MVCxColumnDateEditProperties;
+            editorProperties.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "End_Date";
+            column.Caption = "End Date";
+            column.ColumnType = MVCxGridViewColumnType.DateEdit;
+            (column.PropertiesEdit as DateEditProperties).DisplayFormatString = "dd/MM/yyyy";
+            (column.PropertiesEdit as DateEditProperties).EditFormatString = "dd/MM/yyyy";
+            (column.PropertiesEdit as DateEditProperties).DisplayFormatInEditMode = false;
+
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Role";
+            column.Caption = "Specialty";
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var db = new WebApplicationUnipi.Models.MyApplicationUnipi.MyApplicationUnipiEntities();
+            var comboBoxProperties = column.PropertiesEdit as ComboBoxProperties;
+            var dataSource = db.HR_Position.Where(x => x.Type == 2 && x.Status != (byte)WebApplicationUnipi.Models.Enums.Status.InActive).Select(s => new
+            {
+                Id = s.Id,
+                Name = s.Position_Name
+            }).ToList();
+            comboBoxProperties.DataSource = dataSource;
+            comboBoxProperties.TextField = "Name";
+            comboBoxProperties.ValueField = "Id";
+            comboBoxProperties.ValueType = typeof(int);
+            column.CellStyle.Wrap = DefaultBoolean.False;
+            column.UnboundType = DevExpress.Data.UnboundColumnType.String;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Daily_Working_Hours";
+            column.Caption = "Daily Working Hours";
+
+            //Dictionary<int, string>
+            //    dict = new Dictionary<int, string>
+            //        ();
+            //// dict <value to get, what to display>
+            //foreach (WebApplicationUnipi.Models.Enums.DailyWorkingHours option in Enum.GetValues(typeof(WebApplicationUnipi.Models.Enums.DailyWorkingHours)))
+            //{
+            //    dict.Add((int)option, option.GetDisplayAttributeFrom());
+            //    var opt = (int)option;
+
+            //}
+            //column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            //var comboBoxProperties = column.PropertiesEdit as ComboBoxProperties;
+            //comboBoxProperties.DataSource = dict;
+            //comboBoxProperties.TextField = "Value";
+            //comboBoxProperties.ValueField = "Key";
+            //comboBoxProperties.ValueType = typeof(WebApplicationUnipi.Models.Enums.DailyWorkingHours);
+
+            //MVCxColumnComboBoxProperties editorProperties = column.PropertiesEdit as MVCxColumnComboBoxProperties;
+            //editorProperties.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Contract_Status";
+            column.Caption = "Contract Status";
+
+            Dictionary<int, string> dict = new Dictionary<int, string>();
+            // dict <value to get, what to display>
+            foreach (WebApplicationUnipi.Models.Enums.ContractsStatus option in Enum.GetValues(typeof(WebApplicationUnipi.Models.Enums.ContractsStatus)))
+            {
+                if (option != WebApplicationUnipi.Models.Enums.ContractsStatus.Deleted)
+                {
+                    dict.Add((int)option, option.GetDisplayAttributeFrom());
+                    var opt = (int)option;
+                }
+            }
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = column.PropertiesEdit as ComboBoxProperties;
+            comboBoxProperties.DataSource = dict;
+            comboBoxProperties.TextField = "Value";
+            comboBoxProperties.ValueField = "Key";
+            comboBoxProperties.ValueType = typeof(WebApplicationUnipi.Models.Enums.ContractsStatus);
+
+            MVCxColumnComboBoxProperties editorProperties = column.PropertiesEdit as MVCxColumnComboBoxProperties;
+            editorProperties.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+       
+
+
+
+        settings.CommandButtonInitialize = (s, e) =>
+        {
+            if (e.ButtonType == ColumnCommandButtonType.Edit)
+            {
+                MVCxGridView g = s as MVCxGridView;
+                var PrimeList = (List<int>
+                    )Session["UserRights"];
+                if (PrimeList.Contains((int)WebApplicationUnipi.Models.Enums.Privileges.HR_Admin))
+                {
+                    e.Visible = true;
+                }
+            }
+            if (e.ButtonType == ColumnCommandButtonType.Delete)
+            {
+                MVCxGridView g = s as MVCxGridView;
+                var PrimeList = (List<int>
+                    )Session["UserRights"];
+                if (PrimeList.Contains((int)WebApplicationUnipi.Models.Enums.Privileges.HR_Admin))
+                {
+                    e.Visible = true;
+                }
+            }
+            if (e.ButtonType == ColumnCommandButtonType.New)
+            {
+                MVCxGridView g = s as MVCxGridView;
+                var PrimeList = (List<int>
+                    )Session["UserRights"];
+                if (PrimeList.Contains((int)WebApplicationUnipi.Models.Enums.Privileges.HR_Admin))
+                {
+                    e.Visible = true;
+                }
+            }
+        };
+
+        settings.Toolbars.Add(t =>
+        {
+            t.EnableAdaptivity = true;
+            t.Items.Add(GridViewToolbarCommand.ShowCustomizationDialog).Text = "Organize Menu";
+        });
+
+        var PrimeRightsList = (List<int>)Session["UserRights"];
+        if (PrimeRightsList.Contains((int)WebApplicationUnipi.Models.Enums.Privileges.HR_Admin))
+        {
+            settings.CommandColumn.Visible = true;
+        }
+
+    });
+    if (ViewData["EditError"] != null)
+    {
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+
+
+@grid.Bind(Model).GetHtml()

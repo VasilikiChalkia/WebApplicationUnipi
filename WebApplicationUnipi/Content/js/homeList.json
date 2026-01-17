@@ -1,0 +1,45 @@
+{
+  "home": [
+    {
+      "order": 2,
+      "style": "admin",
+      "text": "Employees",
+      "status": 1,
+      "view": "Index",
+      "controller": "AllEmployeesView",
+      "rights": [ "24"],
+      "icon": "<i class='fas fa-users'></i>"
+    },
+    {
+      "order": 3,
+      "style": "admin",
+      "text": "HR",
+      "status": 1,
+      "view": "Index",
+      "controller": "EntryButtons",
+      "rights": [ "24", "25" ],
+      "icon": "<i class='far fa-id-card'></i>"
+    },
+    {
+      "order": 17,
+      "style": "admin",
+      "text": "Admin Leaves",
+      "status": 1,
+      "view": "Index",
+      "controller": "AdminAnnualLeaves",
+      "rights": [ "24" ],
+      "icon": "<i class='fa-solid fa-check-to-slot'></i>"
+    },
+
+    {
+      "order": 18,
+      "text": "My Profile",
+      "style": "admin",
+      "status": 1,
+      "view": "Index",
+      "controller": "MyProfile",
+      "rights": [ "24", "25" ],
+      "icon": "<i class='fa-solid fa-magnifying-glass'></i>"
+    }
+  ]
+}

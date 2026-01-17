@@ -1,0 +1,68 @@
+﻿@{
+    ViewBag.Title = "Admin Annual Leaves";
+
+}
+
+
+<script>
+    $(document).ready(function () {
+        const DateTime = luxon.DateTime;
+        let pickedDate;
+
+        $("#datePickeR").flatpickr({
+            /*maxDate: "today",*/
+            plugins: [
+                new monthSelectPlugin({
+                    shorthand: false, //defaults to false
+                    dateFormat: "F Y", //defaults to "F Y"
+                    altFormat: "F Y", //defaults to "F Y"
+                    //theme: "dark" // defaults to "light"
+                })
+            ]
+        });
+
+        $("#datePickeR").on("input", function () {
+            pickedDate = $("#datePickeR").val();
+            console.log("month-year", pickedDate);
+        });
+
+        $("#datePickeR").on('change', (e) => {
+            $(e.currentTarget).val() ?
+                $('#dateBtnR').removeClass('btnDisabled') :
+                $('#dateBtnR').addClass('btnDisabled');
+        });
+
+        $('#dateBtnR').on("click", function (e) {
+            e.preventDefault();
+            $(".loader").addClass("shown");
+            $.get('@Url.Action("RejectedLeavesRequestsGridViewPartial", "AdminAnnualLeaves")', { dateFrom: pickedDate})
+                .done(function (data) {
+                    $('.targetC').html(data)
+                    $(".loader").removeClass("shown");
+                });
+        });
+
+    });
+</script>
+
+
+<div class="checkdata " @*gridBg lfAlg*@>
+    @*<h3>Monthly Report</h3>*@
+    <div @*class="monthlyReportContainer"*@>
+
+        <div class="dates">
+            <input class="dates-input" id="datePickeR" type="text" name="dateFrom" value="" placeholder="Select month" />
+            <i class="fa-regular fa-calendar"></i>
+        </div>
+        <button type="submit" class="btnPrimary sessionUpdate btnDisabled" id="dateBtnR">Search</button>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        <div class="targetC panel">
+        </div>
+    }
+</div>
+
+
+
